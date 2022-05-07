@@ -29,7 +29,7 @@
 	      background-image: radial-gradient(ellipse 100% 100%, #013440, #013440 25%, transparent 25%),radial-gradient(ellipse 50% 50% , #142838, #022 25%, #002635 25%);
     background-size: 1em 1em, 2em 2em;*/
 background-color: #01123E;
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23002344' stroke-width='2'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23003155'%3E%3Ccircle cx='769' cy='229' r='8'/%3E%3Ccircle cx='539' cy='269' r='8'/%3E%3Ccircle cx='603' cy='493' r='8'/%3E%3Ccircle cx='731' cy='737' r='8'/%3E%3Ccircle cx='520' cy='660' r='8'/%3E%3Ccircle cx='309' cy='538' r='8'/%3E%3Ccircle cx='295' cy='764' r='8'/%3E%3Ccircle cx='40' cy='599' r='8'/%3E%3Ccircle cx='102' cy='382' r='8'/%3E%3Ccircle cx='127' cy='80' r='8'/%3E%3Ccircle cx='370' cy='105' r='8'/%3E%3Ccircle cx='578' cy='42' r='8'/%3E%3Ccircle cx='237' cy='261' r='8'/%3E%3Ccircle cx='390' cy='382' r='8'/%3E%3C/g%3E%3C/svg%3E"); /* important to block dark reader from duping hopefully? */
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23002344' stroke-width='2'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23003155'%3E%3Ccircle cx='769' cy='229' r='8'/%3E%3Ccircle cx='539' cy='269' r='8'/%3E%3Ccircle cx='603' cy='493' r='8'/%3E%3Ccircle cx='731' cy='737' r='8'/%3E%3Ccircle cx='520' cy='660' r='8'/%3E%3Ccircle cx='309' cy='538' r='8'/%3E%3Ccircle cx='295' cy='764' r='8'/%3E%3Ccircle cx='40' cy='599' r='8'/%3E%3Ccircle cx='102' cy='382' r='8'/%3E%3Ccircle cx='127' cy='80' r='8'/%3E%3Ccircle cx='370' cy='105' r='8'/%3E%3Ccircle cx='578' cy='42' r='8'/%3E%3Ccircle cx='237' cy='261' r='8'/%3E%3Ccircle cx='390' cy='382' r='8'/%3E%3C/g%3E%3C/svg%3E"); /* how do i block dark reader from duping this grrrr */
     animation: scrollag 1250s linear infinite;
     user-select: none
 }
@@ -400,7 +400,8 @@ tr, td {
 .align_downleft {
 	text-align: left; bottom: 10px; left: 3px; width: 100%
 }
-.number.just_changed_plus {
+.number.just_changed_plus,
+.number.just_changed_doubleplus {
 	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #CF9 !important;
 }
 .number.just_changed_minus {
@@ -424,7 +425,10 @@ tr, td {
 .number.just_changed_halverage {
 	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #860 !important;
 }
-.plus {color: #cf9 !important}
+.number.just_changed_backadd {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #ff5 !important;
+}
+.plus, .doubleplus {color: #cf9 !important}
 .minus {color: #f99 !important}
 .times {color: #9ff !important; } /* transform: translateY(-2px);
     display: inline-block;*/
@@ -433,6 +437,7 @@ tr, td {
 .modulo {color: #F7A !important}
 .exponent {color: #0FF !important}
 .halverage {color: #860 !important}
+.backadd {color: #ff5 !important;}
 .operation .concat {font-size: 80%;}
 .operation .modulo, .operation .exponent {font-size: 80%;}
 .divides.grayed {
@@ -1332,6 +1337,22 @@ let optypes = {
 		standard_direction: [1, -1],
 		standard_alignment: "align_upright"
 	},
+	"doubleplus": {
+		standard_direction: [1, -1],
+		standard_alignment: "align_upright"
+	},
+	"doubleminus": {
+		standard_direction: [1, -1],
+		standard_alignment: "align_upright"
+	},
+	"doubledivides": {
+		standard_direction: [-1, 1],
+		standard_alignment: "align_downleft"
+	},
+	"backadd": {
+		standard_direction: [1, -1],
+		standard_alignment: "align_upright"
+	},
 }
 function standard_direction_for (operation_name) {
 
@@ -1521,6 +1542,10 @@ function convert_name_to_symbol (value) {
 		case "lcm": return "ð"
 		case "halverage": return "﬩"
 		case "doubleplus": return "++"
+		case "doubleminus": return "−−"
+		case "doubletimes": return "××"
+		case "doubledivides": return "÷÷"
+		case "backadd": return "⇷"
 	}
 }
 function convert_symbol_to_name (value) {
@@ -1536,6 +1561,10 @@ function convert_symbol_to_name (value) {
 			case "ð": return "lcm"
 		case "﬩": return "halverage"
 		case "++": return "doubleplus"
+		case "−−": return "doubleminus"
+		case "××": return "doubletimes"
+		case "÷÷": return "doubledivides"
+		case "⇷": return "backadd"
 	}
 }
 
@@ -1695,13 +1724,13 @@ function mod_on (x) {
 
 function operation_results (firstnum, secondnum, operation, misc={}) {
 	firstnum = numify(firstnum); secondnum = numify(secondnum)
-	let rv;
+	let rv, result;
 	switch (operation) {
 		case "plus":   rv = firstnum + secondnum; break; // wrong order, classic
 		case "minus":  rv = Math.abs(-firstnum + secondnum); break
 		case "times":  rv = firstnum * secondnum; break
 		case "divides":
-			let result = secondnum / firstnum;
+			result = secondnum / firstnum;
 			if (secondnum == 0) {
 				rv = "DIV0"; break
 			}
@@ -1714,13 +1743,32 @@ function operation_results (firstnum, secondnum, operation, misc={}) {
 					rv = "DECIMAL"; break
 				}
 			}
-			return result
+			rv = result; break
 		case "concat": rv = numify(secondnum.toString() + firstnum.toString()); break 
 		case "modulo": rv = firstnum < secondnum? (secondnum % firstnum) : (firstnum % secondnum); break // Don't allow the stupid 3%7 = 3
 		case "exponent": rv = Math.pow(firstnum, secondnum); break
 		case "gcd": rv = gcd(firstnum, secondnum); break
 		case "lcm": rv = lcm(firstnum, secondnum); break
 		case "halverage": rv = Math.floor((firstnum + secondnum)/2); break
+		case "doubleplus": rv = (firstnum + secondnum)*2; break
+		case "doubleminus": rv = Math.abs(-firstnum + secondnum)*2; break
+		case "doubletimes": rv = firstnum * secondnum * 2; break
+		case "doubledivides": 
+			result = secondnum / firstnum;
+			if (secondnum == 0) {
+				rv = "DIV0"; break
+			}
+			if (result % 1 != 0) { // Float?
+				result = firstnum / secondnum;
+				if (secondnum == 0) {
+					rv = 0; break
+				}
+				if (result % 1 != 0) { // Float?
+					rv = "DECIMAL"; break
+				}
+			}
+			rv = result * 2; break
+		case "backadd": rv = numify((firstnum + secondnum).toString().split("").reverse().join(""))
 	}
 	/*
 	if (rv.toString().length > 10) {
@@ -1801,8 +1849,10 @@ function emojify (thing, DONT_replace_tens) {
 		case "divides": return "🟪" // Purple
 		case "concat": return "🟧" // Orange
 		case "modulo": return "👛" // NOT yellow. It should be pink though I'm sad.
-		case "exponent": return "⬜"// "⏏️"
+		case "exponent": return "⬜"// white "⏏️"
 		case "halverage": return "🟫" // Brown
+		case "doubleplus": return "❎"
+		case "backadd": return "🟨" // yellow
 	}
 	thing = thing.toString()
 	if (thing == "10") {return "🔟"}
@@ -2179,7 +2229,13 @@ function endgame_popup ({stats_popup}={}) {
 		if (seed.target2) {
 			rv += (`${emojify(seed.target2, true)}🏁`)
 		}
-		rv += ((seed.target.toString().length <= 3? black_square:``) + (seed.board_numbers).map(x => emojify(x)).join(black_square))
+		rv += (seed.target.toString().length <= 3? black_square:``) 
+
+		if (!countdown) {
+			rv += (seed.board_numbers).map(x => emojify(x)).join(black_square)
+		} else {
+			rv += (seed.board_numbers).slice(0).join("/") // slice has no meaning here, i just used to split this in 2 and now I don't
+		}
 		// 🏁315🏁⬛4⬛5⬛6
 		// 🏁3159🏁4⬛5⬛6 // Black square only if 3 length
 
@@ -2505,16 +2561,21 @@ function repopulate_archive () {
 		}
 
 
-		let recolor_function = function (x) {return x}
+		let func1 = function (x) {return x}
+		let func2 = function (x) {return x}
 		if (sd.modifiers.includes("Trime Theory")) {
-			recolor_function = trime_recolor
+			func1 = trime_recolor
 		}
-		let second_target_show = sd.target2 > 0? ` <span class="popup_archive_text_target">` + smallasteriskify_string(recolor_function(sd.target2.toString())) + "</span>":""
+		let blur = function (x) {return `<span style="filter: blur(5px)">${x}</span>`}
+		if (sd.modifiers.includes("Target Finder")) {
+			func2 = blur
+		}
+		let second_target_show = sd.target2 > 0? ` <span class="popup_archive_text_target">` + smallasteriskify_string(func2(func1(sd.target2.toString()))) + "</span>":""
 
 		return `<div class="popup_archive_row ${game.current_puzzle_number == tpn? " popup_archive_row_selected":""}" id="popup_archive_row_${dpn}${h}"">
 
 		<div class="popup_archive_text">
-			Puzzle #${dpn}${h.replace("h", "*")}: <span class="popup_archive_text_target">${smallasteriskify_string(recolor_function(sd.target.toString()))}</span>${second_target_show} ${recolor_function(sd.board_numbers.join(" "))}${hardmod_dot}
+			Puzzle #${dpn}${h.replace("h", "*")}: <span class="popup_archive_text_target">${smallasteriskify_string(func2(func1(sd.target.toString())))}</span>${second_target_show} ${func1(sd.board_numbers.join(" "))}${hardmod_dot}
 		</div>
 
 		${solved_graphic}${hardmods}</div>`
@@ -3140,15 +3201,20 @@ function days_between_start_and_today () {
 	return days_between(game.start_date, new Date())
 }
 
-
+// 🇦  🇧  🇨  🇩  🇪  🇫  🇬  🇭  🇮  🇯  🇰  🇱  🇲  🇳  🇴  🇵  🇶  🇷  🇸  🇹  🇺  🇻  🇼  🇽  🇾  🇿 
 var rules = [
 {name: "Countdown", desc: "The game is reversed! Start with 9 numbers, and numbers are consumed after use. 99 second timer.", icon: "⏱️", difcha: -3},
 {name: "Irregular", desc: "The double-digit starting numbers are changed to never end in 0 or 5.", icon: "🧮", difcha: 1},
-{name: "Primes", desc: "All board numbers are prime (between 2 to 37).", difcha: 2},
-{name: "Odds", desc: "All board numbers are odd."},
-{name: "Evens", desc: "All board numbers are even."},
-{name: "Threeven", desc: "All board numbers are divisible by 3."},
-{name: "Gods Unlocked", desc: "The bottom 3 numbers are <b>locked</b> (unless you're on your last number).", difcha: 3},
+{name: "Primes", desc: "All board numbers are prime (between 2 to 37).", icon: "🇵 ", difcha: 2},
+{name: "Odds", desc: "All board numbers are odd.", icon: "🇴 "},
+{name: "Evens", desc: "All board numbers are even.", icon: "🇪 "},
+{name: "Threevens", desc: "All board numbers are divisible by 3.", icon: "🇭 "},
+{name: "Tens", desc: "", icon: "🇹 "},
+{name: "Elevens", desc: "", icon: "🇱 "},
+{name: "Dozens", desc: "", icon: "🇩 "},
+{name: "Thirteens", desc: "", icon: "🇷 "},
+{name: "Quarters", desc: "", icon: "🇶 "},
+{name: "Gods Unlocked", desc: "The bottom 3 numbers are <b>locked</b> (unless you're on your last number).", icon: "🔒", difcha: 3},
 {name: "Thousands of Doors", desc: "All double-digit starting numbers are multiplied by 100.", icon: "🧮"},
 {name: "Alt Infestation", desc: "The board is all the same number.", icon: "🕎"},
 {name: "Direct Hits", desc: `The bottom three numbers are <b style="color: yellow">direct</b> (only usable if you would immediately win).`, icon: "💥"},
@@ -3160,16 +3226,16 @@ var rules = [
 
 {name: "Busco Quadnary", desc: "The target number is 4 digits.", icon: "🔢", extra_info: "Usually this is paired with a modifier that gives you more options, because it's hard to make a 4-digit number. Expect gaining extra operations or bonus modifiers like Wildcard Dimension."},
 {name: "Wildcard Dimension", desc: "The * digit can be any number.", icon: "#️⃣"},
-{name: "Dimensional Merge", desc: "After any operation with a 4-digit result, correct any digits that are 1 off.", icon: "🔢"},
+{name: "Dimensional Merge", desc: "After any operation with a 4-digit result, correct any digits that are 1 off.", icon: "🚮"},
 
-{name: "Zero Equals One", desc: "After any operation, any 0's in the result change to 1's.", icon: "", extra_info: "If 0's are in the target number, you are still able to win as normal (it only changes if you don't hit the target)."},
+{name: "Zero Equals One", desc: "After any operation, any 0's in the result change to 1's.", icon: "👌", extra_info: "If 0's are in the target number, you are still able to win as normal (it only changes if you don't hit the target)."},
 
-{name: "Shape Rotator Bait", desc: "hahahahaha number go spinnnnn"},
-{name: "Upside Clown", desc: `<span style="transform: rotate(180deg); display: inline-block">I don't understand, everything looks fine to me.</span>`},
+{name: "Shape Rotator Bait", desc: "hahahahaha number go spinnnnn", icon: "🔄"},
+{name: "Upside Clown", desc: `<span style="transform: rotate(180deg); display: inline-block">I don't understand, everything looks fine to me.</span>`, icon: "↪️"},
 {name: "Sideways", desc: "The board numbers are sideways."},
-{name: "Where Did My Number Go?", desc: "Numbers fade in and out."},
-{name: "Inappropriate Zoom", desc: "'inappropriate' is a word used when people are looking for a societally accepted excuse to claim moral superiority. This is why the zoom is actually perfectly acceptable."},
-{name: "Target Finder", desc: "The target number isn't visible. Numbers above the target are marked red, and numbers below the target are marked blue."},
+{name: "Where Did My Number Go?", desc: "Numbers fade in and out.", icon: "⚫"},
+{name: "Inappropriate Zoom", desc: "'inappropriate' is a word used when people are looking for a societally accepted excuse to claim moral superiority. This is why the zoom is actually perfectly acceptable.", icon: "🤳"},
+{name: "Target Finder", desc: "The target number isn't visible. Numbers above the target are marked red, and numbers below the target are marked blue.", icon: "🔦"},
 
 {name: "Double Damage", desc: "There are two target numbers that are two digits each. Get both!", icon: "🥈"},
 {name: "Double Wilds", desc: "There are two target numbers with a wild digit * in each. Get both!", icon: "💫"},
@@ -3181,25 +3247,26 @@ var rules = [
 {name: "Icely Evens", desc: "When the result of an operation's divisible by 2, it's frozen for 1 turn."},
 
 {name: "Smart Race", desc: "You have 200 seconds to solve as many puzzles as possible.", extra_info: "This modifier is always paired with a submodifier that describes what happens after each puzzle.", icon: "🏎️"},
-{name: "Target Practice", desc: "The target number is randomized after each puzzle.", icon: "🔀"},
+{name: "Target Practice", desc: "The target number is randomized after each puzzle.", icon: "🎯"},
 {name: "Board Wipe", desc: "The board numbers are randomized after each puzzle.", icon: "🔁"},
 {name: "Bump", desc: "The target number goes up after each puzzle by 1, then 2, then 3, ...", icon: "🔼"},
 {name: "Bump X", desc: "All your board numbers go up by 1 after each puzzle.", icon: "⏫"},
-{name: "Rocket Race", desc: "The board numbers are multiplied by 2 after each puzzle."},
+{name: "Rocket Race", desc: "The board numbers are multiplied by 2 after each puzzle.", icon: "🚀"},
 
 {name: "Save State", desc: "After each puzzle, refresh to 9 numbers, but keep whatever you had when you made the target."},
 
 {name: "Dumb Race", desc: "You win if you are 1 off the target number.", incompat: ["Wildcard Dimension", "Double Wilds"]},
 
-{name: "Small Cap", desc: `Board numbers are capped at ${settings.small_number_cap}.`},
+{name: "Small Cap", desc: `Board numbers are capped at ${settings.small_number_cap}.`, icon: "⤴️"},
 
-{name: "Even Number Appreciation", desc: "The number 420 is on the board."},
+{name: "Superior High Composite", desc: "The number 360 is on the board.", icon: "🌐"},
+{name: "Even Number Appreciation", desc: "The number 420 is on the board.", icon: "🌿"},
 {name: "Fiverr Clickbait", desc: "The number 555 is on the board."},
 {name: "Superstition", desc: "The number 666 is on the board."},
-{name: "Heavensdoor", desc: "The number 777 is on the board."},
+{name: "Heavensdoor", desc: "The number 777 is on the board.", icon: "⛩️"},
 {name: "Damage Cap", desc: "The number 999 is on the board."},
-{name: "Gigabyte", desc: "The number 1000 is on the board."},
-{name: "Gibibyte", desc: "The number 1024 is on the board."},
+{name: "Gigabyte", desc: "The number 1000 is on the board.", icon: "💻"},
+{name: "Gibibyte", desc: "The number 1024 is on the board.", icon: "🖥️"},
 {name: "Gluance Nuance", desc: "A very nuanced number is on the board (two copies glued together)."},
 {name: "Backwards Logic", desc: "The target number BUT BACKWARDS is on the board. If this is stupid, an extra 1 is glued to the front.", extra_info: "This rule won't be made if the target ends in a 0 or is palindromic."},
 {name: "Zero Creep", desc: "The target number and the board numbers are multiplied by 10."},
@@ -3224,8 +3291,13 @@ var rules = [
 {name: "Subconscious", desc: "- becomes &."},
 {name: "Multicon", desc: "x becomes &."},
 {name: "Unglued", desc: "/ becomes &."},
-{name: "Halverage", desc: `Gain a new operator, ﬩. It gets the <b class="halverage">average</b> of the two numbers, rounding down (50 ﬩ 100 = 75).`},
-{name: "Glue", desc: `Gain a new operator, &. It <b class="concat">glues</b> two numbers together (2 & 51 = 251).`},
+{name: "Halverage", desc: `Gain a new operator, ﬩. It gets the <b class="halverage">average</b> of the two numbers, rounding down (50 ﬩ 100 = 75).`, icon: "🟫"},
+{name: "Glue", desc: `Gain a new operator, &. It <b class="concat">glues</b> two numbers together (2 & 51 = 251).`, icon: "🟧"},
+{name: "Doubleplusgood", desc: `Gain a new operator, ++. It <b class="plus">adds</b> two numbers together and then doubles it (2 ++ 2 = 8).`, icon: "❎"},
+{name: "Doubleplusungood", desc: `Gain a new operator, −−. It <b class="minus">subtracts</b> two numbers and then doubles it (6 −− 2 = 8).`},
+{name: "Double Time", desc: `Gain a new operator, ××. It <b class="times">multiplies</b> two numbers together and then doubles it (2 ×× 3 = 12).`},
+{name: "Double Divvy", desc: `Gain a new operator, ÷÷. It <b class="divides">divides</b> two numbers together and then doubles it (15 ÷÷ 3 = 10).`},
+{name: "Backadded Compliment", desc: `Gain a new operator, ⇷. It adds two numbers, then <b class="backadd">reverses</b> it (15 ⇷ 2 = 71).`, icon: "🟨"},
 {name: "Super Glue", desc: "Gain a new operator, &&."},
 
 {name: "Upmodulation", desc: "+ becomes %."},
@@ -3233,14 +3305,14 @@ var rules = [
 //{name: "NOTUSED", desc: "x becomes %."},
 {name: "Divide The Remainder", desc: "/ becomes %."},
 {name: "Modulo", desc: "Gain a new operator, %."},
-{name: "Exponent", desc: `Gain a new operator, ^. It <b class="exponent">exponentiates</b> two numbers (7 ^ 2 = 49). Also, uh, watch out for the number cap.`},
+{name: "Exponent", desc: `Gain a new operator, ^. It <b class="exponent">exponentiates</b> two numbers (7 ^ 2 = 49). Also, uh, watch out for the number cap.`, icon: "⬜"},
 
 
 {name: "Digit Deleter", desc: "One of the numbers is instead a Digit Deleter."},
 {name: "Digit Splitter", desc: "One of the numbers is instead a Digit Splitter."},
 
 {name: "Tangent Time", desc: "The target number is a timer that goes down by 1 every second."},
-{name: "Trime Theory", desc: `The first board number you touch is multiplied by <b style="color: #ADDFF8">3</b>. You also might have synesthesia.`},
+{name: "Trime Theory", desc: `The first board number you touch is multiplied by <b style="color: #ADDFF8">3</b>. You also might have synesthesia.`, icon: "🎶"},
 
 {name: "Against the Odds", desc: "When you do an action that creates an odd number, subtract it by 1."},
 {name: "Duplicity", desc: "All actions multiply the result by 2."},
@@ -3336,11 +3408,11 @@ function pick_modifiers (seed_string) {
 	// Switch between the rules pool every day. Not sure about this being so tightly linked to our silly month system but idc
 
 	var rules_pool_1 = ["Countdown", "Smart Race", "Busco Quadnary", "Double Damage", ""]
-	var rules_pool_countdown = ["Tens", "Elevens", "Dozens", "Thirteens", "Quarters", "Irregular", "Primes", "Gods Unlocked", "Odds", "Evens", "Threevens"]
+	var rules_pool_countdown = ["Tens", "Elevens", "Dozens", "Thirteens", "Quarters", "Primes", "Gods Unlocked", "Odds", "Evens", "Threevens"]
 	var rules_pool_smart_race = ["Target Practice", "Board Wipe", "Bump", "Bump X", "Rocket Race"]
 	var rules_pool_busco_quadnary = ["Wildcard Dimension", "Dimensional Merge", ""]
-	var rules_pool_misc = ["Zero Equals One", "Shape Rotator Bait", "Upside Clown", "Trime Theory", "Small Cap", "Target Finder", "Inappropriate Zoom", "Where Did My Number Go?"]
-	var rules_pool_2 = ["Zero Equals One", "Even Number Appreciation", "Heavensdoor", "Gigabyte", "Gibibyte", "Trime Theory", "Small Cap", "Shape Rotator Bait", "Target Finder", ""]
+	var rules_pool_misc = ["Zero Equals One", "Superior High Composite", "Shape Rotator Bait", "Upside Clown", "Trime Theory", "Small Cap", "Target Finder", "Inappropriate Zoom", "Where Did My Number Go?"]
+	var rules_pool_2 = ["Zero Equals One", "Superior High Composite", "Even Number Appreciation", "Heavensdoor", "Gigabyte", "Gibibyte", "Trime Theory", "Small Cap", "Shape Rotator Bait", "Target Finder", ""]
 
 	let rv = ["", "", "", "", "", "", "", "", "", ""]
 	let r1 = rules_pool_1[day % 5]//rules_pool_1[mulberryrand(seed_string + "2", 0, rules_pool_1.length-1)]
@@ -3382,16 +3454,17 @@ function pick_modifiers (seed_string) {
 		if (r1_num > 0.5) {
 			r1_num = (r1_num - 0.5) * 2 // Normalize 0-1 again
 
-			// so disappointing. this should've been a mass of like 50+ new operations, but here I am copying code and only having 3 of them
+			// so disappointing. this should've been a mass of like 50+ new operations, with various fragile effects and such sometimes, but here I am copying code and only having a few of them
 			// if you're reading this plz contact me, icely#3999, if you'd like to help with the code to make that happen
 
-			if (r1_num < 0.3 && r1 != "Halverage") {       
-				r1 = "Halverage"
-			} else if (r1_num < 0.6 && r1 != "Glue") { 
-				r1 = "Glue"
-			} else if (r1_num < 1 && r1 != "Exponent") {
-				r1 = "Exponent"
-			}
+			let picked;
+
+			let array = ["Halverage", "Glue", "Exponent", "Doubleplusgood", "Backadded Compliment"]
+			array = remove_element(array, r1) // this is the r1 side, so this really does nothing but still
+			let position = Math.floor(r1_num*array.length)
+			picked = array[position]
+
+			r1 = picked
 		} else {
 			r1 = pick(rules_pool_misc, (seed_string + "333")) // not supposed to do this (more elegant to use numbers only) but idc
 			//r1 = pick(rules_pool_2, seed_string+"3")
@@ -3429,17 +3502,23 @@ function pick_modifiers (seed_string) {
 		r3_num = (r3_num - 0.5) * 2 // Normalize 0-1 again
 
 		if (r1 == "Busco Quadnary" || r3_num < 0.5) { // New modifier
-			r3_num = r3_num * 2                         // Normalize
+			r3_num = ((r3_num * 2) % 1)                         // Normalize
 			// Between ++, --, **, //, %, &, ^, LCM, GCD
 			// %, &, ^^ have a 60/40 split
 
-			if (r3_num < 0.3 && r1 != "Halverage") {       
-				r3 = "Halverage"
-			} else if (r3_num < 0.6 && r1 != "Glue") { 
-				r3 = "Glue"
-			} else if (r3_num < 1 && r1 != "Exponent") {
-				r3 = "Exponent"
+			let picked;
+
+			let array = ["Halverage", "Glue", "Exponent", "Doubleplusgood", "Backadded Compliment"]
+			let BOTTOM_LEFT_SPACES = ["Halverage", "Doubleplusgood", "Backadded Compliment"]
+			if (BOTTOM_LEFT_SPACES.includes(r1)) {
+				// sorry, but directions will stack and I have no time to make a better solution where operations move around
+				array = remove_elements(array, BOTTOM_LEFT_SPACES)
 			}
+			array = remove_element(array, r1)
+			let position = Math.floor(r3_num*array.length)
+			picked = array[position]
+
+			r3 = picked
 			/*
 			if (r3_num < 0.2) {        // One-off
 				r3 = "Halverage"
@@ -3542,6 +3621,21 @@ function date_to_seed (dt=0, hard=0, ignore_smart_race=0) {
 	}
 	if (mod_on("Exponent")) {
 		rv.default_type += "-exponent"
+	}
+	if (mod_on("Doubleplusgood")) {
+		rv.default_type += "-doubleplus"
+	}
+	if (mod_on("Doubleplusungood")) {
+		rv.default_type += "-doubleminus"
+	}
+	if (mod_on("Double Time")) {
+		rv.default_type += "-doubletimes"
+	}
+	if (mod_on("Double Divvy")) {
+		rv.default_type += "-doubledivides"
+	}
+	if (mod_on("Backadded Compliment")) {
+		rv.default_type += "-backadd"
 	}
 	rv.board_numbers_designated_length = 3
 	rv.BEHAVIOR_delete_selected = false
@@ -3682,6 +3776,12 @@ function date_to_seed (dt=0, hard=0, ignore_smart_race=0) {
 	}
 	if (mod_on("Even Number Appreciation")) {
 		replacers.push(420)
+	}
+	if (mod_on("Superior High Composite")) {
+		replacers.push(360)
+	}
+	if (mod_on("Fiverr Clickbait")) {
+		replacers.push(555)
 	}
 	if (mod_on("Gigabyte")) {
 		replacers.push(1000)
