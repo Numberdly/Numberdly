@@ -1,0 +1,4392 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Numberdly - a daily numbers game</title>
+<head>
+<link rel="stylesheet" type="text/css" href="../index.css"><link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet"><link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet">
+
+<link href="../fonts/seguiemj.ttf" rel="stylesheet"> <!-- font-family: Segoe UI EMOJI; -->
+
+<link type="text/css" href="../OverlayScrollbars.min.css" rel="stylesheet"/><link type="text/css" href="../os-theme-thick-light.css" rel="stylesheet"/><link type="image/ico" href="../favicon.ico" rel="shortcut icon" id="icon"/><script type="text/javascript" src='lodash.js'></script>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+
+</script>
+</head>
+<style>
+
+#game {
+	width: 100%; position: absolute;
+	height: 100%; 
+	/*
+	      background-image: radial-gradient(ellipse 100% 100%, #013440, #013440 25%, transparent 25%),radial-gradient(ellipse 50% 50% , #142838, #022 25%, #002635 25%);
+    background-size: 1em 1em, 2em 2em;*/
+    user-select: none
+}
+#first_bg {
+	width: 100%; position: absolute;
+	height: 100%; border: 1px solid rgba(0%, 100%, 100%, 0.2);
+	/*
+	      background-image: radial-gradient(ellipse 100% 100%, #013440, #013440 25%, transparent 25%),radial-gradient(ellipse 50% 50% , #142838, #022 25%, #002635 25%);
+    background-size: 1em 1em, 2em 2em;*/
+background-color: #01123E;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23002344' stroke-width='2'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23003155'%3E%3Ccircle cx='769' cy='229' r='8'/%3E%3Ccircle cx='539' cy='269' r='8'/%3E%3Ccircle cx='603' cy='493' r='8'/%3E%3Ccircle cx='731' cy='737' r='8'/%3E%3Ccircle cx='520' cy='660' r='8'/%3E%3Ccircle cx='309' cy='538' r='8'/%3E%3Ccircle cx='295' cy='764' r='8'/%3E%3Ccircle cx='40' cy='599' r='8'/%3E%3Ccircle cx='102' cy='382' r='8'/%3E%3Ccircle cx='127' cy='80' r='8'/%3E%3Ccircle cx='370' cy='105' r='8'/%3E%3Ccircle cx='578' cy='42' r='8'/%3E%3Ccircle cx='237' cy='261' r='8'/%3E%3Ccircle cx='390' cy='382' r='8'/%3E%3C/g%3E%3C/svg%3E");
+    animation: scrollag 1250s linear infinite;
+    user-select: none
+}
+.theme_mostlylose #first_bg {
+	filter: grayscale(0.7); transition: filter 2s ease;
+}
+.theme_lose #first_bg, .theme_lose.theme_hard #first_bg {
+	filter: grayscale(1); transition: filter 2s ease;
+}
+
+#game.theme_div0 {
+	animation: divzerointro 9s linear 1 both; /* , divvedzero 10s linear infinite alternate*/
+}
+@keyframes divzerointro {
+	from {filter: invert(0); transform: scale(1) rotate(0deg)}
+	3% {filter: hue-rotate(20deg);}
+	6% {filter: hue-rotate(80deg) brightness(2);}
+	9% {filter: hue-rotate(240deg);}
+	11% {filter: hue-rotate(180deg);}
+	14% {filter: hue-rotate(20deg);}
+	16% {filter: hue-rotate(80deg);}
+	18% {filter: hue-rotate(280deg);}
+	20% {filter: hue-rotate(50deg);}
+	22% {filter: hue-rotate(180deg);}
+	25% {filter: invert(1) hue-rotate(180deg);}
+	33% {filter: grayscale(1) brightness(2) contrast(1.5) sepia(1) hue-rotate(240deg) contrast(1.5); transform: scale(2) rotate(30deg)}
+	39% {filter: grayscale(1) brightness(2) contrast(1.5) sepia(1) hue-rotate(240deg) contrast(1.5); transform: scale(3) rotate(45deg)}
+	40% {filter: grayscale(1) brightness(0.1) contrast(1.5) sepia(1) hue-rotate(240deg) contrast(1.5); transform: scale(3) rotate(45deg)}
+	70% {filter: grayscale(1) brightness(1) contrast(1.5) sepia(1) hue-rotate(240deg) contrast(1.5); transform: scale(4) rotate(400deg)}
+	95% {filter: grayscale(1) brightness(3) contrast(1.5) sepia(1) hue-rotate(240deg) contrast(1.5); transform: scale(16) rotate(800deg)}
+	to {filter: grayscale(1) brightness(2) contrast(1.5) sepia(1) hue-rotate(240deg) contrast(1.5); transform: scale(1) rotate(1080deg)}
+}
+@keyframes divvedzero {
+	from {filter: invert(0);}
+	15% {filter: invert(1);}
+	to {}
+}
+/*
+#game.theme_win {
+	background-image: radial-gradient(ellipse 100% 100%, #770, #770 25%, transparent 25%),radial-gradient(ellipse 50% 50% , #880, #860 25%, #880 25%);
+}*/
+#game.theme_red {
+
+}
+#game.notouch {
+	pointer-events: none !important
+}
+#game.notouch button {
+	pointer-events: none !important
+}
+#number_positions.notouch {
+	pointer-events: none !important
+}
+@keyframes scroll {
+from {background-position: 0 0;}
+to {background-position: -180px -180px;}
+}
+@keyframes scrollag {
+from {background-position: 0 0;}
+to {background-position: -18000px -18000px;}
+}
+@keyframes scrollleft {
+from {background-position: 0 0;}
+to {background-position: -180px 0;}
+}
+#number_positions {
+	top: 15%;	height: 80%; width: 100%; max-width: 800px; margin: auto;
+}
+
+td .number/*, #game.selected_global td > .operation*/ {
+	cursor: pointer;
+}
+#game.selected_global td > .operation .operation-inner.grayed {
+	cursor: initial; /* This does not actually work because CSS sucks and you can't modify the selector based on the parent. I would need some real hacky code to fix this. great job*/
+}
+.number {
+	position: absolute; font-weight: bold; font-size: 287%;text-align: center;  transform: translate(-50%, -50%);
+	top: 50%; left: 50%; width: auto;
+	user-select: none; pointer-events: none;
+	text-shadow: 1px 1px 1px #000;
+	transition: color 0.25s ease-in-out; line-height: 0;
+  animation: wobble 1s ease-in-out infinite alternate, softglow 3s ease-in-out infinite alternate; z-index: 1;
+}
+.theme_red .number {
+  animation: wobble 1s ease-in-out infinite alternate, softglow_red 3s ease-in-out infinite alternate; z-index: 1;
+}
+.theme_lose .number {
+  animation: fall_lose 6s ease-in 1 both; z-index: 1; text-shadow: none
+}
+.theme_mostlylose .number {
+  animation: fall_mostlylose 9s ease-in 1 both; z-index: 1; text-shadow: none
+}
+.theme_div0 .number {
+  animation: divzero_lose 3s ease-in 1 both; z-index: 1; text-shadow: none
+}
+/*
+.digits-1 {font-size: 287%;}
+.digits-2 {	font-size: 287%;}
+.digits-3 {font-size: 260%;}
+.digits-4 {	font-size: 188%;}
+.digits-5 {	font-size: 150%;}
+.digits-6 {	font-size: 110%;}
+.digits-7 {	font-size: 90%;}
+.digits-8 {font-size: 90%;}*/
+#endgame_table .digits-1 {font-size: 287%;}
+#endgame_table .digits-2 {font-size: 287%;}
+#endgame_table .digits-3 {font-size: 267%;}
+#endgame_table .digits-4 {font-size: 257%;}
+#endgame_table .digits-5 {font-size: 200%;}
+#endgame_table .digits-6 {font-size: 160%;}
+#endgame_table .digits-7 {font-size: 150%;}
+#endgame_table .digits-8 {font-size: 150%;}
+.number.digits-3 {font-size: 260%;}.number.digits-4 {	font-size: 188%;}.number.digits-5 {	font-size: 150%;}.number.digits-6 {	font-size: 110%;}.number.digits-7 {	font-size: 90%;}.number.digits-8 {font-size: 90%;}
+
+/*td {cursor: cell;}*/
+td:hover .number {
+	color: #0cc;
+}
+.number.just_changed {
+	animation: bump 0.25s ease-in-out 1;
+}
+.selected .number {
+	color: cyan; animation: glowing 1.5s ease-in-out infinite alternate; z-index: 1; /* z-index to see glow */
+}
+td:hover.selected .number {
+	color: cyan;
+}
+.winning:not(.selected) .number {
+	color: yellow; animation: winglowing 1s ease-in-out infinite alternate; z-index: 1; /* z-index to see glow */
+}
+.losing .number {
+	color: #ccc; animation: loseglowing 1.5s ease-in-out infinite alternate; z-index: 1;
+}
+.zeroing .number {
+	animation: zeroglowing 3s ease-in-out 1 both; z-index: 1;
+}
+
+table {
+	border: none;
+}
+tr, td {
+	background: transparent !important;
+	border: none;
+	margin: 0;
+    padding: 0;
+}
+
+@keyframes softglow {
+  from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #066, 0 0 30px #066, 0 0 40px #066}
+  to {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #7cc, 0 0 50px #7cc}
+}
+@keyframes softglow_red {
+  from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #300, 0 0 30px #300, 0 0 40px #300}
+  to {text-shadow:   1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #700, 0 0 50px #700}
+}
+@keyframes softglow_lose {
+  from {text-shadow: none}
+  to {text-shadow:   none}
+}
+@keyframes fall_lose {
+  from {top: 50%; transform: translate(-50%, -50%) rotate(0deg); opacity: 1;}
+  70%   {top: 1500%; transform: translate(-200%, -50%) rotate(45deg); opacity: 0.4; color: #dcb;}
+  71%   {top: 0; transform: translate(-50%, -50%) rotate(0deg); opacity: 0; color: #dcb;}
+  to   {opacity: 1; color: #dcb;}
+  /*  75%  {transform: translate(100%, -50%);}*/
+}
+@keyframes fall_mostlylose {
+  from {top: 50%; transform: translate(-50%, -50%) rotate(0deg); opacity: 1;}
+  10% {top: 40%; transform: translate(-50%, -50%) rotate(0deg); opacity: 1;}
+  80%   {top: 1100%; transform: translate(-200%, -50%) rotate(15deg); opacity: 0.4; color: #dcb;}
+  90%   {top: 1500%; transform: translate(-200%, -50%) rotate(45deg); opacity: 0.4; color: #dcb;}
+  91%   {top: 0; transform: translate(-50%, -50%) rotate(0deg); opacity: 0; color: #dcb;}
+  to   {opacity: 1; color: #dcb;}
+  /*  75%  {transform: translate(100%, -50%);}*/
+}
+@keyframes divzero_lose {
+  from {top: 50%; transform: translate(-50%, -50%) rotate(0deg);}
+  25%   {top: 100%; transform: translate(-50%, -50%) rotate(65deg)}
+  48%   {top: 40%; transform: translate(-70%, -50%) rotate(215deg)}
+  50% {top: 40%; transform: translate(-71%, -50%) rotate(215deg) scale(1); filter: brightness(0.7) contrast(4);}
+  55% {top: 40%; transform: translate(-170%, -50%) rotate(215deg) scale(10)}
+  57% {top: 0%; transform: translate(-170%, -50%) rotate(215deg) scale(5); filter: sepia(1) hue-rotate(180deg);}
+  58% {top: -40%; transform: translate(-170%, -50%) rotate(215deg) scale(10); filter: sepia(1) hue-rotate(180deg);}
+  70%   {top: -500%; transform: translate(350%, -50%) rotate(355deg) scale(1)}
+  to   {top: 2500%; transform: translate(-150%, -50%) rotate(65deg)}
+}
+@keyframes glowing {
+  from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #066, 0 0 30px #066, 0 0 40px #066, 0 0 50px #066, 0 0 60px #066, 0 0 70px #066;}
+  to {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #aff, 0 0 50px #aff, 0 0 60px #aff, 0 0 70px #aff, 0 0 80px #aff;}
+}
+@keyframes winglowing {
+  from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #660, 0 0 30px #660, 0 0 40px #660, 0 0 50px #660, 0 0 60px #660, 0 0 70px #660;}
+  to {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #ff5, 0 0 50px #ff5, 0 0 60px #ff5, 0 0 70px #ff5, 0 0 80px #ff5, 0 0 90px #ff5, 0 0 100px #ff5, 0 0 110px #ff5;}
+}
+@keyframes loseglowing {
+  from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #666, 0 0 30px #666, 0 0 40px #666, 0 0 50px #666, 0 0 60px #666}
+  to {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #fff, 0 0 50px #fff, 0 0 60px #fff5, 0 0 70px #fff}
+}
+@keyframes zeroglowing {
+	from {transform: scale(1);}
+	to {transform: scale(100) rotate(600deg);}
+}
+@keyframes bump {
+  from {transform: translate(-50%, -50%) scale(1.25)}
+  to {transform: translate(-50%, -50%) scale(1);}
+}
+@keyframes wobble {
+  from {transform: translate(-50%, -50%) scale(0.9);}
+  to {transform: translate(-50%, -50%) scale(1);}
+}
+
+.mod-shape-rotator-bait .number:not(.just_changed) {
+	transform-origin: center;
+	animation: constantrotate 2s linear infinite;
+    width: 75px; left: initial;
+}
+@keyframes constantrotate {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg);}
+}
+.mod-upside-clown .number:not(.just_changed) {
+	transform-origin: center;
+	animation: upsidewob 2s ease-in-out infinite alternate;
+    width: 75px; left: initial;
+}
+@keyframes upside {
+	from {transform: rotate(180deg);}
+	to {transform: rotate(180deg);}
+}
+@keyframes upsidewob {
+	from {transform: rotate(180deg) scale(0.9);}
+	to {transform: rotate(180deg) scale(1);}
+}
+.mod-inappropriate-zoom .number:not(.just_changed) {
+	transform-origin: center;
+	animation: inappropriate 10s ease-in-out infinite alternate;
+    width: 75px; left: initial;
+}
+@keyframes inappropriate {
+	from {transform: scale(0.9);}
+	10% {transform: scale(2);}
+	20% {transform: scale(0.9);}
+	30% {transform: scale(2);}
+	40% {transform: scale(0.9);}
+	50% {transform: scale(2);}
+	60% {transform: scale(0.9);}
+	70% {transform: scale(2);}
+	80% {transform: scale(0.9);}
+	90% {transform: scale(2);}
+	to {transform: scale(22);}
+}
+.mod-where-did-my-number-go .number:not(.just_changed) {
+	transform-origin: center;
+	animation: hiding 2s ease-in-out infinite alternate;
+    width: 75px; left: initial;
+}
+@keyframes hiding {
+	from {transform: scale(0.9);}
+	to {opacity: 0; transform: scale(1);}
+}
+
+/* https://alligator.io/css/css-selected_loader-animation/ */
+.selected_loader {width: 100%; height: 100%; border-radius: 50%; border: 5px dotted rgba(29, 161, 242, 0.2);  border-left-color: #0aa; border-right-color: #0aa; background: transparent;
+	animation: rotate-s-loader 5s linear infinite, slam-in 0.5s ease-in 1; top: 0%; left: 0%;
+	margin: 0 auto;  position: absolute; opacity: 0.23;
+	z-index: 1;}
+
+
+@keyframes rotate-s-loader {
+  from {
+    transform: rotate(0) scale(1.5)
+  }
+  50% {
+    transform: rotate(180deg) scale(1.4)
+  }
+  to {
+    transform: rotate(360deg) scale(1.5)
+  }
+}
+
+@keyframes slam-in {
+	from {opacity: 0.2; transform: rotate(-60deg) scale(5)} to {opacity: 0.4; transform: rotate(30deg) scale(1.4)}
+}
+
+.win_loader {width: 100%; height: 100%; border-radius: 50%; border: 5px dotted rgba(242, 242, 0, 0.2);  border-left-color: #aa0; border-right-color: #aa0; background: transparent;
+	animation: rotate-s-loader 5s linear infinite, slam-in 0.5s ease-in 1; top: 0%; left: 0%;
+	margin: 0 auto;  position: absolute; opacity: 0.23;
+	z-index: 1;}
+
+.win_loader.loaderb {animation: rotate-s-loaderb 5s linear infinite, slam-inb 0.5s ease-in 1;}
+.win_loader.loaderc {animation: rotate-s-loaderc 5s linear infinite, slam-inc 0.5s ease-in 1;}
+.win_loader.loaderd {animation: rotate-s-loaderd 5s linear infinite, slam-inc 0.5s ease-in 1; border: 5px dotted #aa0;  border-left-color: rgba(242, 242, 0, 0.2); border-right-color: rgba(242, 242, 0, 0.2); }
+.win_loader.loadere {animation: rotate-s-loadere 5s linear infinite, slam-inf 0.5s ease-in 1; border: 5px dotted #aa0;}
+.win_loader.loaderf {animation: rotate-s-loaderf 5s linear infinite, slam-inf 0.5s ease-in 1; border: 5px dotted #aa0;}
+
+@keyframes rotate-s-loaderb {
+  from {    transform: rotate(0) scale(2)  }  50% {    transform: rotate(180deg) scale(2.1)  }  to {    transform: rotate(360deg) scale(2)  }}
+@keyframes rotate-s-loaderc {
+  from {    transform: rotate(0) scale(3)  }  50% {    transform: rotate(180deg) scale(2.7)  }  to {    transform: rotate(360deg) scale(3)  }}
+@keyframes rotate-s-loaderd {
+  from {    transform: rotate(0) scale(3)  }  50% {    transform: rotate(180deg) scale(1)  }  to {    transform: rotate(360deg) scale(3)  }}
+@keyframes rotate-s-loadere {
+  from {    transform: rotate(0) scale(4)  }  50% {    transform: rotate(180deg) scale(1)  }  to {    transform: rotate(360deg) scale(4)  }}
+@keyframes rotate-s-loaderf {
+  from {    transform: rotate(0) scale(5)  }  50% {    transform: rotate(180deg) scale(1)  }  to {    transform: rotate(360deg) scale(5)  }}
+@keyframes slam-inb {
+	from {opacity: 0.2; transform: rotate(-60deg) scale(5)} to {opacity: 0.4; transform: rotate(30deg) scale(2)}
+}
+@keyframes slam-inc {
+	from {opacity: 0.2; transform: rotate(-60deg) scale(7)} to {opacity: 0.4; transform: rotate(30deg) scale(3)}
+}
+@keyframes slam-inf {
+	from {opacity: 0.2; transform: rotate(-60deg) scale(10)} to {opacity: 0.4; transform: rotate(30deg) scale(4)}
+}
+
+.lose_loader {width: 100%; height: 100%; border-radius: 50%; border: 5px dotted rgba(166, 166, 166, 0.2);  border-left-color: #aaa; border-right-color: #aaa; background: transparent;
+	animation: rotate-s-loader 15s linear infinite, slam-in 1.5s ease-in 1; top: 0%; left: 0%;
+	margin: 0 auto;  position: absolute; opacity: 0.23;
+	z-index: 1;}
+
+
+#game.selected_global .operation {
+	display: block; opacity: 1;
+}
+.operation {
+	transition: opacity 0.25s ease-in-out;
+	opacity: 0; line-height: 0;
+	font-weight: bold; font-size: 150%;	user-select: none; width: 100%; height: 100%
+}
+#game.selected_global .hidden.operation {
+	display: none
+}
+.hidden, #keyboard_input_display.hidden {
+	display: none; opacity: 0;
+}
+.grayed {
+	color: #444 !important;
+}
+
+.operation div {
+	position: absolute; pointer-events: none;
+}
+.operation-inner {
+	transition: color 0.25s;
+}
+.align_left {
+	top: 50%; text-align: left; left: 3px; height: 100%;
+}
+.align_right {
+	top: 50%; text-align: right; right: 3px; height: 100%;
+}
+.align_down {
+	text-align: center; bottom: 10px; left: 0px; width: 100% /* 10px because of the way text aligns, 3px may make you click the times symbol and it fails to work */
+}
+.align_up {
+	text-align: center; top: 3px; left: 0px; width: 100%
+}
+.align_upright {
+	text-align: right; top: 7px; right: 3px; width: 100%
+}
+.align_downright {
+	text-align: right; bottom: 7px; right: 3px; width: 100%
+}
+.align_downleft {
+	text-align: left; bottom: 10px; left: 3px; width: 100%
+}
+.number.just_changed_plus {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #CF9 !important;
+}
+.number.just_changed_minus {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #f99 !important;
+}
+.number.just_changed_times {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #9ff !important;
+}
+.number.just_changed_divides {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #c9f !important;
+}
+.number.just_changed_concat {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #FC9 !important;
+}
+.number.just_changed_modulo {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #F7A !important;
+}
+.number.just_changed_exponent {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #0FF !important;
+}
+.number.just_changed_halverage {
+	animation: bump 0.25s ease-in-out 1, glowing 1.5s ease-in-out infinite alternate; color: #860 !important;
+}
+.plus {color: #cf9 !important}
+.minus {color: #f99 !important}
+.times {color: #9ff !important; } /* transform: translateY(-2px);
+    display: inline-block;*/
+.divides {color: #c9f !important}
+.concat {color: #FC9 !important}
+.modulo {color: #F7A !important}
+.exponent {color: #0FF !important}
+.halverage {color: #860 !important}
+.operation .concat {font-size: 80%;}
+.operation .modulo, .operation .exponent {font-size: 80%;}
+.divides.grayed {
+	color: #444 !important;
+}
+@keyframes fadein {
+  from {opacity: 0;}
+  to {opacity: 0.7;}
+}
+
+.hover-preview {opacity: 0.7; pointer-events: none; animation: 0.1s fadein ease-in-out 1;}
+.result-preview {opacity: 0.8; position: absolute; bottom: 0px; right: 0px; font-weight: bold: padding: 2px; pointer-events: none; animation: 0.1s fadein ease-in-out 1;}
+
+.hover-preview.number {font-size: 150%;}
+.result-preview.number.digits-1 {font-size: 150%;}
+.result-preview.number.digits-2 {font-size: 150%;}
+.result-preview.number.digits-3 {font-size: 150%;}
+.result-preview.number.digits-4 {font-size: 140%;}
+.result-preview.number.digits-5 {font-size: 130%;}
+.result-preview.number.digits-6 {font-size: 120%;}
+.result-preview.number.digits-7 {font-size: 90%;}
+.result-preview.number.digits-8 {font-size: 90%;}
+/*..result-preview {opacity: 1; position: absolute; font-weight: bold}*/
+
+.item.l {
+    color: #565656 !important;
+    filter: grayscale(1);}
+
+#keyboard_input_display {
+	transition: opacity 1s ease; opacity: 1; display: block; 
+}
+
+.popup {height: 85%; width: 100%; border: 1px solid #999; top: 10%; left: 0%; position: absolute; box-shadow: 5px 0px 31px -12px #E0E0E0, 
+5px 5px 29px 0px #5CB6C4;
+z-index: 102; pointer-events: none; overflow-y: auto
+} /* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Backgrounds_and_Borders/Box-shadow_generator*/
+.popup.solid {pointer-events: initial}
+.popupbg {
+
+	background:radial-gradient(#222 15%, transparent 16%) 0 0,radial-gradient(#222 15%, transparent 16%) 8px 8px,radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;background-color:#282828;background-size:16px 16px; /* https://projects.verou.me/css3patterns/# */}
+
+
+@media only screen and (max-width: 768px) { /* Phones */
+  #popup_second {
+    margin-top: 25%;
+  }
+  #keyboard_input {
+  	display: none
+  }
+  #popup_target_number_objective {
+  	line-height: 1;
+    display: inline-block;
+  }
+  .popup_archive_row {
+  	width: 100% !important; display: block !important; height: 50px;
+  }
+  .rowmaker {
+  	flex-direction: column;
+  }
+  .popup_archive_row:nth-child(2n) {
+  	
+  }
+  .popup_archive_text {
+  	top: initial !important; margin-top: 4px; width: 50%;
+  }
+  #scroll_notice {
+  	display: none;
+  }
+  #time_resets_at_utc_note {
+    font-size: 80%;
+  }
+
+	#game.mod-double-damage #target_number { /* higher priority with #game in front */
+	  right: 60px;
+	}
+	#game.mod-double-damage #target_number2 {
+	  left: 60px;
+	}
+}
+@media only screen and (max-width: 568px) { /* Phones */
+  .low_width_mini_go_away {
+    display: none;
+  }
+}
+
+
+}
+@media only screen and (max-height: 700px) {
+  #endgame_table {
+  	display: none;
+  }
+}
+
+
+.popup.leaving {animation: 0.2s upandout ease-in-out 1; pointer-events: none;}
+@keyframes upandout {
+	from {margin-top: 0px; opacity: 1;}
+	to   {margin-top: 50px; opacity: 0;}
+}
+.popup.coming {animation: 0.2s downandin ease-in-out 1; pointer-events: none;}
+@keyframes downandin {
+	from {margin-top: -50px; opacity: 0;}
+	to   {margin-top: 0px;  opacity: 1;}
+}
+
+.operation_info {
+	display: inline-block; padding-left: 1px; padding-right: 1px
+}
+.operation_info_text {
+	padding-top: 1em;
+}
+
+#game_top {
+	 width: 100%;	background-color: #e5e5f7; background: #006; position: relative;
+}
+
+#target_number_bg {
+	position: absolute;
+	text-align: center; font-size: 400%; font-weight: bold; width: 100%; user-select: none;
+	background-color: #090814;
+background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090814 10px ), repeating-linear-gradient( #0c162255, #2763ab );
+}
+#target_number, #target_number2 {
+	text-align: center; font-size: 400%; font-weight: bold; width: 100%; user-select: none; position: absolute;
+}
+.mod-double-damage #target_number {
+  right: 100px;
+}
+.mod-double-damage #target_number2 {
+  left: 100px;
+}
+.mod-target-finder #target_number, 
+.mod-target-finder #target_number2 {
+    filter: drop-shadow(2px 4px 6px white) blur(23px);
+}
+.mod-even-number-appreciation  {
+  
+}
+#target_number_opacity_fill {
+	text-align: center; font-size: 400%; font-weight: bold; width: 100%; user-select: none; opacity: 0;
+}
+/*
+.theme_win #target_number {
+	    background-image: repeating-radial-gradient( circle at 0 0, transparent 0, #090814 10px ), repeating-linear-gradient( #0c162255, #9d9c2a );
+    color: #ff0; transition: background-image 1s ease, color 1s ease;
+}
+.theme_red #target_number {
+	    background-image: repeating-radial-gradient( circle at 0 0, transparent 0, #090814 10px ), repeating-linear-gradient( #0c162255, #c00 );
+    color: #f55; transition: background-image 1s ease, color 1s ease;
+}*/
+/*
+.theme_red #target_number {
+	filter: hue-rotate(131deg);
+    color: #0043ff; transition: filter 3s ease, color 3s ease;
+}*/
+.theme_win #target_number,
+.theme_win #target_number2 {
+		/*filter: hue-rotate(-169deg) brightness(2);
+    color: #217aff;*/
+    filter: none; color: #ff0;
+    transition: filter 1s ease, color 1s ease;
+}
+.theme_lose #target_number_bg, .theme_lose #target_number,
+.theme_lose #target_number2 {
+    filter: grayscale(1);
+    transition: filter 1s ease, color 1s ease;
+}
+.theme_hard #target_number_bg, .theme_hard #first_bg {
+	filter: hue-rotate(30deg);
+	transition: filter 1s ease, color 1s ease;
+}
+
+#endgame_archive {display: none;}
+.theme_hard #endgame_archive {display: inline-block;}
+
+.theme_hard #endgame_playhard {display: none;}
+#endgame_playhard {display: inline-block;}
+
+#tips_container {padding: 5px 10px 5px 10px; background: #222; color: #bbb; text-shadow: 1px 1px black;}
+#tips {transition: opacity 1s}
+
+#game_sidebar {position: absolute; width: 10%; flex-direction: column;    justify-content: center;    display: flex; top: 20%; height: 60%;    z-index: 100; transition: opacity 1s ease-in-out; opacity: 1}
+#game_sidebar.hidden {opacity: 0} /* thanks css */
+
+#game #timer_popup {	position: absolute;  font-size: 600%;  width: 100%;  height: 0%;  z-index: 102;  top: 40%; right: 0;  text-align: right;  font-weight: bold;  color: yellow;  user-select: none;  pointer-events: none;	display: block; text-shadow: 2px 2px 2px black; text-align: center; width: auto}
+#game #timer_popup.hidden {
+  display: none;
+}
+#game #timer_popup.anim {
+  animation: timermove 1.2s ease-out 1 both;
+}
+#game #timer_popup.anim2 {
+	height: 0%; top: 0; right: 0; margin-top: 40px; padding-right: 1.5%; font-size: 200%;
+  animation: pump 1s ease-in-out infinite alternate; 
+}
+
+#game #smart_race_puzzles_solved_text {
+		position: absolute;  font-size: 200%;  width: 100%;  height: 0%;  z-index: 102;  
+    top: 0;
+    left: 10px;
+    margin-top: 49px; text-align: left;  font-weight: bold;  color: cyan;  user-select: none;  pointer-events: none;	display: block; text-shadow: 2px 2px 2px black; text-align: center; width: auto;  animation: pump 1s ease-in-out infinite alternate; 
+}
+@keyframes pump {
+  from {transform: scale(1.1)}
+  to {transform: scale(1);}
+}
+#popup_backdrop {
+	width: 100%; height: 100%; background: #000; opacity: 0.2; position: absolute; z-index: 101; transition: 0.1s opacity ease;
+}
+#popup_backdrop.anim {
+  animation: fadeout 1.2s ease-out 1 both
+}
+@keyframes fadeout {
+  from {opacity: 0.8;}
+  to {opacity: 0;}
+}
+
+@keyframes timermove {
+	from {width: auto; height: 100%; top: 40%; right: 30%; font-size: 610%; opacity: 0;}
+	15%  {width: auto; height: 100%; top: 40%; right: 30%; font-size: 610%; opacity: 1;}
+	50%  {width: auto; height: 100%; top: 40%; right: 30%; font-size: 600%;}
+	to   {width: auto; height: 30%; top: 0; right: 0; margin-top: 40px; padding-right: 1.5%; font-size: 200%;}
+}
+
+#game_sidebar button {
+	transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, border 0.2s;
+}
+#game_sidebar:hover button {
+	transition: color 0s, background-color 0s, box-shadow 0s, border 0s;
+}
+
+#second_bg {
+    background: linear-gradient(-45deg, #CF9, #F99, #9FF, #C9F);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    pointer-events: none; width: 100%; height: 100%; opacity: 0.1; position: absolute;
+}
+#third_bg {
+	opacity: 0; transition: opacity 1s ease;
+    pointer-events: none; width: 100%; height: 100%; position: absolute;
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+}
+#fourth_bg {
+    pointer-events: none; width: 100%; height: 100%; position: absolute;
+
+}/*
+.theme_red #first_bg {
+	animation: scrollag 350s linear infinite;
+}*/
+.theme_red #third_bg {
+  background: linear-gradient(-45deg, #f00, #000, #f90606, #fbb);  opacity: 0.2;   transition: opacity 1s ease;
+    background-size: 400% 400%;
+}
+/*
+.theme_win #third_bg {
+  background: linear-gradient(-45deg, #FF0, #FF0, #FF0, #ff0);    opacity: 0.07;  transition: opacity 1s ease;
+}*/
+
+@keyframes gradient {
+    0% {background-position: 0% 50%;}50% {background-position: 100% 50%;}100% {background-position: 0% 50%;}
+} /* https://www.sliderrevolution.com/resources/css-animated-background/ */
+
+#finish_panel {
+	bottom: 0; width: 100%; position: absolute; pointer-events: none; text-align: center; opacity: 0; transition: opacity 0.25s ease;
+}
+.theme_hard #finish_panel {
+  opacity: 1;
+}
+.theme_hard.theme_red #finish_panel {
+	opacity: 0.2;
+}
+#finish_panel:before {
+	width: 100%; height: 100%; position: absolute; pointer-events: none; z-index: 1;
+  content: "";
+}
+#finish_panel * {
+	z-index: 2;opacity: 1;
+}
+#finish_panel button {
+	 position: absolute;
+}
+
+#last_chance {
+	opacity: 0
+}
+.theme_red #last_chance {
+	opacity: 1; transition: opacity 1s ease;
+}
+
+/* https://css-irl.info/animating-underlines/ */
+#last_chance_text {
+overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;width: 100%; animation: cswitch 0.5s ease-in-out infinite alternate;
+}
+@keyframes cswitch {
+	from {color: #f77;}
+	to   {color: #f55;}
+}
+
+#last_chance_text::after {opacity: 1;transform: translate3d(-100%, 0, 0);content: '';position: absolute;bottom: 3px;left: 0;width: 100%;height: 0.1em;background-color: red;transition: opacity 1300ms, transform 1300ms;}
+.theme_red #last_chance_text::after {
+		transform: translate3d(0, 0, 0);
+}
+
+.theme_win #last_chance {
+	opacity: 0; transition: opacity 2s ease;
+}
+
+#div0glitchtext {
+	animation: divglitch 0.4s linear infinite alternate, divblackout 20s linear infinite alternate, divrotate 300s linear infinite alternate; display: inline-block;
+}
+@keyframes divglitch {
+	from {color: #F0F}
+	50% {color: #0FF}
+	to {color: #F0F};
+}
+@keyframes divblackout {
+	from {filter: brightness(1);}	to {filter: brightness(0.5);}
+}
+@keyframes divrotate {
+	from {transform: rotate(0deg);}	to {transform: rotate(180deg);}
+}
+
+#popup_endgame {
+	margin: 0 auto; transform: translate(-50%, -50%); position: absolute; top: 53%; left: 50%; max-width: 500px; max-height: 800px; height: auto; padding-bottom: 13px;
+}
+#endgame_table {
+	    max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+}
+#endgame_table td {
+	font-weight: bold; width: 33%; padding-top: 10px; text-align: center;
+}
+
+#popup_archive_list {
+	padding: 10px; display: flex; flex-direction: column;
+}
+
+.rowmaker {
+	display: flex; position: relative;
+}
+
+.popup_archive_row {
+	font-weight: bold; padding-left: 5px; line-height: 1;
+  background-image: radial-gradient(#333, transparent);
+
+	border: 1px solid #888; transition: background 0.1s ease, color 0.1s ease-out;
+	width: 30%; display: inline-block;
+}
+.even .popup_archive_row {
+  background-image: radial-gradient(transparent, #444);
+}
+.popup_archive_row:nth-child(2n) {
+  /*background-image: radial-gradient(#300, #a00); background-color: #300;*/
+ 
+      background-image: radial-gradient(#0a0033, #6100aa); background-color: #308;
+}
+.even .popup_archive_row:nth-child(2n) {
+  /*background-image: radial-gradient(#200, #700);   background-color: #400;*/background-image: radial-gradient(#0f0022, #5f0077); background-color: #404;
+}
+.popup_archive_row:nth-child(2n) {
+	width: 70%;
+}
+.popup_archive_row_selected {
+	/*filter: sepia(1) hue-rotate(120deg);*/
+	border: 1px solid cyan;
+	color: cyan;
+    box-shadow: cyan -3px 0px 15px inset;
+}
+.popup_archive_row:hover {
+  background-image: radial-gradient(#888, transparent) !important;
+}
+.popup_archive_row:hover:active {
+  background-image: radial-gradient(#0aa, #055) !important;
+	color: #0ff;
+}
+
+.popup_archive_row.failed {
+	background-image: linear-gradient(45deg, transparent, #700);
+}
+.popup_archive_row.succeeded {
+	background-image: linear-gradient(45deg, transparent, #077b87);
+}
+.rowmaker.newceo {
+	animation: newcba 2s ease infinite alternate;
+}
+@keyframes newcba {
+	from {outline: 2px solid #099;}
+	20% {outline: 2px solid #099;}
+	to {outline: 2px solid black;}
+}
+
+
+.popup_archive_text {
+	position: absolute; display: inline-block; top: 25%;
+}
+.popup_archive_text_target {
+	    font-size: 125%;
+    /* color: #9ff; */
+    background: repeating-radial-gradient(#4f6dff61, transparent 3px);
+    border: 1px solid #ffffff38;
+    padding: 0px 3px;
+}
+
+#endgame_replay_notice {
+	font-weight: bold; position: absolute; text-align: center; width: 98%; margin-top: 5%; margin-left: 5px; font-size: 200%; transform: rotate(-4deg); display: none; text-shadow: 2px 2px #090814; z-index: 1;
+}
+
+.theme_replay #endgame_replay_notice {display: block}
+.theme_replay.theme_playing #endgame_replay_notice {display: none}
+
+.theme_replay #endgame_guess_graphs {
+	opacity: 0.2;
+}
+.theme_replay.theme_playing #endgame_guess_graphs {opacity: 1}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8ff; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0ff; 
+}
+</style>
+
+
+
+
+
+
+<body>
+	<div id="game">
+		<div id="first_bg"></div>
+		<div id="popup_main" class="popup" style="height: 60%; transition: 1s opacity; overflow-y: hidden">
+
+			<div id="popup_first" class="popupbg" style="text-align: center; padding: 5px; font-size: 125%; border-bottom: 1px solid gray">
+
+				<span id="popup_target_number_objective" style="line-height: 1">
+					The objective of the game is to <b>reach the target number</b> shown at the top of the screen, using math.<br>
+				</span>
+			</div>
+			<div style="height: 30%"></div>
+			<div style="display: none; opacity: 0.5; text-align: center">(PREVIEW NUMBERS - the real game happens when you click Start!)</div>
+			<div id="popup_second" class="popupbg" style="text-align: center; padding: 5px; font-size: 125%; bottom: 0; position: absolute; width: 100%;
+				border-top: 1px solid gray; border-bottom: 1px solid gray">
+				<div>
+
+					<b>Click</b> a number to select it, then click the operations (
+				<div id="operations" style="line-height: 0.5; user-select: none; font-size: 100%; font-weight: bold; padding-top: 10px; padding-bottom: 10px; display: inline">
+					<div class="operation_info">
+						<div class="plus" style="display: inline-block; font-size: 100%; ">+</div>
+						<span class="operation_info_text plus"></span>
+					</div>
+					<div class="operation_info">
+						<div class="minus" style="display: inline-block; font-size: 100%; ">−</div>
+						<span class="operation_info_text minus"></span>
+					</div>
+					<div class="operation_info">
+						<div class="times" style="display: inline-block; font-size: 100%; ">×</div>
+						<span class="operation_info_text times"></span>
+					</div>
+					<div class="operation_info">
+						<div class="divides" style="display: inline-block; font-size: 100%; ">÷</div>
+						<span class="operation_info_text divides"></span>
+					</div>
+				</div>
+				) to use them.
+				<br>
+				<div style="font-size: 75%">
+				<span id="keyboard_input">Keyboard input is also supported. Try typing "1 + 2 =" to use <div class="plus" style="display: inline-block; font-size: 100%; ">+</div> on 1 and 2.<br></span>
+				</div>
+				</span>
+				</div>
+			</div>
+			<!--
+			<div id="popup_third" class="popupbg" style="position: absolute; bottom: 0; text-align: center; padding: 5px; font-size: 125%; font-weight: bold; width: 100%">
+				<div id="modifiers">
+				</div>
+				<div>
+					<button style="transform: scale(1.5); pointer-events: initial" id="play">Start</button>
+				</div>
+					<button style="pointer-events: initial" id="look_archive">Library</button>
+				<br>
+			</div>
+			-->
+		</div>
+		<div id="popup_help" class="popup popupbg solid hidden" style="width: 90%; left: 5%;">
+			<div style="text-align: center; margin-top: 3px; font-weight: bold; font-size: 150%">How To Play</div>
+			<hr>
+			<div style="text-align: center; margin-top: 3px; font-size: 125%; padding: 5px">
+				The objective of the game is to <b>reach the target number</b> shown at the top of the screen, using math.
+				<br>
+
+				<b>Click</b> a number to select it. Then, operations (
+			<div style="line-height: 0.5; user-select: none; font-size: 100%; font-weight: bold; padding-top: 10px; padding-bottom: 10px; display: inline">
+				<div class="operation_info">
+					<div class="plus" style="display: inline-block; font-size: 100%; ">+</div>
+					<span class="operation_info_text plus"></span>
+				</div>
+				<div class="operation_info">
+					<div class="minus" style="display: inline-block; font-size: 100%; ">−</div>
+					<span class="operation_info_text minus"></span>
+				</div>
+				<div class="operation_info">
+					<div class="times" style="display: inline-block; font-size: 100%; ">×</div>
+					<span class="operation_info_text times"></span>
+				</div>
+				<div class="operation_info">
+					<div class="divides" style="display: inline-block; font-size: 100%; ">÷</div>
+					<span class="operation_info_text divides"></span>
+				</div>
+			</div>
+			) will appear all over the <i>other numbers</i>.<br>Click the operation to use it on the two numbers you selected.
+			<br>
+			<img src="numberdly_example.jpg">
+			For example, here, the number <b style="color: #0ff">5</b> is selected,
+			<br>and the player is clicking the <div class="times" style="display: inline-block; font-size: 100%; font-weight: bold">×</div> on <b>4</b>,
+			<br>to make <b>5 <div class="times" style="display: inline-block; font-size: 100%; font-weight: bold">×</div> 4 = 20</b>.
+			<hr>
+			The game ends after you use 7 operations, or hit the target number.
+			<br>
+			<span style="font-size: 75%">Keyboard input is also supported.</span>
+			<hr>
+			There are two new puzzles every day (Normal and Hard). The next puzzle pair arrives in <span id="help_time_to_next_puzzle" ></span>. Hard has more complicated numbers, and up to two modifiers. These modifiers can change the game rules, add and modify operations, and more.
+			</div>
+
+			<div style="text-align: center; margin-top: 3px; padding: 5px">
+				Game created by <a href="https://www.youtube.com/channel/UC_xZVsCKBk9xT-fpPs5Q6mQ" target="_blank">icely#3999</a>
+			</div>
+		</div>
+		<div id="popup_helphard" class="popup popupbg solid hidden" style="width: 90%; left: 5%;">
+			<div style="text-align: center; margin-top: 3px; font-weight: bold; font-size: 150%">Hard Mode Details</div>
+			<hr>
+			<div style="text-align: center; margin-top: 3px; font-size: 125%; padding: 5px">
+				Every day, there is one new Normal puzzle and one new Hard puzzle. The Hard puzzle has more complicated numbers and up to two modifiers.<br>
+				<br>
+				The first modifier is more impactful than the second:<br>
+
+				Countdown
+				Smart Race
+				Busco Quadnary
+				Double Damage
+				Secondary Modifiers
+				{[CONCAT]}
+				{[MODULO]}
+				{[EXPONENT]}
+
+				<b>Click</b> a number to select it. Then, operations (
+			<div style="line-height: 0.5; user-select: none; font-size: 100%; font-weight: bold; padding-top: 10px; padding-bottom: 10px; display: inline">
+				<div class="operation_info">
+					<div class="plus" style="display: inline-block; font-size: 100%; ">+</div>
+					<span class="operation_info_text plus"></span>
+				</div>
+				<div class="operation_info">
+					<div class="minus" style="display: inline-block; font-size: 100%; ">−</div>
+					<span class="operation_info_text minus"></span>
+				</div>
+				<div class="operation_info">
+					<div class="times" style="display: inline-block; font-size: 100%; ">×</div>
+					<span class="operation_info_text times"></span>
+				</div>
+				<div class="operation_info">
+					<div class="divides" style="display: inline-block; font-size: 100%; ">÷</div>
+					<span class="operation_info_text divides"></span>
+				</div>
+			</div>
+			) will appear all over the <i>other numbers</i>.<br>Click the operation to use it on the two numbers you selected.
+			<br>
+			<img src="numberdly_example.jpg">
+			For example, here, the number <b style="color: #0ff">5</b> is selected,
+			<br>and the player is clicking the <div class="times" style="display: inline-block; font-size: 100%; font-weight: bold">×</div> on <b>4</b>,
+			<br>to make <b>5 <div class="times" style="display: inline-block; font-size: 100%; font-weight: bold">×</div> 4 = 20</b>.
+			<hr>
+			The game ends after you use 7 operations, or hit the target number.
+			<br>
+			<span style="font-size: 75%">Keyboard input is also supported.</span>
+			<hr>
+			There are two new puzzles every day (Normal and Hard). The next puzzle pair arrives in <span id="help_time_to_next_puzzle" ></span>. Hard has more complicated numbers, and up to two modifiers. These modifiers can change the game rules, add and modify operations, and more.
+			</div>
+
+			<div style="text-align: center; margin-top: 3px; padding: 5px">
+				Game created by main_gi
+			</div>
+		</div>
+		<div id="popup_archive" class="popup popupbg solid hidden" style="width: 90%; left: 5%; height: 70%;">
+			<div style="text-align: center; margin-top: 3px; font-weight: bold; font-size: 125%">Numberdly Puzzle Library</div>
+			<div style="text-align: center; margin-top: 3px;">There are two new puzzles every day (Normal and Hard). Hard has more complicated numbers, and up to two modifiers.
+				<br>
+			</div>
+
+			<div id="popup_archive_list"></div>
+
+		</div>
+		<div id="popup_debug" class="popup popupbg solid hidden" style="width: 90%; left: 5%">
+			<div style="text-align: center; margin-top: 3px; font-weight: bold; font-size: 125%">Debug Menu</div>
+			<div style="text-align: center; margin-top: 3px;">Honestly these debug menus always get seen by the public anyway which is annoying because this menu looks awful. If you click something here and 'accidentally' lose all your progress it's your fault.
+				<hr>
+				<div id="popup_debug_storage_size"></div>
+				<button class="dangerous" id="popup_debug_clear_storage">Delete All Data</button>
+			</div>
+
+		</div>
+		<div id="popup_endgame" class="popup popupbg solid hidden" style="">
+			<!--<div style="pointer-events: none; width: 40%; height: 30%; margin: 0 auto;" id="endgame_faketable"></div>-->
+			<div id="endgame_top">
+				<div style="width: 100%;text-align: center;margin-top: 5px;font-size: 120%;font-weight: bold;" id="endgame_summary"></div>
+				<table id="endgame_table"></table>
+				<div style="width: 100%; margin-top: 10px; margin-bottom: 10px; height: 30px;">
+					<div id="endgame_copied" style="opacity: 0; position: absolute; left: 31%; font-weight: bold; transition: 0.125s opacity ease-out">Copied to clipboard!</div>
+					<button id="endgame_share" style="transform: scale(1.5); display: inline-block; margin: 0 auto; left: 15%; position: absolute;">Share</button>
+					<button id="endgame_playhard" class="dangerous" style="transform: scale(1.5); margin: 0 auto; right: 15%; position: absolute;">Play Hard</button>
+					<button id="endgame_archive" style="transform: scale(1.5); margin: 0 auto; right: 12%; position: absolute;">Visit Library</button> 
+				</div>
+				<textarea id="endgame_textarea" style="opacity: 0; position: absolute; pointer-events: none;" aria-label=""> <!-- Yes it can't just be 'display: none' or the copypaste won't work. This is what we have to put up with in this horrible universe. -->
+				</textarea>
+				<hr>
+			</div>
+			<div style="text-align: center; margin-top: 5px">
+				<div style="color: #9ff; margin-left: -80px;"><b><span style="text-decoration: line-through #f00 4px; opacity: 0.1;">Statistics</span> Stats</b></div>
+				<div id="endgame_statistics">
+				</div>
+				<div style="height: 5px"></div>
+				<div style="color: #9ff; margin-left: -145px;"><b><span style="text-decoration: line-through #f00 4px; opacity: 0.1;">Guess Distribution</span> Puzzle History</b></div>
+				<div id="endgame_replay_notice">
+					Replays don't count towards statistics.
+				</div>
+				<div id="endgame_guess_graphs" style="height: 135px">
+				</div>
+				<div style="height: 10px"></div>
+				<div>
+					<div style="width: 35%; float: none">
+						<div style="color: #9ff; width: 100%; text-align: center; float: left"><b>Next Puzzle Pair</b></div>
+						<div id="endgame_time_to_next_puzzle" style="width: 100%; text-align: center; float: left; font-weight: bold; font-size: 200%; line-height: 1"></div>
+					</div>
+					<div id="time_resets_at_utc_note" style="width: 100%; float: none; text-align: center; padding-right: 10px;">
+						The time resets at UTC, the same time for everyone. You can play yesterday's puzzle if you missed it (top right, 🗃️ button).
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div id="popup_backdrop" class="hidden"></div>
+		<div id="timer_popup" class="hidden">
+			
+		</div>
+		<div id="smart_race_puzzles_solved_text">
+			
+		</div>
+		<div id="second_bg"></div>
+		<div id="third_bg"></div>
+		<div id="fourth_bg"></div>
+		<div id="game_sidebar" class="hidden">
+			<div>
+			<button id="undo"><span style="font-size: 286%; transform: translateY(5px); display: inline-block; pointer-events: none">↩</span><br>Undo</button><br>
+			<button id="undoall"><span style="font-size: 300%; transform: translateY(5px); display: inline-block; pointer-events: none">↺</span><br>Reset</button>
+			</div>
+		</div>
+		<div id="game_top">
+			<div id="top_buttons" style="position: absolute; padding: 10px; width: 100%; z-index: 100;">
+					<button id="game_top_help" style="border-radius: 10px"><span style="filter: sepia(1) contrast(15) brightness(4) hue-rotate(150deg)">❓</span></button>
+				<div style="display: inline-block; float: right">
+					<button id="game_top_statistics" style="border-radius: 10px">📊</button>
+					<button id="game_top_archive" style="border-radius: 10px">🗃️</button>
+				</div>
+				<br>
+				<div id="game_top_puzzle_number" style="font-weight: bold; opacity: 0.8"></div>
+			</div>
+			<div id="target_number_bg"><br></div>
+			<div id="target_number"></div>
+			<div id="target_number2"></div>
+			<div id="target_number_opacity_fill">0</div>
+			<div id="tips_container">
+				<div id="tips"></div>
+			</div>
+		</div>
+		<div id="keyboard_input_container" style="margin-top: 175px; position: absolute; width: 100%">
+			<div id="keyboard_input_display" style="margin: 0 auto; border: 2px solid black; background: #6775; font-size: 150%; text-align: center" class="hidden">
+				
+			</div>
+		</div>
+		<div id="number_positions"></div>
+		<div id="finish_panel">
+			<br>
+			<div id="modifier_panel_1" style="width: 49%; float: left">
+				<div style="margin: 10px;">
+					<div id="modifier_panel_1_name" style="color: #8ff; font-size: 125%; font-weight: bold; text-align: center"></div> 
+					<div id="modifier_panel_1_desc" class="rules" style="padding: 6px 9px; width: 100%; background: #0e0e244f; border: 1px solid #142632; border-radius: 10px; ">
+						<br>
+					</div>
+				</div>
+			</div>
+			<div id="modifier_panel_2" style="width: 49%; float: left; margin-left: 2%">
+				<div style="margin: 10px;">
+					<div id="modifier_panel_2_name" style="color: #8ff; font-size: 125%; font-weight: bold; text-align: center"></div> 
+					<div id="modifier_panel_2_desc" class="rules" style="width: 100%; padding: 6px 9px; background: #0e0e244f; border: 1px solid #142632; border-radius: 10px; ">
+						<br>
+					</div>
+				</div>
+			</div>
+			<!--
+			<div style="width: 100%; text-align: center">
+				Finish the puzzle if you haven't seen a way to match the target. You will still score based on your closest number.<br>
+				<button style="display: block; margin: 0 auto; position: relative;"id="finish">Finish</button>
+
+			</div>-->
+		</div>
+		<div id="last_chance">
+			<div id="last_chance_text" style="width: 100%; text-align: center; font-weight: bold; transform: scale(3) translateY(-30px); color: #f77; text-shadow: 1px 1px 1px #500">
+				LAST CHANCE!
+			</div>
+			<div id="last_chance_subtext" style="width: 100%; text-align: center; font-weight: bold; transform: scale(1) translateY(-60px); color: #f77; position: absolute; text-shadow: 1px 1px 1px #800, 2px 2px 2px #500, 3px 3px 3px #400, 4px 4px 20px #300">
+				If you can't hit the target, try to get as close as possible!
+			</div>
+		</div>
+
+	</div>
+</body>
+
+
+
+
+
+
+<script>
+var l = console.log.bind(console);
+var d = console.debug.bind(console);
+
+l.set = (k,v) => window.localStorage.setItem(k,v)
+l.get = (k) => window.localStorage.getItem(k)
+l.del = (k) => window.localStorage.removeItem(k)
+l.exists = (k) => window.localStorage.getItem(k) !== undefined || window.localStorage.getItem(k) !== null
+l.add = (k,v) => l.set(k, numify(l.get(k)) + v)
+
+//l.init = (k,v) => k.map(x => !l.exists(x)? window.localStorage.setItem(x, v) : 0)
+// why doesn't this work. javascript is so TRASH
+l.init = function (k, v) {
+	for (let i = 0; i < k.length; i++) {
+		l.set(k[i], v)
+	}
+}
+
+
+function randint(min, max) {
+  if (max == null) {max = min; min = 0}
+  min = Math.ceil(min); max = Math.floor(max); return Math.floor(Math.random() * (max - min + 1)) + min; // Fully inclusive
+}
+function randarray(array) {return array[randint(array.length-1)]}
+function emptyArray (v) {return !v.length}
+function emptyObject (v) {return !Object.keys(v).length}
+function remove_element (a, value) {let index = a.indexOf(value); if (index > -1) {a.splice(index, 1);} return a}
+function remove_elements (a, values) {for (let i=0; i<values.length; i++) {a = remove_element(a, values[i])}; return a}
+function remove_index (a, index) {if (index > -1) {a.splice(index, 1);} return a}
+function numify (s) {
+  // Changes string to a number.
+  if (s.toString().match(/\./)) {return parseFloat(s)}
+  return parseInt(s, 10)
+}
+
+function $ (x) {return document.querySelector(x)}
+function $$ (x) {return document.querySelectorAll(x)}
+
+
+var game = {
+	keyboard_control: false,
+	smart_race_puzzles_solved: 0,
+	start_date: new Date(1641081600000 - 1000*60*60*24) // The day before Jan 1 2022. 0 is not to be used.
+}
+var settings = {
+	require_confirmation: true, // Confirm keyboard operations with =
+	accepted_time: 200,         // Number of seconds before the game stops marking your time
+	smart_race_win_threshold: 3,
+	global_number_cap: 999999,
+	small_number_cap: 999,
+}
+var playing = false
+var table = []
+var items = []
+var selected = false
+
+function new_item (type, value, x, y) {
+	let a = document.createElement("div"); a.className = "number"; a.innerHTML = value
+
+	// DIGIT DESTROYER NEEDS CUSTOM CODE HERE
+	table[x][y].item = a
+	x_and_y_to_element(x,y).appendChild(a)
+	//a.addEventListener("mouseover", number_hover, x, y)
+	x_and_y_to_element(x,y).addEventListener("mouseenter", number_hover)
+	x_and_y_to_element(x,y).addEventListener("mouseleave", number_unhover)
+	x_and_y_to_element(x,y).addEventListener("mousedown", gridspace_click)
+	//x_and_y_to_element(x,y).addEventListener("click", gridspace_click, x, y)
+	x_and_y_to_element(x,y).className = `item ${type} ${type_to_afterunderscore(type)}`
+
+	// Create its adjacencies.
+	let adjacencies = type_adjacencies(type, x, y)
+	let adjacency_names = type_adjacencynames(type)
+	let adjacency_direction = type_adjacencydirection(type)
+	table[x][y].adjacencies = adjacencies
+	table[x][y].adjacency_names = adjacency_names
+	table[x][y].adjacencies_elements = []
+	for (let i = 0; i < adjacencies.length; i++) {
+		let xx = adjacencies[i][0]
+		let yy = adjacencies[i][1]
+		let square = $(x_and_y_to_id(xx, yy))
+		if (square !== null) {
+			new_operation(adjacency_names[i], adjacency_direction[i], xx, yy, a, x, y)
+		}
+	}
+	update_number_fontsize(a)
+
+	items.push({
+		x: x, y: y, value: value, type: type, // js has a better way to do this i know
+		adjacencies: table[x][y].adjacencies,
+		adjacency_names: table[x][y].adjacency_names,
+		adjacencies_elements: table[x][y].adjacencies_elements,
+		gridspace: a.parentElement,
+		element: a
+	})
+	return a.parentElement
+}
+
+// Type redesign:
+// The type "p-m-t-d-" refers to "plus minus times divides" in their usual spots.
+// p-m-t-d-
+// pmt_c
+function type_adjacencies (type, x, y) {
+	x = numify(x); y = numify(y)
+
+	let array = type.replace(/_.+/, "").split("-")
+	return array.map(a => [optypes[a].standard_direction[0] + x, optypes[a].standard_direction[1] + y])
+
+}
+function type_adjacencynames (type) {
+	return type.replace(/_.+/, "").split("-")
+}
+function type_adjacencydirection (type) {
+	let array = type.replace(/_.+/, "").split("-")
+	return array.map(a => optypes[a].standard_alignment)
+}
+
+function type_to_operations (type) {
+	return type.replace(/_.+/, "").split("-") // lol. idiot, it does the same as type_adjacencynames
+
+}
+
+let optypes = {
+	"plus": {
+		standard_direction: [0, -1],
+		standard_alignment: "align_right"
+	},
+	"minus": {
+		standard_direction: [0, 1],
+		standard_alignment: "align_left"
+	},
+	"times": {
+		standard_direction: [-1, 0],
+		standard_alignment: "align_down"
+	},
+	"divides": {
+		standard_direction: [1, 0],
+		standard_alignment: "align_up"
+	},
+	"concat": {
+		standard_direction: [-1, -1],
+		standard_alignment: "align_downright"
+	},
+	"modulo": {
+		standard_direction: [1, -1],
+		standard_alignment: "align_upright"
+	},
+	"exponent": {
+		standard_direction: [-1, 1],
+		standard_alignment: "align_downleft"
+	},
+	"gcd": {
+		standard_direction: [1, -1],
+		standard_alignment: "align_upright"
+	},
+	"lcm": {
+		standard_direction: [1, -1],
+		standard_alignment: "align_upright"
+	},
+	"halverage": {
+		standard_direction: [1, -1],
+		standard_alignment: "align_upright"
+	},
+}
+function standard_direction_for (operation_name) {
+
+}
+
+function unselect (element) {
+	if (!selected) {return}
+	if (element) {
+	} else {
+		element = selected
+	}
+	element.classList.remove("selected")
+
+	$("#game").classList.remove("selected_global")
+	let selecteds = $$("[class*=' selected'],[class^='selected']")
+	for (let i = 0; i < selecteds.length; i++) {
+		selecteds[i].remove()
+	}
+
+	let x = id_to_x_and_y(element.id)[0]
+	let y = id_to_x_and_y(element.id)[1]
+	for (let i = 0; i < table[x][y].adjacencies_elements.length; i++) {
+		table[x][y].adjacencies_elements[i].element.classList.remove("hidden")
+	}
+
+	selected = false; 
+	remove_ALL_previews()
+}
+
+function get_gridspace_number (number=0) {
+	return items[number].gridspace
+}
+
+function gridspace_to_type (gridspace) {
+	let cn = gridspace.classList[1]
+	let last_type = cn.split(" ")[cn.split(" ").length-1] // last one...
+	let afterunderscore = last_type.split("_")
+	if (afterunderscore.length <= 1) {
+		
+	}
+	throw "notdone"
+}
+function gridspace_to_afterunderscore (gridspace) {
+	let type = gridspace.classList[1]
+	return type_to_afterunderscore(type)
+}
+function type_to_afterunderscore (type) {
+	let afterunderscore = type.split("_")
+	if (afterunderscore.length <= 1) {
+		return ""
+	}
+	return afterunderscore[1] 
+
+}
+
+function gridspace_no_interact (gridspace) {
+	let no_interact = false
+	if (gridspace_to_afterunderscore(gridspace).includes("l") && items.length > 4) {
+		// it's locked/frozen
+		no_interact = true
+	}
+	if (gridspace_to_afterunderscore(gridspace).includes("f")) {
+		// it's frozen
+		no_interact = true
+	}
+	return no_interact
+}
+
+
+function number_hover   () {
+	if (gridspace_no_interact(this)) {return}
+	this.classList.add("hover")}
+function number_unhover () {this.classList.remove("hover")
+}
+function number_mousedown () {this.classList.add("selected");
+}
+function gridspace_click () { // Given a gridspace
+
+	if (!this.classList.contains("item")) {return} // There is no gridspace here, just leave
+	if (gridspace_no_interact(this)) {return}
+
+	if (this.classList.contains("selected")) { // Remove select on self
+		unselect(this)
+	} else {
+		if (selected != false) { // Remove select on any other selected thing
+			unselect()
+		}
+		selected = this
+		this.classList.add("selected")
+
+		if (undo_stack.length == 0 && mod_on("Trime Theory")) {
+			this.querySelector(".number").textContent = this.querySelector(".number").textContent * 3
+
+			// An ENTIRE wall of text to add this to the undo stack. Yay.
+			let result = numify(this.querySelector(".number").textContent)
+			let sx = id_to_x_and_y(this.id)[0]
+			let sy = id_to_x_and_y(this.id)[1]
+			let ox = id_to_x_and_y(this.id)[0]
+			let oy = id_to_x_and_y(this.id)[1]
+			// TRIMETHEORY'S UNDO STACK ADD:
+			undo_stack.push([{
+				action_type: "change",
+				undo_type: "change",
+				from: numify(this.querySelector(".number").textContent)/3,
+				to: this.querySelector(".number").textContent,
+
+				operation: "times",
+				operation_symbol: convert_name_to_symbol("times"),
+
+				selected_val: numify(this.querySelector(".number").textContent)/3, targeted_val: 3, // This here is such a hack. Probably could be done better.
+				format: `${selected_number()} ${convert_name_to_symbol("times")} 3 = ${result}`,
+				format_array: [[sx, sy], "times", [ox, oy]].map(x => emojify(x)),
+
+				x: sx, // You know, I forgot what half the things down here are doing.
+				y: sy,
+				type: seed.default_type,
+				selected_prior: selected,
+				sx: sx, sy: sy
+			}])
+		}
+		
+		// Add selected effect vfx
+		let a = document.createElement("div"); a.classList.add(`selected_loader`);
+		this.appendChild(a)
+
+
+
+		$("#game").classList.add("selected_global")
+		// Disable adjacencies
+		hide_operations_of_disableds()
+		hide_adjacent_operations(this)
+		update_visuals()
+
+	}
+}
+
+function gridspace_to_number (gridspace) {
+	return numify(gridspace.querySelector(".number").textContent)
+}
+function gridspace_to_itemindex (gridspace) {
+	return x_and_y_to_itemindex(id_to_x_and_y(gridspace.id)[0], id_to_x_and_y(gridspace.id)[1])
+}
+function x_and_y_to_itemindex (x, y) {
+for (let i = 0; i < items.length; i++) {
+		if (items[i].x == x && items[i].y == y) {
+			return i
+		}
+	}
+}
+function hide_adjacent_operations (number) {
+		let x = id_to_x_and_y(number.id)[0]
+		let y = id_to_x_and_y(number.id)[1]
+		adjacencies = (table[x][y].adjacencies_elements)
+		for (let i = 0; i < adjacencies.length; i++) {
+			let a = adjacencies[i];
+			a.element.classList.add("hidden")
+		}
+}
+function hide_operations_of_disableds () {
+	for (let i = 0; i < items.length; i++) {
+		if (gridspace_no_interact(items[i].gridspace)) {
+			let adjacencies = (items[i].adjacencies_elements)
+			for (let j = 0; j < adjacencies.length; j++) {
+				let a = adjacencies[j];
+				a.element.classList.add("hidden")
+			}
+		} else {
+			let adjacencies = (items[i].adjacencies_elements)
+			for (let j = 0; j < adjacencies.length; j++) {
+				let a = adjacencies[j];
+				a.element.classList.remove("hidden")
+			}
+		}
+	}
+}
+
+function convert_name_to_symbol (value) {
+	switch (value) {
+		case "plus": return "+"
+		case "minus": return "−"
+		case "times": return "×"
+		case "divides": return "÷"
+		case "concat": return "&"
+		case "modulo": return "%"
+		case "exponent": return "^"
+		case "gcd": return "⍛"
+		case "lcm": return "ð"
+		case "halverage": return "﬩"
+	}
+}
+function convert_symbol_to_name (value) {
+	switch (value) {
+		 case "+": return "plus"
+		 case "−": return "minus"
+		 case "×": return "times"
+		 case "÷": return "divides"
+		 case "&": return "concat"
+		 case "%": return "modulo"
+		 case "^": return "exponent"
+			case "⍛": return "gcd"
+			case "ð": return "lcm"
+		case "﬩": return "halverage"
+	}
+}
+
+
+function x_and_y_to_id (x,y) {
+	return `#x${x}-${y}`
+}
+
+function id_to_x_and_y (id) {
+	let x = numify(id.replace("-", " ").replace("x", "").split(" ")[0])
+	let y = numify(id.replace("-", " ").replace("x", "").split(" ")[1])
+	return [x, y]
+}
+function x_and_y_to_element (x, y) {
+	return $(x_and_y_to_id(x, y))
+}
+
+var dont_reclick_same_operation = false
+function new_operation (value, adjacencydir, x, y, orig, origx, origy) {
+	let a = document.createElement("div"); a.classList.add(`operation`);
+	let b = document.createElement("div"); b.classList.add(`operation-inner`, value, adjacencydir); b.innerHTML = convert_name_to_symbol(value) // The symbol itself
+	a.appendChild(b)
+
+	if (!('operations' in table[x][y])) {
+		table[x][y].operations = []
+	}
+	x_and_y_to_element(x,y).appendChild(a)
+	table[x][y].operations.push({
+		element: a, element_grid: a.parentElement, type: value,
+		x: x, y: y, orig: orig, orig_grid: orig.parentElement, origx: origx, origy: origy
+	})
+	table[origx][origy].adjacencies_elements.push({element: a, element_grid: a.parentElement, x: x, y: y})
+	a.addEventListener("mouseenter", operation_hover_thing)
+	// Basically we need to prevent a single click being (correctly) registered as two.
+	a.addEventListener("mouseleave", function(e) {operation_unhover.bind(a)(); dont_reclick_same_operation = false})
+	a.addEventListener("mousedown", function(e) {operation_click.bind(a)(); dont_reclick_same_operation = true})
+	a.addEventListener("mouseup", function(e) {if (!dont_reclick_same_operation) {operation_click.bind(a)()}})
+	// There's a bug here where mouseleave will retrigger and the thing won't work if you click the "X" visual of the operation then off it (or vice versa)
+	// we'd need to call a.parentElement to fix that, but that causes other annoyances, bleh
+}
+
+function operation_hover_thing () {
+	this.classList.add("hover")
+	if (false) { // Type has "q"
+		for (let i = 0; i < items.length; i++) {
+			// Bind to any adjacent element if it's there...
+			if (items[i].adjacencies_elements.length && !items[i].adjacencies_elements[0].element.className.includes("hidden")) {
+				operation_hover.bind(items[i].adjacencies_elements[0].element)()
+			}
+			
+		}
+	} else {
+		operation_hover.bind(this)()
+	}
+}
+
+function operation_hover   () {
+	// Add specials!
+	if (selected) {
+		// On the cell, add a preview
+		let a = document.createElement("div"); a.classList.add(`preview`, `hover-preview`, `number`); a.innerHTML = selected.textContent
+		update_number_fontsize(a)
+		this.parentElement.appendChild(a)
+
+		// On the origin, add a preview of the result
+		let operation = (this.querySelector(".operation-inner").classList[1])
+
+		let x = id_to_x_and_y(this.parentElement.id)[0]
+		let y = id_to_x_and_y(this.parentElement.id)[1]
+		let ops = table[x][y].operations[0]
+		let orig = ops.orig
+		let orig_grid = ops.orig_grid
+
+		let bottomright_grid = $(x_and_y_to_id(ops.origx+1, ops.origy+1))
+
+		let b = document.createElement("div"); b.classList.add(`preview`, `result-preview`, `number`);
+		let result = operation_results(numify(orig.textContent), numify(selected.textContent), operation, {highlight: true})
+		let finaltext = `${result}`
+		if (mod_on("Trime Theory")) {finaltext = trime_recolor(finaltext)}
+
+		if (result == "DIV0") {finaltext = `<span id="div0glitchtext"></span>`;}
+		else if (match_target(result)) {finaltext = `<span style="color: #ff3">${result}</span>`}
+		finaltext = `(${finaltext})`
+		b.innerHTML = finaltext
+		update_number_fontsize(b)
+
+
+		//if (b.innerHTML == "DECIMAL") {b.innerHTML = `<span style="color: red">DECIMAL</span>`}
+		bottomright_grid.appendChild(b)
+		animate_glitchtext() // Glitchtext needs to come after the DIV0 check line, or it won't be there at first
+	}
+}
+function operation_unhover () {this.classList.remove("hover"); remove_ALL_previews()}
+function animate_glitchtext () {
+	if ($("#div0glitchtext")) {
+		$("#div0glitchtext").textContent = randint(-99, 99).toString()
+		setTimeout(animate_glitchtext, 50)
+	}
+}
+
+function remove_ALL_previews () {
+	let previews = document.querySelectorAll(".preview")
+	for (let i = 0; i < previews.length; i++) {
+		previews[i].remove()
+	}
+}
+
+function gcd(a,b) { // ultimate logicbox callback. https://stackoverflow.com/questions/17445231/js-how-to-find-the-greatest-common-divisor
+    a = Math.abs(a);
+    b = Math.abs(b);
+    if (b > a) {var temp = a; a = b; b = temp;}
+    while (true) {
+        if (b == 0) return a;
+        a %= b;
+        if (a == 0) return b;
+        b %= a;
+    }
+}
+function lcm (a, b) {
+	return (a / gcd(a,b)) * b // more efficient according to wikipedia lul
+}
+
+function match_target (number) {
+	return match_target_actual(number, seed.target)	|| match_target_actual(number, seed.target2)
+}
+function match_both_targets () {
+	let values = items.map(x => x.value)
+	let first_matched = false; let second_matched = false; // what do you mean I'm gonna regret it if I decide to make match-3-numbers
+	for (let i = 0; i < values.length; i++) {
+		if (match_target_actual(values[i], seed.target)) {
+			first_matched = true
+		} else if (match_target_actual(values[i], seed.target2)) {
+			second_matched = true
+		}
+	}
+	return first_matched && second_matched
+}
+
+function match_target_actual (number, target) {
+	if (target == undefined || target == null) {return false}
+	if (target.toString().match(/\*/)) {
+		// find indexof and delete it in the number? ehhhh lazy
+		for (let i = 0; i <= 9; i++) {
+			if (target.toString().replace("*", i) == number.toString()) {
+				return true
+			}
+		}
+		return false
+	}
+	return number == target
+
+}
+
+function mod_on (x) {
+	return seed.modifiers.includes(x)
+}
+
+function operation_results (firstnum, secondnum, operation, misc={}) {
+	firstnum = numify(firstnum); secondnum = numify(secondnum)
+	let rv;
+	switch (operation) {
+		case "plus":   rv = firstnum + secondnum; break; // wrong order, classic
+		case "minus":  rv = Math.abs(-firstnum + secondnum); break
+		case "times":  rv = firstnum * secondnum; break
+		case "divides":
+			let result = secondnum / firstnum;
+			if (secondnum == 0) {
+				rv = "DIV0"; break
+			}
+			if (result % 1 != 0) { // Float?
+				result = firstnum / secondnum;
+				if (secondnum == 0) {
+					rv = 0; break
+				}
+				if (result % 1 != 0) { // Float?
+					rv = "DECIMAL"; break
+				}
+			}
+			return result
+		case "concat": rv = numify(secondnum.toString() + firstnum.toString()); break 
+		case "modulo": rv = firstnum < secondnum? (secondnum % firstnum) : (firstnum % secondnum); break // Don't allow the stupid 3%7 = 3
+		case "exponent": rv = Math.pow(firstnum, secondnum); break
+		case "gcd": rv = gcd(firstnum, secondnum); break
+		case "lcm": rv = lcm(firstnum, secondnum); break
+		case "halverage": rv = Math.floor((firstnum + secondnum)/2); break
+	}
+	/*
+	if (rv.toString().length > 10) {
+		return Infinity
+	}*/
+	let output_string = rv.toString() // if misc.highlight is on
+
+	if (rv != "DECIMAL" && rv != "DIV0") {
+		if (mod_on("Zero Equals One") && !match_target(rv)) {
+			output_string = output_string.replace(/0/g, `<span style="color: cyan">1</span>`)
+			rv = numify(rv.toString().replace(/0/g, "1"))
+		}
+		if (mod_on("Small Cap") && !match_target(rv)) {
+			output_string = rv > settings.small_number_cap? `<span style="color: cyan">${settings.small_number_cap.toString()}</span>`:output_string
+			rv = rv > settings.small_number_cap? settings.small_number_cap:rv
+		}
+	}
+
+	if (!match_target(rv)) {
+		output_string = rv > settings.global_number_cap? `<span style="color: red">${settings.global_number_cap}</span>`:output_string
+		rv = rv > settings.global_number_cap? settings.global_number_cap:rv
+	}
+	let outputresult = []
+	if (mod_on("Dimensional Merge") && !match_target(rv) && !mod_on("Double Damage")) {
+		// anything 1 away becomes correct
+		if (rv.toString().split("").length == seed.target.toString().split("").length) {
+			let splitted = rv.toString().split("")
+			let targetsplitted = seed.target.toString().split("")
+			let result = []
+			for (let i = 0; i < splitted.length; i++) {
+				if (numify(splitted[i]) + 1 == numify(targetsplitted[i]) || numify(splitted[i]) - 1 == numify(targetsplitted[i])) {
+					result.push(targetsplitted[i])
+					outputresult.push(`<span style="color: cyan">${targetsplitted[i]}</span>`)
+				} else {
+					result.push(splitted[i])
+					outputresult.push(splitted[i])
+				}
+			}
+			rv = result.join("")
+			output_string = outputresult.join("")
+			if (rv == seed.target) {
+				output_string = `<span style="color: yellow">${output_string}</span>`
+			}
+		}
+	}
+	if (misc.highlight == true) {
+		return output_string
+	}
+	return rv
+
+}
+
+const JUST_CHANGED_DURATION = 250
+let just_changed_timeout;
+
+function animbump (number) {
+	number.classList.remove(`just_changed`)
+	
+  number.style.animation = 'none';
+  number.offsetHeight; /* trigger reflow */
+  number.style.animation = null; 
+
+	number.classList.add(`just_changed`)
+	clearTimeout(just_changed_timeout)
+	just_changed_timeout = setTimeout(function(){number.classList.remove(`just_changed`)}, JUST_CHANGED_DURATION) // How long does the operation color stay
+}
+
+function emojify (thing, DONT_replace_tens) {
+	if (typeof thing === 'object') { // An array is an object. thanksjs. Anyway it refers to coords
+		let strindex = thing[0].toString() + thing[1].toString()
+		let corindex = table_slot_positions.map(x => x[0].toString() + x[1].toString()).indexOf(strindex)
+		return table_slot_positions_correspond[corindex]
+	}
+	switch (thing) {
+		case "plus": return "🟩" // Green
+		case "minus": return "🟥" // Red
+		case "times": return "🟦" // Blue
+		case "divides": return "🟪" // Purple
+		case "concat": return "🟧" // Orange
+		case "modulo": return "👛" // NOT yellow. It should be pink though I'm sad.
+		case "exponent": return "⬜"// "⏏️"
+		case "halverage": return "🟫" // Brown
+	}
+	thing = thing.toString()
+	if (thing == "10") {return "🔟"}
+	if (!DONT_replace_tens) {thing = thing.replace(/10/g,"🔟")}
+	return thing.replace(/0/g,"0️⃣").replace(/1/g, "1️⃣").replace(/2/g,"2️⃣").replace(/3/g,"3️⃣").replace(/4/g,"4️⃣").replace(/5/g, "5️⃣").replace(/6/g,"6️⃣").replace(/7/g, "7️⃣").replace(/8/g,"8️⃣").replace(/9/g, "9️⃣").replace(/\*/g, "#️⃣") // actual asterisk has format oddness
+
+
+}
+
+var undo_stack = []
+
+function selected_number () {
+	if (!selected) {return ""}
+	return numify(selected.querySelector(".number").textContent)
+}
+function operation_click () {
+	if (!selected) {
+		return
+	}
+	let operation = (this.querySelector(".operation-inner").classList[1])
+	let operation_symbol = convert_name_to_symbol(operation)
+	let opx = id_to_x_and_y(this.parentElement.id)[0]
+	let opy = id_to_x_and_y(this.parentElement.id)[1]
+	// This x and y is purely to find the adjacencies...
+
+	let info = (table[opx][opy].operations[0]) // The "zeroth" one is the one in focus, I guess...
+	let orig = info.orig
+	let targeted_val = numify(orig.textContent)
+	let selected_val = selected_number()
+
+	let result = operation_results(targeted_val, selected_val, operation)
+	if (result == "DECIMAL") {
+		return
+	} else if (result == "DIV0") {
+		divide_by_zero()
+		return
+	} 
+
+	let seleid = id_to_x_and_y(selected.id)
+	let sx = seleid[0]; let sy = seleid[1]
+	let ox= info.origx; let oy = info.origy
+	//l(sx, sy, ox, oy)
+
+	// Put it in queue what just happened!
+	let undo_stack_push = []
+	let select_afterwards = info.orig_grid
+
+	let trigger_last_chance = false
+	let trigger_loss = false
+
+	if (seed.BEHAVIOR_next_open_slot) {
+		let newslot = new_slot_position(); let nsx = newslot[0]; let nsy = newslot[1]
+		let type = seed.default_type
+		select_afterwards = new_item(type, result, ...newslot)
+
+		animbump(selected)
+		animbump(orig)
+		orig = select_afterwards.firstElementChild
+		undo_stack_push.push({
+			action_type: "add",
+			undo_type: "delete",
+			from: null,
+			to: result,
+
+			operation: operation,
+			operation_symbol: convert_name_to_symbol(operation),
+
+			selected_val: selected_val, targeted_val: targeted_val,
+			format: `${selected_val} ${operation_symbol} ${targeted_val} = ${result}`,
+			format_array: [[sx, sy], operation, [ox, oy]].map(x => emojify(x)),
+
+			x: nsx,
+			y: nsy,
+			type: type,
+			move_position_back: true,
+			selected_prior: selected,
+			sx: sx, sy: sy
+		})
+		if (table_slot_pos_num == table_slot_positions.length-1) {
+			trigger_last_chance = true 
+		}
+		if (table_slot_pos_num == 0) {
+			trigger_loss = true // Last slot, goodbye.
+		}
+	} else {
+		change_gridspace_value(info.orig_grid, result)
+		undo_stack_push.push({
+			action_type: "change",
+			undo_type: "change",
+			from: targeted_val,
+			to: result,
+
+			operation: operation,
+			operation_symbol: convert_name_to_symbol(operation),
+			selected_val: selected_val, targeted_val: targeted_val,
+			format: `${selected_val} ${operation_symbol} ${targeted_val} = ${result}`,
+			format_array: [[sx, sy], operation, [ox, oy]].map(x => emojify(x)),
+
+			x: ox,
+			y: oy,
+			type: get_type_from_gridspace(info.orig_grid),
+			selected_prior: selected,
+			sx: sx, sy: sy
+		})
+
+	}
+	update_number_fontsize(orig)
+	orig.classList.add(`just_changed_${operation}`)
+	setTimeout(function(){orig.classList.remove(`just_changed_${operation}`)}, 400) // How long does the operation color stay
+
+	if (seed.BEHAVIOR_delete_selected) {
+		undo_stack_push.push({
+			action_type: "delete",
+			undo_type: "add",
+			from: selected_val,
+			to: null,
+
+			operation: operation,
+			format: `${selected_val} ${operation} ${targeted_val} = ${result}`,
+
+			x: sx,
+			y: sy,
+			type: get_type_from_gridspace(selected),
+			selected_prior: selected,
+			sx: sx, sy: sy
+		})
+		delete_item(selected)
+	}
+
+	// For Countdown mode
+	if (items.length == 2) {
+		trigger_last_chance = true 
+	} else if (items.length == 1) {
+		trigger_loss = true
+	}
+	undo_stack.push(undo_stack_push)
+
+	remove_ALL_previews()
+	update_visuals()
+
+	if (match_target(result)) {
+		if (mod_on("Double Damage") && !match_both_targets()) {
+			win_anim(select_afterwards)
+			update_visuals()
+
+		} else if (!mod_on("Smart Race")) {
+			win(select_afterwards)
+			// Win, but not on Smart Race
+		} else {
+			unselect()
+			game.smart_race_puzzles_solved += 1
+			playing = false
+			win_anim(select_afterwards)
+			update_visuals()
+			$("#game").classList.add("notouch")
+			game.smart_race_undo_stacks.push(undo_stack)
+
+			// We wish to animate the win, but also let players skip it so there is the fantasy of going infinite
+
+			game.smart_race_anim_timeout = setTimeout(smart_race_finish_animating, 2500)
+			game.smart_race_anim_click_cooldown_yet = false
+			game.smart_race_anim_click_cooldown_update = setTimeout(smart_race_anim_click_cooldown, 500)
+			//initialize_new_smart_race_puzzle()
+		}
+
+	} else { // Auto reselect
+		do_select(select_afterwards)
+		if (trigger_loss) {lose(get_closest_gridspace_to_target())}
+		else if (trigger_last_chance) {last_chance_on()}
+
+	}
+}
+function smart_race_finish_animating () {
+	if (game.smart_race_anim_timeout && game.smart_race_anim_click_cooldown_yet) {
+		clear()
+		seed = puznum_to_seed(game.current_puzzle_number) // update targets this way, too
+		play_initialize_grid(puznum_to_seed(game.current_puzzle_number))
+		playing = true
+		game.smart_race_anim_timeout = null
+		$("#game").classList.remove("notouch")
+		update_visuals()
+	}
+}
+function smart_race_anim_click_cooldown () {
+	game.smart_race_anim_click_cooldown_yet = true
+}
+function do_select (select_this) {
+	const boundfunction = gridspace_click.bind(select_this)
+	boundfunction()
+}
+
+function closest (array, value) {
+	if (array.length == 0) {return 0} // lol
+	value = numify(value)
+	return array.reduce((a, b) => {
+    return Math.abs(b - value) < Math.abs(a - value) ? b : a;
+})} /* https://www.gavsblog.com/blog/find-closest-number-in-array-javascript*/
+
+function get_closest_number () {
+	// Use the board numbers AND results from the undo stack! This is due to Countdown deleting numbers from play.
+	let array = items.map(x => x.value).concat(
+		undo_stack.flat().map(x => x.to).filter(x => x))
+	return closest(array, seed.target)
+}
+function get_closest_gridspace_to_target () {
+	let closest_value = closest(items.map(x => x.value), seed.target)
+	let where = items[items.map(x => x.value).indexOf(closest_value)]
+	return x_and_y_to_element(where["x"], where["y"])
+}
+
+function last_chance_on () {
+	$("#game").classList.add("theme_red")
+	$("#last_chance_subtext").textContent = `If you can't hit the target, try to get as close as possible!` // ${get_closest_number()
+	if (mod_on("Smart Race")) {
+		$("#last_chance_subtext").textContent = `Hit the target, or undo if you can't make it!` // ${get_closest_number()
+	}
+}
+function last_chance_off () {
+	$("#game").classList.remove("theme_red")
+}
+
+function win (gridspace) {
+	unselect()
+	playing = false
+	game.endstate = 'win'
+	pause_timer()
+	game.end_time = seconds_between(game.started, new Date()) // Don't wait for the timeout to do this
+	update_visuals()
+	$("#game").classList.add("notouch")
+	$("#game").classList.add("theme_win")
+	win_anim(gridspace)
+
+	setTimeout(endgame_popup, 2500)
+}
+
+function win_anim (gridspace) {
+	if (gridspace) {
+		gridspace.classList.add("winning")
+		// Add selected effect vfx
+		let a = document.createElement("div"); a.classList.add(`win_loader`);
+		gridspace.appendChild(a)
+
+		function nb () {let a = document.createElement("div"); a.classList.add(`win_loader`, `loaderb`); gridspace.appendChild(a)		}
+		function nc () {let a = document.createElement("div"); a.classList.add(`win_loader`, `loaderc`); gridspace.appendChild(a)		}
+		function nd () {let a = document.createElement("div"); a.classList.add(`win_loader`, `loaderd`); gridspace.appendChild(a)		}
+		function ne () {let a = document.createElement("div"); a.classList.add(`win_loader`, `loadere`); gridspace.appendChild(a)		}
+		function nf () {let a = document.createElement("div"); a.classList.add(`win_loader`, `loaderf`); gridspace.appendChild(a)		}
+		let c = -350
+		setTimeout(nb, 750+c)
+		setTimeout(nc, 1000+c)
+		setTimeout(nd, 1250+c)
+		setTimeout(ne, 1450+c)
+		setTimeout(nf, 1620+c)
+	}
+
+}
+
+function lose (gridspace) {
+	unselect()
+	playing = false
+	game.endstate = 'lose'
+	pause_timer()
+	game.end_time = seconds_between(game.started, new Date()) // Don't wait for the timeout to do this
+	update_visuals()
+	$("#game").classList.add("notouch")
+	$("#game").classList.add("theme_lose")
+	last_chance_off()
+
+	let diff = Math.abs(seed.target - get_closest_number())
+
+	if (gridspace && diff < 100) {
+		if (diff < 15) {
+			$("#game").classList.remove("theme_lose")
+			$("#game").classList.add("theme_mostlylose")
+		}
+		gridspace.classList.add("losing")
+		// Add selected effect vfx
+		//let a = document.createElement("div"); a.classList.add(`lose_loader`);
+		//gridspace.appendChild(a)
+	}
+	setTimeout(endgame_popup, 2500)
+}
+
+function divide_by_zero () {
+	game.endstate = 'div0'
+	selected.classList.add("zeroing")
+	unselect()
+	playing = false
+	pause_timer()
+	game.end_time = seconds_between(game.started, new Date()) // Don't wait for the timeout to do this
+	update_visuals()
+	$("#game").classList.add("notouch")
+	$("#game").classList.add("theme_div0")
+	
+	target_number_glitchtext()
+	setTimeout(function(){$("#target_number").textContent = "0"}, 2500)
+	setTimeout(endgame_popup, 5000)
+	// 🏴‍☠️
+}
+function target_number_glitchtext () {
+	if ($("#target_number").textContent == "0") {return}
+	if ($("#target_number").textContent.length > 14) {$("#target_number").textContent = randint(10000000000000, 99999999999999)}
+	$("#target_number").textContent = numify($("#target_number").textContent)*2 + randint(-70, 70)
+	setTimeout(target_number_glitchtext, 20)
+}
+
+function endgame_popup ({stats_popup}={}) {
+	$("#game").classList.remove("notouch")
+	$("#number_positions").classList.add("notouch")
+	$("#popup_backdrop").classList.remove("hidden")
+
+	remove_popup($("#popup_help"))
+	remove_popup($("#popup_archive"))
+	remove_popup($("#popup_debug"))
+
+	if (playing == false) {
+		// awkward hack, because endgame popup can happen even when not endgame
+		stop_timer()
+	}
+	update_time_to_next_puzzle()
+
+	let rv, black_square, spoiler, actually_won, diff, time, timex, top_status, modifiers; // Yay js...
+
+	if (true) {
+		rv = ``
+		black_square = `⬛`
+		spoiler = false
+
+		// closest may not necessarily be the last thing in the undo stack, but we can still use it for detecting wins.
+
+		//
+		if (undo_stack.length > 0) {
+			actually_won = match_target(undo_stack[undo_stack.length-1][0].to) // am I sure this will work, because undostack can have multiple things in its operations? NOPE
+		} else {
+			actually_won = seed.target == get_closest_number()
+		}
+		diff = Math.abs(seed.target - get_closest_number())
+
+
+		if (game.puzzle_history[game.current_puzzle_number]) {
+			function puzzle_history_entry_to_time (entry) {
+				return entry.split("/")[2]
+			}
+			time = puzzle_history_entry_to_time(game.puzzle_history[game.current_puzzle_number])
+		} else {
+			time = game.end_time
+		}
+		timex = time < settings.accepted_time?` (${time}s)`:`` // Don't show the time if it's too high.
+
+		let steps_recorded = get_steps() + (mod_on("Trime Theory")?1:0)
+		if (!playing) {
+			storage_win(game.current_puzzle_number, game.endstate, get_closest_number(), steps_recorded, time)
+		}
+		// Modifier string with emojis to represent each modifier
+		modifiers = seed.modifiers.length > 0?
+		(" " + seed.modifiers.filter(x => x.length > 0).map(x => modifier_name_to_icon(x)).join(""))
+		: ""
+
+		let countdown = seed.modifiers.includes("Countdown")
+
+		let partial = `${actually_won? steps_recorded : "X"}/${seed.max_steps}${timex}`
+		if (seed.modifiers.includes("Smart Race")) {
+			partial = "✓ " + game.smart_race_puzzles_solved
+		}
+
+		
+		top_status = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}${modifiers}\n`
+
+		rv += top_status
+
+		rv += (`🏁${emojify(seed.target, true)}🏁`)
+
+		if (seed.target2) {
+			rv += (`${emojify(seed.target2, true)}🏁`)
+		}
+		rv += ((seed.target.toString().length <= 3? black_square:``) + (seed.board_numbers).map(x => emojify(x)).join(black_square))
+		// 🏁315🏁⬛4⬛5⬛6
+		// 🏁3159🏁4⬛5⬛6 // Black square only if 3 length
+
+
+
+		if (spoiler) {
+			rv += "||"
+		}
+
+		rv += `\n`
+
+		let postfixed_final_move = ``
+
+		if (mod_on("Smart Race")) {
+			for (let i = 0; i < game.smart_race_undo_stacks.length; i++) {
+				let undo_stack = game.smart_race_undo_stacks[i]
+
+				if (game.smart_race_undo_stacks.length < 6) {
+					for (let i = 0; i < undo_stack.length; i++) {
+						rv += (undo_stack[i][0].format_array.join("")) 
+					}
+				} else if (game.smart_race_undo_stacks.length < 16) {
+					for (let i = 0; i < undo_stack.length; i++) {
+						rv += (emojify(undo_stack[i][0].operation)) // if it's SUPER LONG, only operation colors show
+					}
+				} else {
+					rv += emojify(undo_stack.length) // ok fine, just each stack length then hahahaha
+				}
+
+
+				rv += `\n`
+			}
+			
+		} else {
+
+			for (let i = 0; i < undo_stack.length; i++) {
+				if (i == 6) {
+					postfixed_final_move = (undo_stack[i][0].format_array.join(""))
+				} else {
+				  rv += (undo_stack[i][0].format_array.join("")) // Every 3, post the formatted version, except save the "LAST CHANCE" move if possible!
+				}
+
+			  if ((i % 3 == 2 && i != 0)) { // Linebreak every 3
+					rv += `\n`
+			  }
+			}
+		}
+		rv = rv.replace(/\n$/, '')
+		// Put a newline, but first...
+		if (spoiler) {
+			rv += "||"
+		}
+		rv += `\n`
+
+		if (!seed.modifiers.includes("Smart Race")) {
+			if (actually_won) {
+				rv += (`🏁${emojify(seed.target, true)}🏁`)
+				if (seed.target2) {
+					rv += (`${emojify(seed.target2, true)}🏁`)
+				}
+			} else {
+				rv += (`🏳️${emojify(get_closest_number(), true)}🏳️`)
+			}
+		} else {
+			// Smart Race
+			rv += `🏁${emojify(game.smart_race_puzzles_solved)}🏁`
+			
+		}
+
+		// Add saved final move if possible
+		if (postfixed_final_move.length != 0) {
+			if (get_closest_number().toString().length <= 3) {
+				for (let i = 0; i <= 3 - (get_closest_number().toString().length); i++) {
+					rv += black_square // Fill with black squares at the end (we want it to line up with the other blueish squares)
+				}
+			}
+			rv += postfixed_final_move
+		}
+
+		// Move the board here?
+		//$("#endgame_faketable").appendChild($("#number_positions table"));
+
+		$("#endgame_textarea").value = rv
+		let endgame_table = $("#endgame_table");
+		endgame_table.innerHTML = ``
+		let tds_this_row = 0;
+
+		let fontsize = seed.modifiers.includes("Countdown")? "font-size: 100%": ""; // The top numbers in Countdown would take up so much space to add. Let's... not.
+
+		for (let i = 0; i < seed.board_numbers.length; i++) {
+			let c = seed.board_numbers[i]
+			let cur = ``
+			cur = `<div class="digits-2" style="line-height: 1; margin-bottom: 3px; ${fontsize}">${c}</div>`
+
+			// Create a new row if 3 td's this row, otherwise just make a td on current tr
+			let td = document.createElement("td"); let tr
+			if (tds_this_row == 0) {
+				tr = document.createElement("tr")
+				endgame_table.appendChild(tr)
+			} else {
+				tr = $$("#endgame_table tr")[$$("#endgame_table tr").length-1]
+			}
+			tds_this_row += 1
+			if (tds_this_row >= 3) {tds_this_row = 0}
+			td.innerHTML = cur
+			tr.appendChild(td)
+		}
+		for (let i = 0; i < undo_stack.length; i++) {
+			let c = undo_stack[i][0]
+
+			let sel = c.selected_val; let tar = c.targeted_val // elund
+			// Memory-hole the selected and targeted vals btw (so 2 - 6 = 4, displays as 6 - 2 = 4):
+			if ((c.operation == 'minus' || c.operation == 'divides') && c.selected_val < c.targeted_val) {
+				sel = c.targeted_val; tar = c.selected_val
+			}
+
+			let color_style = actually_won && match_target(c.to) ? `color: #ff0; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #ff0` : (c.to == get_closest_number() && diff < 100? "" : "")
+
+			let cur = ``
+			cur = `<div style="line-height: 1; ${color_style}" class="digits-${c.to.toString().length}">${c.to}</div>
+			<span style="opacity: 0.8">
+			${sel} <span class="${c.operation}">${convert_name_to_symbol(c.operation)}</span> ${tar}</span>`
+
+			// Create a new row if 3 td's this row, otherwise just make a td on current tr
+			let td = document.createElement("td"); let tr
+			if (tds_this_row == 0) {
+				tr = document.createElement("tr")
+				endgame_table.appendChild(tr)
+			} else {
+				tr = $$("#endgame_table tr")[$$("#endgame_table tr").length-1]
+			}
+			tds_this_row += 1
+			if (tds_this_row >= 3) {tds_this_row = 0}
+
+			td.innerHTML = cur
+		/*
+			if ((sel > 10000000 || tar > 10000000) || (!actually_won && (sel > 100000 || tar > 100000)) ) {
+				td.innerHTML = `<span style="font-size: 180%">-_-</span>`
+			}*/
+			tr.appendChild(td)
+		}
+		if (undo_stack.length == 0 && !mod_on("Smart Race")) {
+			tr = document.createElement("tr")
+			endgame_table.appendChild(tr)
+			tr.textContent = "🤔"
+		}
+		let last_row_children = $$("#endgame_table tr")[$$("#endgame_table tr").length-1].childElementCount
+		if (last_row_children == 1) {
+			let td = document.createElement("td");
+			$$("#endgame_table tr")[$$("#endgame_table tr").length-1].prepend(td) // empty
+		}
+
+		$("#endgame_summary").innerHTML = top_status// + undo_stack.map(x => x[0].format).join("<br>")
+
+	}
+	storage_update_streaks()
+	$("#endgame_statistics").innerHTML = `
+	<div style="font-weight: bold">
+		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">${l.get("total_played")}</span><br>Played</div>
+		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">
+		${l.get("total_played") > 0? Math.ceil(l.get("total_won") / l.get("total_played") * 100) : 0}%</span><br>Winrate</div>
+		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">${l.get("current_streak")}</span><br>Streak</div>
+		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">${l.get("highest_streak")}</span><br>Longest Streak</div>
+	</div>
+	`
+
+	// ALL THIS STUFF IS FOR THE STAT DISTRIBUTION GRAPHICS
+	function gwidth (n) {
+		// Get the width of the bar. This has to be compared to the highest stats_solved_in_X.
+		let highest = 0;
+		for (let i = 1; i < 8; i++) {
+			highest = numify(l.get(`stats_solved_in_${i}`)) > highest? l.get(`stats_solved_in_${i}`): highest
+		}
+		if (highest == 0) {return 5} // whatever
+
+		return 5 + (numify(l.get(`stats_solved_in_${n}`)) / highest * 65) // 5 base width, 65 variable width
+	}
+	function gtext (n) {
+		return l.get(`stats_solved_in_${n}`)
+	}
+	function gline (n) {
+		return `<div style="font-weight: bold; margin-bottom: 3px;  text-align: left; padding-left: 19px;"><span style="width: 12px; display: inline-block;">${n}</span> <div style="display: inline-block;
+		background: #${get_steps() == n && actually_won? "4aa" : "444"}; height: 12px; width: ${gwidth(n)}%"></div><span style="border-radius: 5px; padding: 0.01px 5px; background: #${get_steps() == n && actually_won? "4aa" : "444"}; font-size: 115%; margin-right: ${70-gwidth(n)}%">${gtext(n)}</span></div>`
+	}
+
+	let rvx = ``
+
+	if (0) {
+		// Unsplit version (shows them all in one column, instead of 2 columns)
+		for (let i = 1; i <= 8; i++) {
+			rvx += gline(i)
+		}
+		
+	} else {
+		// Split
+		rvx += `<div style="width: 50%; float: left">`
+
+		for (let i = 1; i <= 4; i++) {
+			rvx += gline(i)
+		}
+		rvx += `</div><div style="width: 1px;height: 130px;background: #626262;float: left;"></div><div style="width: 49%; float: right">`
+		for (let i = 5; i <= 8; i++) {
+			rvx += gline(i)
+		}
+		rvx += `</div>`
+	}
+	$("#endgame_guess_graphs").innerHTML = rvx
+
+
+
+	add_popup($("#popup_endgame"))
+}
+
+$("#endgame_share").addEventListener("click", share_clipboard)
+function share_clipboard () {
+  $("#endgame_textarea").select(); document.execCommand('copy');
+  $("#endgame_copied").style.opacity = 1
+  setTimeout(function() {$("#endgame_copied").style.opacity = 0}, 2000)
+}
+$("#endgame_playhard").addEventListener("click", play_hard)
+function play_hard () {
+	let puz = game.current_puzzle_number + 1
+	play(puz)
+	click_off_backdrop()
+}
+
+function displayed_puzzle_number_to_true_puzzle_number (i) {
+	return i * 10 // Beautiful.
+}
+
+
+function click_off_backdrop () {
+	play_animations_part()
+	temporary_notouch()
+	remove_popup($("#popup_help"))
+	remove_popup($("#popup_archive"))
+	remove_popup($("#popup_endgame"))
+	remove_popup($("#popup_debug"))
+	$("#popup_backdrop").classList.add("hidden")
+	if (playing) {
+		$("#number_positions").classList.remove("notouch")
+	}
+	//$$("id=[^popup]")
+}
+$("#popup_backdrop").addEventListener("click", click_off_backdrop)
+
+function tpn_to_object (tpn) {
+	let entry = game.puzzle_history[tpn]
+	if (entry == undefined || entry == null || entry.length == 0) {return}
+	let x = entry.split("/")
+	let rv = {}
+	if (x[0] == "W") {
+		rv.result = "win"
+	} else if (x[0] == "L") {
+		rv.result = "lose"
+	} else if (x[0] == "D") {
+		rv.result = "div0"
+	}
+	if (x.length == 2) {
+		rv.smart_race_puzzles_solved = x[1]
+		return rv
+	}
+	rv.steps = x[1]
+	rv.seconds = x[2]
+	if (rv.result == "lose") {
+		rv.closest = x[3]
+	}
+	// add more for Double Damage Smart Race etc, by looking up the seed from tpn
+	return rv
+}
+
+function unfancy (string) {
+	return `<span style="filter: grayscale(1);">${string}</span>` // This removes the coloration. To use on emoji.
+}
+
+function archive_popup () {
+	click_off_backdrop()
+	// Bring up and populate the Library.
+	add_popup($("#popup_archive"))
+	temporary_notouch()
+	$("#popup_backdrop").classList.remove("hidden")
+	// why does this play the anim???
+	repopulate_archive()
+}
+function repopulate_archive () {
+
+
+	let rv = ``
+	let dpn = puzzle_number_to_displayed_puzzle_number(todays_puzzle_number())
+	function displayed_puzzle_number_to_archive_row (dpn, hard=0) {
+		let tpn = displayed_puzzle_number_to_true_puzzle_number(dpn)
+		if (hard) {tpn += 1}
+		let sd = puznum_to_seed(tpn, 1) // Hard = +1. // The 1 at the end is to ignore Smart Race
+
+		let h = `${hard? "h":''}`
+		//let hardmods = `${hard? ", " + sd.modifiers.filter(x => x.length > 0).join(", "):''}`
+
+		let hardmod_dot = ``//hard? `<span style="margin: 0 4px"> •</span>` : ""
+		let modmissing = hard && sd.modifiers[5].length > 0? ``:`padding: 15px 0px;`
+		let modmissing2 = hard && sd.modifiers[5].length > 0? ``:`display: none;`
+		let hardmods = `${hard? " " +
+		`<div style="display: inline-block; padding-top: 4px; padding-bottom: 4px; float: right; text-align: right; padding-right: 4px;">
+		<div style="height: 50%; display: inline-block; line-height: 0.5; ${modmissing}">${get_first_modifier_name_format(sd, "mini")}</div>
+		<div style="height: 2px; ${modmissing2}"></div>
+		<div style="height: 50%; display: inline-block; line-height: 0.5; ${modmissing2}">${get_second_modifier_name_format(sd, "mini")}</div></div>` :''}`
+
+		let entry = tpn_to_object(tpn)
+
+		// In countdown, clock is not important but it's also kinda important, lol
+		// In smart race, ignore the clock. Put the wins in a line.
+
+		let solved_graphic = is_puzzle_history_entry_completed(game.puzzle_history[tpn])?
+		`<div style="display: inline-block; padding-left: 10px; padding-top: 4px; padding-bottom: 4px; padding-right: 2px; float: right; text-align: right; color:
+		${entry.result == "win"? 'cyan; background: linear-gradient(90deg, transparent, #048e95);':'#f88; background: linear-gradient(90deg, transparent, #8e0404);'}">
+		<div style="height: 50%; display: inline-block; line-height: 0.5;">${entry.result == "win"? `${entry.steps}/${sd.max_steps}${unfancy('🥾')}` :
+		(entry.result == "lose"? "" + entry.closest + "❌": "X")}</div>
+		<div style="height: 2px;"></div>
+		<div style="height: 50%; display: inline-block; line-height: 0.5;">${entry.seconds}${unfancy('⏱')}</div>
+		</div>` : ``
+		if (sd.modifiers.includes("Smart Race") && is_puzzle_history_entry_completed(game.puzzle_history[tpn])) {
+			solved_graphic = `<div style="display: inline-block; padding-left: 10px; padding-top: 4px; margin-top: 10px; padding-bottom: 4px; padding-right: 2px; float: right; text-align: right; color: ${entry.smart_race_puzzles_solved >= settings.smart_race_win_threshold? 'cyan; background: linear-gradient(90deg, transparent, #048e95);':'#f88; background: linear-gradient(90deg, transparent, #8e0404);'}"><div style="height: 100%; display: inline-block; line-height: 0.5;">${entry.smart_race_puzzles_solved} ${entry.smart_race_puzzles_solved >= settings.smart_race_win_threshold? `<span style="filter: sepia(1) contrast(4) hue-rotate(150deg)">✔️</span>`:`❌`}</div></div>`
+		}
+
+		let recolor_function = function (x) {return x}
+		if (sd.modifiers.includes("Trime Theory")) {
+			recolor_function = trime_recolor
+		}
+
+		return `<div class="popup_archive_row ${game.current_puzzle_number == tpn? " popup_archive_row_selected":""}" id="popup_archive_row_${dpn}${h}"">
+
+		<div class="popup_archive_text">
+			Puzzle #${dpn}${h.replace("h", "*")}: <span class="popup_archive_text_target">${smallasteriskify_string(recolor_function(sd.target.toString()))}</span> ${recolor_function(sd.board_numbers.join(" "))}${hardmod_dot}
+		</div>
+
+		${solved_graphic}${hardmods}</div>`
+	}
+	//for (let i = 1; i < dpn + 2; i++) {
+	rv += `<b style="text-align: center">Today's Puzzle Pair:</b>`
+	for (let i = dpn; i > 0; i--) {
+		rv += `<div class="rowmaker${i%2==0?" even":''} ${i>=dpn? 'newceo':''}">${displayed_puzzle_number_to_archive_row(i)}${displayed_puzzle_number_to_archive_row(i, 1)}</div>`
+		if (i == dpn) {
+			rv += `<br>`
+		}
+	}
+	$("#popup_archive_list").innerHTML = rv
+
+	for (let i = 1; i <= dpn; i++) { 
+		$(`#popup_archive_row_${i}`).addEventListener('click', (x) => click_archive_row((i*10), x))
+		$(`#popup_archive_row_${i}h`).addEventListener('click', (x) => click_archive_row((1 + i*10), x))
+	}
+}
+function egp () {
+	if ($("#popup_endgame").className.includes("hidden")) {
+		endgame_popup({stats_popup: true})
+	} else {
+		remove_popup($("#popup_endgame"))
+	}
+}
+$("#game_top_statistics").addEventListener('click', egp) // don't think this helper func is actually needed...
+$("#game_top_archive").addEventListener('click', archive_popup)
+$("#endgame_archive").addEventListener('click', archive_popup)
+
+$("#game_top_help").addEventListener('click', archive_help)
+
+function archive_help () {
+	add_popup($("#popup_help"))
+	$("#popup_backdrop").classList.remove("hidden")
+	update_time_to_next_puzzle()
+}
+
+function click_archive_row (puzzle_number, event) {
+	play(puzzle_number)
+	repopulate_archive() // eww repopulating archive just to change the selected, exdee
+}
+
+function change_gridspace_value (gridspace, value) {
+	gridspace.querySelector(".number").innerHTML = value
+	update_number_fontsize(gridspace.querySelector(".number"))
+	items[gridspace_to_itemindex(gridspace)].value = value
+}
+function get_type_from_gridspace (gridspace) {return gridspace.classList[1]}
+function delete_item (gridspace) {
+	// Clear adjacencies
+	let type = get_type_from_gridspace(gridspace)
+	let x = id_to_x_and_y(gridspace.id)[0]
+	let y = id_to_x_and_y(gridspace.id)[1]
+	let adjacencies = type_adjacencies(type, x, y)
+	for (let i = 0; i < adjacencies.length; i++) {
+		let xx = adjacencies[i][0]
+		let yy = adjacencies[i][1]
+		let id = x_and_y_to_id(xx,yy)
+		if ($(id)) {
+			let table_id = table[xx][yy]
+			let target_to_remove = 0
+			for (let ii = 0; ii < table_id.operations; ii++) {
+				// The origin must match our "x" and "y":
+				let ops = table_id.operations[ii]
+				if (ops.origx == x && ops.origy == y) {
+					target_to_remove = ii; break
+				}
+			}
+			table_id.operations[target_to_remove].element_grid.innerHTML = ``
+			table_id.operations[target_to_remove].element_grid.outerHTML = table_id.operations[target_to_remove].element_grid.outerHTML
+			table_id.operations.splice(target_to_remove, 1); // Remove the operation.
+
+
+		}
+	}
+	if (gridspace.classList.contains("selected")) {
+		unselect()
+	}
+	table[x][y] = {}
+
+	// Locate the correct x and y in items
+	items = remove_element(items, items[x_and_y_to_itemindex(x, y)])
+
+	//gridspace.classList.remove("selected")
+	gridspace.className = ``
+	gridspace.innerHTML = ``
+	gridspace.outerHTML = gridspace.outerHTML // Thanks JS, you don't have an inbuilt way to delete all event listeners
+}
+
+function update_number_fontsize (number) {
+	// remove any previous digits class
+	number.className = number.className.replace(/digits-\d+/, "")
+	let length = (number.textContent.toString()).length
+	if (length > 7) {length = 7}
+	number.classList.add(`digits-${length}`)
+}
+
+let factorization_number;
+
+function trime_recolor_individual (x) {
+	switch (x.toString()) {
+		case "0": return `<span style="color: #D9D9D9">0</span>`
+		case "1": return `<span style="color: #C5BAFF">1</span>`
+		case "2": return `<span style="color: #FDFFA9">2</span>`
+		case "3": return `<span style="color: #ADDFF8">3</span>`
+		case "4": return `<span style="color: #FCCD91">4</span>`
+		case "5": return `<span style="color: #7471ff">5</span>`
+		case "6": return `<span style="color: #F48989">6</span>`
+		case "7": return `<span style="color: #77FFF3">7</span>`
+		case "8": return `<span style="color: #E97AC4">8</span>`
+		case "9": return `<span style="color: #82E1A8">9</span>`
+		default: return x
+	}
+	//x.replace(/0/g, `<span style="color: #D9D9D9">0</span>`).replace(/1/g, `<span style="color: #C5BAFF">1</span>`).replace(/2/g, `<span style="color: #FDFFA9">2</span>`).replace(/3/g, `<span style="color: #ADDFF8">3</span>`).replace(/4/g, `<span style="color: #FCCD91">4</span>`).replace(/5/g, `<span style="color: #9E9CF8">5</span>`).replace(/6/g, `<span style="color: #F48989">6</span>`).replace(/7/g, `<span style="color: #77FFF3">7</span>`).replace(/8/g, `<span style="color: #E97AC4">8</span>`).replace(/9/g, `<span style="color: #82E1A8">9</span>`)
+}
+
+function trime_recolor (x) {
+	return x.split('').map(x => trime_recolor_individual(x)).join("")
+}
+
+function update_visuals () {
+	$("#undo").className = get_steps() != 0? "" : "disabled"
+	$("#undoall").className = get_steps() != 0 ? "" : "disabled"
+
+	$("#endgame_top").style.display = playing? "none":"initial"
+	$("#game_top_puzzle_number").textContent = `Puzzle #` + puzzle_number_to_displayed_puzzle_number_with_asterisk(game.current_puzzle_number)
+	if (playing) {
+		$("#game_sidebar").classList.remove("hidden")
+		$("#game").classList.add("theme_playing")
+	} else {
+		$("#game_sidebar").classList.add("hidden")
+		$("#game").classList.remove("theme_playing")
+	}
+
+	if (game.replay) {
+		$("#game").classList.add("theme_replay")
+	} else {
+		$("#game").classList.remove("theme_replay")
+	}
+
+	let mods = seed.modifiers.filter(x => x.length > 0)
+	for (let i = 0; i < mods.length; i++) {
+		$("#game").classList.add("mod-" + mods[i].toLowerCase().replace(/ /g, "-").replace(/[\?\,]/g, ""))
+	}
+
+	if (mod_on("Smart Race")) {
+		$("#smart_race_puzzles_solved_text").textContent = "✓ "+game.smart_race_puzzles_solved
+	} else {
+		$("#smart_race_puzzles_solved_text").textContent = ""
+	}
+
+	if (mod_on("Target Finder")) {
+		for (let i = 0; i < $$(".number").length; i++) {
+			let number = ($$(".number")[i])
+			if (number.textContent < seed.target) {
+				number.innerHTML = `<span style="color: #99f">` + number.textContent + `</span>`
+			} else if (number.textContent > seed.target) {
+				number.innerHTML = `<span style="color: #f99">` + number.textContent + `</span>`
+			}
+		}
+	}
+
+	if (game.keyboard_control && $("#keyboard_input_display").textContent.length != 0) {
+		$("#keyboard_input_display").classList.remove("hidden")
+	} else {
+		$("#keyboard_input_display").classList.add("hidden")
+	}
+	if (game.hard_mode) {
+		$("#game").classList.add("theme_hard")
+		$("#modifier_panel_1_name").innerHTML = get_first_modifier_name_format()
+		$("#modifier_panel_2_name").innerHTML = get_second_modifier_name_format()
+		$("#modifier_panel_1_desc").innerHTML = get_first_modifier_desc_format()
+		$("#modifier_panel_2_desc").innerHTML = get_second_modifier_desc_format()
+		if (seed.modifiers[5].length == 0) {
+			$("#modifier_panel_2").style.display = "none"
+		} else {
+			$("#modifier_panel_2").style.display = "initial"
+		}
+	} else {
+		$("#game").classList.remove("theme_hard")
+
+		if ($("#keyboard_input")) {
+			let f = items[0].value
+			let s = items[1].value
+			let r = f == s? `on both ${f}'s` : `on ${f} and ${s}`
+			$("#keyboard_input").innerHTML = `Keyboard input is also supported. Try typing "${f} + ${s} =" to use <div class="plus" style="display: inline-block; font-size: 100%; font-weight: bold">+</div> ${r}.`
+		}
+	}
+
+	if (mod_on("Trime Theory")) {
+		let numbers = $$(".number")
+		for (let i = 0; i < numbers.length; i++) {
+			let number = numbers[i]
+			number.innerHTML = trime_recolor(number.textContent) // Split and join to prevent the replacements from replacing what's inside the spans.
+		}
+	}
+
+	if (mod_on("Modulovision")) {
+
+	}
+
+
+	if (items.length > 0) {
+		$("#popup_main").style.opacity = 1
+		$("#tips").style.opacity = 0
+	}
+	if (items.length > 3) {
+		$("#popup_main").style.opacity = 0.7
+	}
+	if (items.length > 4) {
+		$("#popup_main").style.opacity = 0.4
+	}
+	if (game.hard_mode || items.length > 5 || !playing || Object.keys(game.puzzle_history).length > 4) {
+		$("#popup_main").style.opacity = 0
+		$("#tips").style.opacity = 1
+	}
+
+	let target = factorization_number
+	let factors = prime_factors(target)
+	let bontext = `equal to <span style="font-weight: bold">${factors.join(" × ")}</span>`
+	if (factors.length == 1) {bontext = ` <span style="font-weight: bold">prime</span><span id="scroll_notice">. You can scroll up and down on this message to change the tip</span>`}
+	let text = `<b>Tip:</b> The number <span style="font-weight: bold">${target}</span> is ${bontext}.`
+	//if (factors.length != 1) {text += ` ${randarray(useless_tips)}`}
+
+/*
+	// Try to divide selected number??
+	if (selected) {
+		let selected_number = numify(selected.querySelector(".number").textContent)
+		if (selected_number > 2) {
+			// Get the closest multiplier to the target number
+			// But if the number is halfway to the target already (for example, 600 vs 1000) switch to showing 400, the subtraction to it
+			// Same for the best divisor to the target (if the selection is above)
+
+			if (selected_number < seed.target / 2) {
+				
+				let modulator = ``
+				if (target / selected_number != Math.floor(target / selected_number)) {
+					modulator = ` - <b>${target % selected_number}</b>`
+				}
+
+				text += ` <b>${selected_number} × <b>${Math.floor(target / selected_number)}</b> = <b>${target}${modulator}</b>`
+			} else if (selected_number > seed.target * 2) {
+
+
+//			let modulator = ``
+//			if (selected_number / target != Math.floor(selected_number / target)) {
+//				modulator = selected_number - (selected_number % target)
+//				text += ` <b>(${selected_number} - ${(selected_number % target)})</b> ÷ <b>${Math.floor(selected_number / target)}</b> = <b>${target}${modulator}</b>`
+//			} else {
+//				text += ` <b>${selected_number} ÷ <b>${Math.floor(selected_number / target)}</b> = <b>${target}${modulator}</b>`
+//			}
+
+// Actually this code doesn't work. It's too complicated why even bother showing if 35234 / 541 = 64 or some magic
+			} else if (selected_number < seed.target) {
+				text += ` <b>${selected_number}</b> + <b>${(target - selected_number)}</b> = <b>${target}</b>.`
+			} else {
+				text += ` <b>${selected_number}</b> - <b>${(selected_number - target)}</b> = <b>${target}</b>.`
+			}
+
+		}
+	}
+	*/
+	$("#tips").innerHTML = text
+	
+
+	// Disable improper divisions
+
+	let grayed = $$(".grayed")
+	for (let i = 0; i < grayed.length; i++) {
+		grayed[i].classList.remove("grayed")
+	}
+	if (selected) {
+		let divisions = $$(".operation-inner.divides:not(hidden)")
+		for (let i = 0; i < divisions.length; i++) {
+			let gridspace = divisions[i].parentElement.parentElement
+			if (gridspace.id) {
+				let x = id_to_x_and_y(gridspace.id)[0]
+				let y = id_to_x_and_y(gridspace.id)[1]
+				let origx = table[x][y].operations[0].origx
+				let origy = table[x][y].operations[0].origy
+				// Compare the number here...
+				let n1 = (gridspace_to_number(x_and_y_to_element(origx, origy)))
+				let n2 = (gridspace_to_number(selected))
+
+				if (operation_results(n1, n2, "divides") == "DECIMAL") {
+					divisions[i].classList.add("grayed")
+				}
+			}
+		}
+
+	} else {
+	}
+
+}
+
+function prime_factors(n) { // https://stackoverflow.com/questions/39899072/how-can-i-find-the-prime-factors-of-an-integer-in-javascript
+  const factors = [];
+  let divisor = 2;
+  while (n >= 2) {
+    if (n % divisor == 0) {
+      factors.push(divisor);
+      n = n / divisor;
+    } else {
+      divisor++;
+    }
+  }
+  return factors;
+}
+
+var TEST_bother_looking_through_all_solves
+
+var global_abuse_solve_best_diff = 10000
+var global_abuse_solve_best = 10000
+var global_abuse_solves = []
+var global_abuse_cycles = 0
+function solve (target, numbers, length_cap=6, cycle_cap=1000000) {
+	global_abuse_solve_best_diff = 10000
+	global_abuse_solve_best = 10000
+	global_abuse_solves = []
+	global_abuse_cycles = 0
+
+	if (!target) {target = seed.target}
+	if (!numbers) {numbers = seed.board_numbers}
+
+	// Loops required check. 
+	let inc = (seed.BEHAVIOR_next_open_slot == true && seed.BEHAVIOR_delete_selected)? 1:0
+	// Actually probably uh let's not do that? too lazy
+	return s(target, numbers, length_cap, cycle_cap)
+}
+function s (target, numbers, length_cap=9, cycle_cap, steps=[]) {
+	global_abuse_cycles += 1
+	if (global_abuse_cycles > cycle_cap) {
+		return false
+	}
+	for (let i = 0; i < numbers.length-1; i++) { // Can't be the final number
+		for (let j = i+1; j < numbers.length; j++) {
+			if (i == j) {continue} // Pick two numbers. Obviously they can't be the same index.
+
+
+			// Do every equation on them.
+			let ops = type_to_operations(seed.default_type) //["plus", "minus", "times", "divides"]
+			if (numbers[j] == 1 || numbers[i] == 1) {ops = ["plus", "minus"]}
+			if (numbers[j] == 0 || numbers[i] == 0) {continue}
+
+			for (let k = 0; k < ops.length; k++) {
+				let op = ops[k]
+				let op_result = operation_results(numbers[i], numbers[j], op)
+				if (op_result == "DECIMAL" || op_result == "DIV0" || op_result == 0) {
+					continue
+				}
+				if (numbers.includes(op_result)) { // Then it was pointless to do this.
+					continue
+				}
+				if (steps.length > length_cap) {
+					return false
+				}
+
+				// TODO: Breaks in WILDCARD DIMENSION
+				if (op_result == target) {
+					steps.push([numbers[i], numbers[j], op])
+					global_abuse_solves.push(steps)
+					return steps
+				}
+				if (Math.abs(target - op_result) < global_abuse_solve_best_diff) {
+					global_abuse_solve_best_diff = Math.abs(target - op_result)
+					global_abuse_solve_best = op_result
+				}
+				if (numbers.length == 2) {
+					continue
+				}
+
+				function fix (array, i, j, k) { // The way to replace the array after a result. Operation 5+3, do [5, 3, 2, 10] -> [8, 2, 10].
+					let copy = [k]
+					for (let a = 0; a < array.length; a++) {
+						if (a == i || a == j) {continue}
+						copy.push(array[a])
+					}
+					return copy
+				}
+				let result; 
+				if (seed.BEHAVIOR_next_open_slot == true && seed.BEHAVIOR_delete_selected == false) {
+					result = s(target, numbers.concat(op_result), length_cap, cycle_cap, steps.concat([[numbers[i], numbers[j], op]]) )
+				} else {
+					result = s(target, fix(numbers, i, j, op_result), length_cap, cycle_cap, steps.concat([[numbers[i], numbers[j], op]]) )
+				}
+				if (result == false) {
+					continue
+				} else {
+					return result
+				}
+			}
+		}
+	}
+	return false
+}
+
+function occupied_table_slots () {
+	let rv = []
+	for (let x = 0; x < table.length; x++) {
+		for (let y = 0; y < table[x].length; y++) {
+			if (!emptyObject(table[x][y])) {
+				rv.push([x, y])
+			}
+		}
+	}
+	return rv
+}
+
+function create_table (width, height, place) {
+	if (!place) {
+		place = $("#number_positions")
+	}
+	table = []
+	let _table = document.createElement("table");
+	_table.id = ("table")
+	_table.style = `width: 100%; height: 100%`
+	for (let i = 0; i < height; i++) {
+		let tr = document.createElement("tr");
+		table.push([]) // The global var "table"
+		for (let ii = 0; ii < width; ii++) {
+			let td = document.createElement("td")
+			td.id = `x${i}-${ii}`
+			td.style = `width: ${100/width}%; height: ${100/height}%; position: relative`
+			tr.appendChild(td)
+			table[table.length-1].push({}) // The global var "table"
+		}
+		_table.appendChild(tr)
+	}
+	place.appendChild(_table)
+	return _table
+}
+
+var small_nums = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+var hard_nums = [2,3,4,5,6,7,8,9,10,11,12,13,14,15]//,21,22,23,24,25,26,27,28,29,30]
+//hard_nums = hard_nums.concat(small_nums).concat(small_nums)
+//var big_nums   = [20, 25, 40, 50, 60, 75, 80, 100]
+var big_nums   = [25, 50, 75, 100, 150]
+var finals     = [2, 3, 10, 12]
+
+//var table_slot_positions = [[1,3], [4,3], [7,3], [1,6], [4,6], [7,6]]
+//var table_slot_positions = [[1,3], [4,3], [7,3], [1,6], [4,6], [7,6], [9,1], [9,4], [9,7], [9,10]]
+//var table_slot_positions = [[1,2], [4,2], [7,2], [1,5], [4,5], [7,5], [1,8], [4,8], [7,8]]
+var table_slot_positions = [[1,2], [1,5], [1,8], [4,2], [4,5], [4,8], [7,2], [7,5], [7,8], [10,5]] // 
+var table_slot_positions_correspond = ["↖️", "⬆️", "↗️", "⬅", "⏺", "➡️", "↙️", "⬇️", "↘️", "⬇️"] // 
+var table_slot_pos_num = 0
+
+let vanilla = {
+	numbers: 9,
+	positions: table_slot_positions,
+	big_numbers: [],
+	bigs: "Random between 0 and 4",
+	target: "r 101 - 300"
+
+}
+
+function refresh_slot_positions () {
+	table_slot_pos_num = 0
+}
+function move_position_back () {
+	table_slot_pos_num -= 1
+	if (table_slot_pos_num < 0) {
+		table_slot_pos_num = table_slot_positions.length-1
+	}
+}
+function new_slot_position () {
+	let rv = table_slot_positions[table_slot_pos_num]
+	table_slot_pos_num++
+	if (table_slot_pos_num >= table_slot_positions.length) {refresh_slot_positions()}
+	return rv
+}
+
+function reset_to_menu () {
+	$("#timer_popup").classList.add("hidden")
+	$("#popup_backdrop").classList.remove("hidden")
+
+}
+
+function start_timer_animation () {
+	$("#timer_popup").classList.remove("hidden")
+	$("#timer_popup").classList.add("anim")
+	setTimeout(function(){$("#timer_popup").classList.remove("anim")}, 1200)
+	setTimeout(function(){$("#timer_popup").classList.add("anim2")}, 1200)
+
+}
+
+function play_animations_part () {
+	// TODO: If "hidden" is removed, this will add it BACK.
+	/*
+	$("#popup_backdrop").classList.add("anim")
+	if ($("#popup_backdrop")) {
+		setTimeout(function(){$("#popup_backdrop").classList.add("hidden"); $("#popup_backdrop").classList.remove("anim")}, 1200)
+
+	}*/
+
+	//remove_popup($("#popup_main"))
+	//temporary_notouch()
+}
+function add_popup (popup) {
+	popup.classList.remove("leaving", "hidden")
+	popup.classList.add("coming")
+	setTimeout(function(){popup.classList.remove("coming")}, 200)
+}
+
+function remove_popup (popup) {
+	if (!popup.classList.contains("hidden") && !popup.classList.contains("leaving")) {
+		popup.classList.remove("coming")
+		popup.classList.add("leaving")
+		setTimeout(function(){popup.classList.add("hidden")}, 200)
+	}
+}
+
+function toggle_popup (popup) {
+	if (!popup.classList.contains("hidden") && !popup.classList.contains("leaving")) {
+		remove_popup(popup)
+	} else {
+		add_popup(popup)
+	}
+}
+
+function toggle_popup_with_backdrop (popup) {
+	if (!popup.classList.contains("hidden") && !popup.classList.contains("leaving")) {
+		remove_popup(popup)
+		$("#popup_backdrop").classList.add("hidden")
+	} else {
+		add_popup(popup)
+  	temporary_notouch()
+		$("#popup_backdrop").classList.remove("hidden")
+	}
+}
+
+let tn;
+function temporary_notouch () {
+	$("#game").classList.add("notouch")
+	clearTimeout(tn)
+	tn = setTimeout(function(){$("#game").classList.remove("notouch")}, 200)
+}
+
+let Mulberry32 = function(a) { // https://gist.github.com/tommyettinger/46a874533244883189143505d203312c
+	a = numify(a)
+  var t = a += 0x6D2B79F5;
+  t = Math.imul(t ^ t >>> 15, t | 1);
+  t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+  return ((t ^ t >>> 14) >>> 0) / 4294967296;
+}
+function expandrand (seed, min, max) {
+	// Using a seed between 0 and 1, expand that to a value that fits between the min and max.
+	return Math.floor(seed * (max+1-min)) + min
+	// +1 because otherwise the max value will never really be hit.
+}
+function mulberryrand (seed, min, max) {
+	return expandrand(Mulberry32(seed), min, max)
+}
+
+function play_date (date) {
+	play(date_to_puzzle_number(date))
+}
+
+
+let timer = null; let timer_number = 100; let timer_started_at = 100;
+// is it just me, or if timer is set to NOTHING instead of null, "clearInterval" will fail to work
+
+function play (puzzle_number) {
+	clear()
+	playing = true
+
+	game.smart_race_puzzles_solved = 0
+	game.smart_race_undo_stacks = []
+	$("#game").classList.remove("notouch")
+	$("#number_positions").classList.remove("notouch")
+	recalibrate_storage()
+	initialize_puznum(puzzle_number)
+	//if (puzzle_number === undefined) {puzzle_number = todays_puzzle_number()}
+	seed = puznum_to_seed(puzzle_number)
+
+	game.hard_mode = puzzle_number_last_digit(puzzle_number) == 1
+
+
+	play_animations_part()
+	play_initialize_grid(seed)
+	if (seed.modifiers.includes("Countdown") || seed.modifiers.includes("Smart Race")) {
+		start_timer(seed.modifiers.includes("Smart Race")? 200:undefined)
+		start_timer_animation()
+	} else {
+		stop_timer()
+	}
+	update_visuals()
+}
+
+function dates_equal (dt, dt2) {
+	return (dt.getUTCFullYear() == dt2.getUTCFullYear() && dt.getUTCDate() == dt2.getUTCDate() && dt.getUTCMonth() == dt2.getUTCMonth())
+}
+function floor_date (date) {
+	let dt = new Date(date)
+	dt.setUTCHours(0);
+	dt.setUTCMinutes(0);
+	dt.setUTCSeconds(0);
+	dt.setUTCMilliseconds(0);
+	return dt
+}
+function add_days(date, days) { // https://stackoverflow.com/questions/563406/how-to-add-days-to-date
+  var result = new Date(date);
+  result.setUTCDate(result.getUTCDate() + days);
+  return result;
+}
+function time_between_now_and_tomorrow () {
+	let dt = new Date();
+	let tomorrow = add_days(dt, 1)
+	let diff = (floor_date(tomorrow) - dt)
+
+	let hours = Math.floor(diff/1000/60/60)
+	let minutes = -hours*60 + Math.floor(diff/1000/60)
+	let seconds = -hours*60*60 - minutes*60 + Math.floor(diff/1000)
+	return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+}
+function days_between (start, end) {
+	return (floor_date(end) - floor_date(start))/1000/60/60/24
+}
+function seconds_between (start, end) {
+	return Math.floor((end - start) / 1000)
+}
+function days_between_start_and_today () {
+	return days_between(game.start_date, new Date())
+}
+
+
+var rules = [
+{name: "Countdown", desc: "The game is reversed! Start with 9 numbers, and numbers are consumed after use. 99 second timer.", icon: "⏱️", difcha: -3},
+{name: "Irregular", desc: "The double-digit starting numbers are changed to never end in 0 or 5.", icon: "🧮", difcha: 1},
+{name: "Primes", desc: "All board numbers are prime (between 2 to 37).", difcha: 2},
+{name: "Odds", desc: "All board numbers are odd."},
+{name: "Evens", desc: "All board numbers are even."},
+{name: "Threeven", desc: "All board numbers are divisible by 3."},
+{name: "Gods Unlocked", desc: "The bottom 3 numbers are <b>locked</b> (unless you're on your last number).", difcha: 3},
+{name: "Thousands of Doors", desc: "All double-digit starting numbers are multiplied by 100.", icon: "🧮"},
+{name: "Alt Infestation", desc: "The board is all the same number.", icon: "🕎"},
+{name: "Direct Hits", desc: `The bottom three numbers are <b style="color: yellow">direct</b> (only usable if you would immediately win).`, icon: "💥"},
+{name: "Frozen in Time", desc: `The bottom three numbers are <b style="color: cyan">chilled</b> (after use, result's <span style="color: #8ff">frozen</span> for 1 turn).`, icon: "❄️", difcha: 3},
+
+{name: "Ad Infinitum", desc: "Numbers do not disappear after use, but you are scored on total actions used."},
+
+{name: "Singularity", desc: "The target number must be made with no other numbers on the board."},
+
+{name: "Busco Quadnary", desc: "The target number is 4 digits.", icon: "🔢", extra_info: "Usually this is paired with a modifier that gives you more options, because it's hard to make a 4-digit number. Expect gaining extra operations or bonus modifiers like Wildcard Dimension."},
+{name: "Wildcard Dimension", desc: "The * digit can be any number.", icon: "#️⃣"},
+{name: "Dimensional Merge", desc: "After any operation with a 4-digit result, correct any digits that are 1 off.", icon: "🔢"},
+
+{name: "Zero Equals One", desc: "After any operation, any 0's in the result change to 1's.", icon: "", extra_info: "If 0's are in the target number, you are still able to win as normal (it only changes if you don't hit the target)."},
+
+{name: "Shape Rotator Bait", desc: "hahahahaha number go spinnnnn"},
+{name: "Upside Clown", desc: `<span style="transform: rotate(180deg); display: inline-block">I don't understand, everything looks fine to me.</span>`},
+{name: "Sideways", desc: "The board numbers are sideways."},
+{name: "Where Did My Number Go?", desc: "Numbers fade in and out."},
+{name: "Inappropriate Zoom", desc: "'inappropriate' is a word used when people are looking for a societally accepted excuse to claim moral superiority. This is why the zoom is actually perfectly acceptable."},
+{name: "Target Finder", desc: "The target number isn't visible. Numbers above the target are marked red, and numbers below the target are marked blue."},
+
+{name: "Double Damage", desc: "There are two target numbers that are two digits each. Get both!", icon: "🥈"},
+{name: "Double Wilds", desc: "There are two target numbers with a wild digit * in each. Get both!", icon: "💫"},
+{name: "Queen's Game", desc: "One of the numbers is a Queen and will affect ALL other numbers (but not the target) when used.", icon: "❇️"},
+{name: "Queen's Gambit", desc: "The top three starting numbers are Queens and will affect ALL other numbers (but not the target) when used.", icon: "✳️"},
+
+{name: "Icely Zeros", desc: "When the result of an operation has a 0 in it, it's frozen for 1 turn."},
+{name: "Icely Twos", desc: "When the result of an operation has a 2 in it, it's frozen for 1 turn."},
+{name: "Icely Evens", desc: "When the result of an operation's divisible by 2, it's frozen for 1 turn."},
+
+{name: "Smart Race", desc: "You have 200 seconds to solve as many puzzles as possible.", extra_info: "This modifier is always paired with a submodifier that describes what happens after each puzzle.", icon: "🏎️"},
+{name: "Target Practice", desc: "The target number is randomized after each puzzle.", icon: "🔀"},
+{name: "Board Wipe", desc: "The board numbers are randomized after each puzzle.", icon: "🔁"},
+{name: "Bump", desc: "The target number goes up after each puzzle by 1, then 2, then 3, ...", icon: "🔼"},
+{name: "Bump X", desc: "All your board numbers go up by 1 after each puzzle.", icon: "⏫"},
+{name: "Rocket Race", desc: "The board numbers are multiplied by 2 after each puzzle."},
+
+{name: "Save State", desc: "After each puzzle, refresh to 9 numbers, but keep whatever you had when you made the target."},
+
+{name: "Dumb Race", desc: "You win if you are 1 off the target number.", incompat: ["Wildcard Dimension", "Double Wilds"]},
+
+{name: "Small Cap", desc: `Board numbers are capped at ${settings.small_number_cap}.`},
+
+{name: "Even Number Appreciation", desc: "The number 420 is on the board."},
+{name: "Fiverr Clickbait", desc: "The number 555 is on the board."},
+{name: "Superstition", desc: "The number 666 is on the board."},
+{name: "Heavensdoor", desc: "The number 777 is on the board."},
+{name: "Damage Cap", desc: "The number 999 is on the board."},
+{name: "Gigabyte", desc: "The number 1000 is on the board."},
+{name: "Gibibyte", desc: "The number 1024 is on the board."},
+{name: "Gluance Nuance", desc: "A very nuanced number is on the board (two copies glued together)."},
+{name: "Backwards Logic", desc: "The target number BUT BACKWARDS is on the board. If this is stupid, an extra 1 is glued to the front.", extra_info: "This rule won't be made if the target ends in a 0 or is palindromic."},
+{name: "Zero Creep", desc: "The target number and the board numbers are multiplied by 10."},
+
+{name: "Nothing to Add", desc: "+ cannot be used."},
+{name: "Add Once", desc: "+ can only be used once."},
+{name: "Ban Any Negativity", desc: "- cannot be used."},
+{name: "Subtract Once", desc: "- can only be used once."},
+
+{name: "Multiply Once", desc: "x can only be used once."}, // There will NOT be a multiplier remover.
+
+{name: "Indivisible", desc: "/ cannot be used."},
+{name: "Modulovision", desc: "When you try to divide numbers that would create a decimal, instead get the remainder of that division."},
+{name: "Rounding Divide", desc: "/ rounds to the nearest number now. Not like you'll use it though."},
+{name: "Efficient Division", desc: "/ rounds to the nearest number now. Not like you'll use it though."},
+{name: "Great Divide", desc: "Multiply the result by 2 after dividing."},
+{name: "Decimating Divide", desc: "Division is allowed to create decimals."},
+
+{name: "Multiplexer", desc: "x becomes xx."},
+
+{name: "Concaddacombs", desc: "+ becomes &."},
+{name: "Subconscious", desc: "- becomes &."},
+{name: "Multicon", desc: "x becomes &."},
+{name: "Unglued", desc: "/ becomes &."},
+{name: "Halverage", desc: `Gain a new operator, ﬩. It gets the <b class="halverage">average</b> of the two numbers, rounding down (50 ﬩ 100 = 75).`},
+{name: "Glue", desc: `Gain a new operator, &. It <b class="concat">glues</b> two numbers together (2 & 51 = 251).`},
+{name: "Super Glue", desc: "Gain a new operator, &&."},
+
+{name: "Upmodulation", desc: "+ becomes %."},
+{name: "Submodulation", desc: "- becomes %."},
+//{name: "NOTUSED", desc: "x becomes %."},
+{name: "Divide The Remainder", desc: "/ becomes %."},
+{name: "Modulo", desc: "Gain a new operator, %."},
+{name: "Exponent", desc: `Gain a new operator, ^. It <b class="exponent">exponentiates</b> two numbers (7 ^ 2 = 49). Also, uh, watch out for the number cap.`},
+
+
+{name: "Digit Deleter", desc: "One of the numbers is instead a Digit Deleter."},
+{name: "Digit Splitter", desc: "One of the numbers is instead a Digit Splitter."},
+
+{name: "Tangent Time", desc: "The target number is a timer that goes down by 1 every second."},
+{name: "Trime Theory", desc: `The first board number you touch is multiplied by <b style="color: #ADDFF8">3</b>. You also might have synesthesia.`},
+
+{name: "Against the Odds", desc: "When you do an action that creates an odd number, subtract it by 1."},
+{name: "Duplicity", desc: "All actions multiply the result by 2."},
+{name: "Collateral Damage", desc: "All actions divide the result by 2 if the result was even."},
+{name: "Confusing Conjecture", desc: "All actions multiply the result by 3, and then add 1, if the result was odd.", },
+
+{name: "Operation Metro", desc: "Operations are disabled after use. Reset this if there are no more operations.", },
+{name: "Operation Clusterfork", desc: "Gain access to the Concat, Modulo, and Exponent operations.", },
+
+]
+/*Golden Truth: You may swap this number with the target number - but the target number must be used!
+
+*/
+
+
+function modifier_name_to_desc (name) {
+	let f = rules.filter(x => x.name == name)
+	if (f.length == 0) {return ""}
+	return f[0].desc?? ""
+}
+
+function modifier_name_to_icon (name) {
+	let f = rules.filter(x => x.name == name)
+	if (f.length == 0) {return ""}
+	return f[0].icon?? ""
+}
+
+function get_first_modifier_name_format (zeed, mini) {
+	if (zeed == undefined) {zeed = seed}
+	//return zeed.modifiers[0] + (zeed.modifiers[1]? ` (${zeed.modifiers[1]})`:"")
+		
+	let modtext = zeed.modifiers[1]
+	if (mini == "mini" && modtext) { // Each NON-capital will go away
+		modtext = modtext.replace(/([a-z ]+)/g, `<span class="low_width_mini_go_away">$1</span>`)
+	}
+	return zeed.modifiers[0] + (zeed.modifiers[1]? ` <span style="font-size: 75%; opacity: 0.9">(${modtext})</span>`:"")
+	// Basically the "mini" is needed to reduce the width in the Library otherwise overlaps happen.
+
+}
+
+function get_second_modifier_name_format (zeed, mini) {
+	if (zeed == undefined) {zeed = seed}
+	let modtext = zeed.modifiers[6]
+	if (mini == "mini" && modtext) { // Each NON-capital will go away
+		modtext = modtext.replace(/([a-z ]+)/g, `<span class="low_width_mini_go_away">$1</span>`)
+	}
+	return zeed.modifiers[5] + (zeed.modifiers[6]? ` <span style="font-size: 75%; opacity: 0.9">(${modtext})</span>`:"")
+}
+
+function get_first_modifier_desc_format (zeed) {
+	if (zeed == undefined) {zeed = seed}
+	return get_modifier_format(zeed, zeed.modifiers[0], zeed.modifiers[1])
+}
+
+function get_second_modifier_desc_format (zeed) {
+	if (zeed == undefined) {zeed = seed}
+	return get_modifier_format(zeed, zeed.modifiers[5], zeed.modifiers[6])
+}
+
+function get_modifier_format (seed, one, two) {
+	let rv = (one.length? modifier_name_to_desc(one) :"") + (two.length? " " + modifier_name_to_desc(two) :"")
+	if (one == "Smart Race" && game.smart_race_puzzles_solved != 0) {
+		rv += ` <br><b>You've solved <span style="color: cyan">${game.smart_race_puzzles_solved}</span> puzzle${game.smart_race_puzzles_solved > 1? "s":""}.`
+		if (two == "Bump" && playing) {
+			rv += ` Next bump: <span style="color: cyan">+${game.smart_race_puzzles_solved+1}</span> (${seed.target+game.smart_race_puzzles_solved+1}).`
+		}
+		rv += `</b>`
+	}
+	return rv
+
+}
+
+// Helper functions for seeded random elements off an array.
+/*
+Basically, we want to get random modifiers off a sequence of arrays, but the modifiers are not all compatible with each other. In addition, the lists may even contain the same modifier, so you can miss a modifier from List A and still get it from List B.
+In addition, the probabilities can be skewed.
+
+Also, the whole "not compatible" has the whole relation-to- problem. A modifier can either 'allow' a set of future modifiers (which would mean it disallows if it's not picked) or 'disallow'. But also a modifier can BE allowed, or BE disallowed.
+
+*/
+
+function use_seed_to_pick_random_elements_from_array (seed, seed_starter, lookup_table, array) {
+	for (let i = 0; i < array.length; i++) {
+		let x = array[i]
+		/* This array will look like:
+		[{name: "Countdown", weight: 2, prob: 0.2, allows: [""], denies: [""]}]
+		*/
+	}
+}
+
+function pick_modifiers (seed_string) {
+	let day = seed_string.slice(0, 2) - 30
+	// Switch between the rules pool every day. Not sure about this being so tightly linked to our silly month system but idc
+
+	var rules_pool_1 = ["Countdown", "Smart Race", "Busco Quadnary", "Double Damage", ""]
+	var rules_pool_countdown = ["Tens", "Elevens", "Dozens", "Thirteens", "Quarters", "Irregular", "Primes", "Gods Unlocked", "Odds", "Evens", "Threevens"]
+	var rules_pool_smart_race = ["Target Practice", "Board Wipe", "Bump", "Bump X", "Rocket Race"]
+	var rules_pool_busco_quadnary = ["Wildcard Dimension", "Dimensional Merge", ""]
+	var rules_pool_misc = ["Zero Equals One", "Shape Rotator Bait", "Upside Clown", "Trime Theory", "Small Cap", "Target Finder", "Inappropriate Zoom", "Where Did My Number Go?"]
+	var rules_pool_2 = ["Zero Equals One", "Even Number Appreciation", "Heavensdoor", "Gigabyte", "Gibibyte", "Trime Theory", "Small Cap", "Shape Rotator Bait", "Target Finder", ""]
+
+	let rv = ["", "", "", "", "", "", "", "", "", ""]
+	let r1 = rules_pool_1[day % 5]//rules_pool_1[mulberryrand(seed_string + "2", 0, rules_pool_1.length-1)]
+	
+	let difficulty_modifier = 0
+
+	function pick (array, string) {
+		let picked = array[mulberryrand(string, 0, array.length-1)]
+		let rule = rules.filter(x => picked == x.name)
+		if (rule.difcha) {
+			difficulty_modifier += rule.difcha
+		}
+		return picked
+	}
+	let r2;
+
+	if (r1 == "Countdown") {
+		r2 = pick(rules_pool_countdown, seed_string+"3")
+		rv[1] = r2
+		rules_pool_2.push("Busco Quadnary")
+	} else if (r1 == "Smart Race") {
+		r2 = pick(rules_pool_smart_race, seed_string+"3")
+		rv[1] = r2
+		rules_pool_2.push("Busco Quadnary")
+	} else if (r1 == "Busco Quadnary") {
+		r2 = pick(rules_pool_busco_quadnary, seed_string+"3")
+		rv[1] = r2
+		rules_pool_2 = remove_element(rules_pool_2, "Small Cap")
+		if (r2 == "Dimensional Merge") {
+			rules_pool_2 = remove_element(rules_pool_2, "Zero Equals One")
+		}
+	} else if (r1 == "Double Damage") {
+		rules_pool_2 = remove_element(rules_pool_2, "Target Finder")
+	}
+
+	if (r1 == "") {
+
+		let r1_num = Mulberry32(seed_string + "3")
+		if (r1_num > 0.5) {
+			r1_num = (r1_num - 0.5) * 2 // Normalize 0-1 again
+
+			// so disappointing. this should've been a mass of like 50+ new operations, but here I am copying code and only having 3 of them
+			// if you're reading this plz contact me, icely#3999, if you'd like to help with the code to make that happen
+
+			if (r1_num < 0.3 && r1 != "Halverage") {       
+				r1 = "Halverage"
+			} else if (r1_num < 0.6 && r1 != "Glue") { 
+				r1 = "Glue"
+			} else if (r1_num < 1 && r1 != "Exponent") {
+				r1 = "Exponent"
+			}
+		} else {
+			r1 = pick(rules_pool_misc, (seed_string + "333")) // not supposed to do this (more elegant to use numbers only) but idc
+			//r1 = pick(rules_pool_2, seed_string+"3")
+		}
+
+		// Pick a random thing from rules3
+	}
+
+
+	// The top half of this rand will be dedicated to operation changes, such as adding modulo and stuff. These are custom operations.
+
+	// So uh, not sure the distribution of this. The max we can have is 3 other operations, kinda.
+	// If you have Busco Quadnary it's unnecessarily harder, so we need to give +1 operation for that.
+
+	// mod idea: Floating Point = if over 100, last digit becomes 0
+	// Tense Atmosphere - if over 1000, last two digits 00
+
+	/*
+	There are a bunch of operations, but they can also come with modifiers to themselves. Probably the modifiers are at 0.5 chance.
+	- Normal
+	- One-off (can only be used once)
+	- Zeroed out (numbers that do the operation become 0's)
+	- Shedding (numbers that do the operation lose their last digit)
+
+	Simple operations probably want a custom name or something.
+
+	++ = Double Up
+
+	++ (1) = Single ++
+	% ^ = Modulo Exponent
+	*/
+
+	let r3_num = Mulberry32(seed_string + "4"); let r3 = ""
+	if (r3_num > 0.5) {
+		r3_num = (r3_num - 0.5) * 2 // Normalize 0-1 again
+
+		if (r1 == "Busco Quadnary" || r3_num < 0.5) { // New modifier
+			r3_num = r3_num * 2                         // Normalize
+			// Between ++, --, **, //, %, &, ^, LCM, GCD
+			// %, &, ^^ have a 60/40 split
+
+			if (r3_num < 0.3 && r1 != "Halverage") {       
+				r3 = "Halverage"
+			} else if (r3_num < 0.6 && r1 != "Glue") { 
+				r3 = "Glue"
+			} else if (r3_num < 1 && r1 != "Exponent") {
+				r3 = "Exponent"
+			}
+			/*
+			if (r3_num < 0.2) {        // One-off
+				r3 = "Halverage"
+			} else if (r3_num < 0.4) { // Zeroed out
+				r3 = "Glue"
+			} else if (r3_num < 0.6) { // Doubled up
+				r3 = "Exponent"
+			} else if (r3_num < 0.8) { // Shedding
+				r3 = "Lowest Multiple"
+			} else if (r3_num < 1) {   // New modifier
+				r3 = "Great Divide"
+			}
+*/
+		}/*
+		if (r3_num < 0.1) {        // One-off
+			r3 = "+"
+		} else if (r3_num < 0.2) { // Zeroed out
+			r3 = "-"
+		} else if (r3_num < 0.3) { // Doubled up
+			r3 = "-"
+		} else if (r3_num < 0.4) { // New modifier
+			r3 = "-"
+		} else if (r3_num < 0.5) {
+			r3 = "-"
+		}*/
+		//
+	} else {
+		rules_pool_2 = remove_element(rules_pool_2, r1)
+		rules_pool_2 = remove_element(rules_pool_2, r2)
+		r3 = rules_pool_2[expandrand(r3_num * 2, 0, rules_pool_2.length-1)] // reuse seed_string + "4".
+		//r3_num * 2 will never be over 1
+	}
+	if (r1 == "Smart Race" && r3 == "Busco Quadnary") {
+		rv[6] = "Wildcard Dimension"
+	}
+
+	rv[0] = r1
+	rv[5] = r3
+	if (rv[0].length == 0 && rv[5]) {
+		rv[0] = rv[5]
+		rv[5] = ""
+		rv[6] = ""
+	}
+	return rv
+}
+
+function date_to_seed (dt=0, hard=0, ignore_smart_race=0) {
+	if (dt == 0) {dt = (new Date())}
+	var seed_string = 
+			(dt.getUTCDate() + (hard?30:0)).toString().padStart(2, '0') +
+			dt.getUTCFullYear().toString() +
+			dt.getUTCMonth().toString().padStart(2, '0')
+	// "getDay" is the day of the week, not the day of the month. Chess Battle Advanced.
+
+	let rv = {}
+	rv.date = floor_date(dt)
+	rv.exact_date = dt
+	rv.hard = hard
+
+	function mod_on (x) {
+		return rv.modifiers.includes(x)
+	}
+
+
+	rv.modifiers = hard? pick_modifiers(seed_string):[]
+
+	let appendage_first = (mod_on("Target Practice")?game.smart_race_puzzles_solved.toString():"")
+	if (ignore_smart_race) {appendage_first = ""}
+	rv.target = mulberryrand(seed_string + "0" + appendage_first, 101, 999)
+	if (mod_on("Busco Quadnary")) {
+		rv.target = mulberryrand(seed_string + "0" + appendage_first, 1001, 9999)
+	} else if (hard) {
+		rv.target = mulberryrand(seed_string + "0" + appendage_first, 301, 999)
+	}
+	if (mod_on("Wildcard Dimension")) {
+		// Randomly select a target to mess up
+		let rand = mulberryrand(seed_string + "X", 1, 3)
+		let array = rv.target.toString().split("")
+		array[rand] = "*"
+		rv.target = array.join("")
+	}
+
+	if (mod_on("Double Damage")) {
+		rv.target = mulberryrand(seed_string + "0" + appendage_first, 40, 99)
+		rv.target2 = mulberryrand(seed_string + "01" + appendage_first, 40, 99)
+		if (rv.target2 == rv.target) {rv.target2 -= 1}
+
+		//if (mod_on("Wildcard Dimension")) {
+		//}
+	}
+
+	rv.bigs = mulberryrand(seed_string + "1", 2, 4)
+
+	rv.default_type = "plus-minus-times-divides"
+	if (mod_on("Halverage")) {
+		rv.default_type += "-halverage"
+	}
+	if (mod_on("Glue")) {
+		rv.default_type += "-concat"
+	}
+	if (mod_on("Exponent")) {
+		rv.default_type += "-exponent"
+	}
+	rv.board_numbers_designated_length = 3
+	rv.BEHAVIOR_delete_selected = false
+	rv.BEHAVIOR_next_open_slot = true
+	rv.max_steps = 7 // just a display for now...
+
+	if (mod_on("Countdown")) {
+		rv.board_numbers_designated_length = 9
+		rv.BEHAVIOR_delete_selected = true
+		rv.BEHAVIOR_next_open_slot = false
+		rv.max_steps = 8
+	}
+
+	//var what_small_numbers_to_select = mulberryrand(seed_string + "1" + i.toString(), 0, 4)
+
+	let array = []
+	let pool = small_nums.slice(0) // Clone...
+
+	let indexes_removed = true
+
+	if (hard) {
+		pool = hard_nums.slice(0)
+	}
+
+	let big_pool = []
+	function generate_multiples_up_to_x (num, x) {
+		// generate_multiples_up_to_x(12, 100) -> [12, 24, 36, 48, 60, 72, 84, 96]
+		let rv = []; let count = 1;
+		while (count*num < x) {
+			rv.push(count*num)
+			count += 1
+		}
+		return rv
+	}
+	if (mod_on("Primes")) {
+		pool = [2, 3, 5, 7, 11, 13, 17, 19, 23, 27, 29, 31, 37]
+		indexes_removed = false
+	}
+	if (mod_on("Evens")) {
+		pool = generate_multiples_up_to_x(2, 30)
+		indexes_removed = false
+	}
+	if (mod_on("Odds")) {
+		pool = generate_multiples_up_to_x(2, 30).map(x => x-1)
+		indexes_removed = false
+	}
+	if (mod_on("Threevens")) {
+		pool = generate_multiples_up_to_x(3, 30)
+		indexes_removed = false
+	}
+
+	if (mod_on("Tens")) {
+		big_pool = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+		indexes_removed = false
+	}
+
+	if (mod_on("Elevens")) {
+		big_pool = generate_multiples_up_to_x(11, 100)
+		indexes_removed = false
+	}
+
+	if (mod_on("Dozens")) {
+		big_pool = generate_multiples_up_to_x(12, 100)
+		indexes_removed = false
+	}
+
+	if (mod_on("Thirteens")) {
+		big_pool = generate_multiples_up_to_x(13, 100)
+		indexes_removed = false
+	}
+
+	if (mod_on("Quarters")) {
+		big_pool = generate_multiples_up_to_x(25, 200)
+		indexes_removed = false
+	}
+
+
+	// Kind of a hack: The Smart Race seed puzzles are generated through global var here.
+	let bigs_running_count = 0
+	let appendage = "1" + (mod_on("Board Wipe")?game.smart_race_puzzles_solved.toString():"")
+	let board_types = []
+	if (ignore_smart_race) {appendage = "1"}
+
+	for (let i = 0; i < rv.board_numbers_designated_length; i++) {
+		if (mod_on("Alt Infestation") && i > 0) {
+			array.push(array[0]) // lol just keep spamming it
+			continue
+		}
+		let entry = pool[mulberryrand(seed_string + appendage + i.toString(), 0, pool.length-1)]
+
+		if (big_pool.length && mod_on("Countdown") && (i == 3 || i == 5 || i == 6 || i == 8) && bigs_running_count != rv.bigs) { // Determine "big pool"
+			bigs_running_count += 1
+			entry = big_pool[mulberryrand(seed_string + appendage + i.toString(), 0, big_pool.length-1)]
+		} else {
+			if (indexes_removed) {
+				pool = remove_index(pool, mulberryrand(seed_string + appendage + i.toString(), 0, pool.length-1))
+			}
+		}
+
+		array.push(entry)
+		if (i >= 6 && mod_on("Gods Unlocked")) {
+			board_types.push(rv.default_type + "_l")
+		} else {
+			board_types.push(rv.default_type)
+		}
+	}
+
+	var triangular = function (value) { // https://gist.github.com/ryansmith94/4953830
+	    var abs = Math.abs(value);
+	    return ((abs / 2) * (abs + 1)) * (abs / value) || 0;
+	};
+
+	if (!ignore_smart_race) {
+		if (mod_on("Bump")) {
+			rv.target += triangular(game.smart_race_puzzles_solved)
+		}
+		if (mod_on("Bump X")) {
+			array = array.map(x => x+game.smart_race_puzzles_solved)
+		}
+		if (mod_on("Rocket Race")) {
+			array = array.map(x => x * Math.pow(2, game.smart_race_puzzles_solved))
+		}
+	}
+	// Shuffle the array, or something. actually no I'm lazy, bigs always go same spot now.
+
+	if (mod_on("Zero Creep")) {
+		array = array.map(x => x * 10)
+		rv.target *= 10
+	}
+
+	function is_rule_a_replacer (rule) {
+		let rules = ["Heavensdoor"]
+		return rules.includes(rule)
+	}
+	let replacers = []
+	if (mod_on("Heavensdoor")) {
+		replacers.push(777)
+	}
+	if (mod_on("Even Number Appreciation")) {
+		replacers.push(420)
+	}
+	if (mod_on("Gigabyte")) {
+		replacers.push(1000)
+	}
+	if (mod_on("Gibibyte")) {
+		replacers.push(1024)
+	}
+	if (mod_on("Gluance Nuance")) {
+		replacers.push(numify(rv.target.toString() + rv.target.toString()))
+	}
+	if (mod_on("Backwards Logic")) {
+		let back = rv.target.toString().split("").reverse().join("")
+		if (back.startsWith("0")) {back = "1" + back}
+		if (numify(back) == rv.target) {back = "1" + back}
+		replacers.push(numify(back))
+	}
+	for (let i = 0; i < replacers.length; i++) {
+		if (2-i == -1) {
+			break // lol
+		}
+		array[2-i] = replacers[i]
+	}
+	rv.board_numbers = array
+	rv.board_types = board_types
+	return rv
+}
+function puznum_to_seed (puzzle_number, ignore_smart_race=0) {
+	return date_to_seed(puzzle_number_to_date(puzzle_number), puzzle_number_last_digit(puzzle_number), ignore_smart_race)
+}
+
+
+function bigasteriskify_string (string) {
+	return string.replace(/\*/g, `<span style="display: inline-block; transform: translateY(25px) scale(2); padding: 0px 12px;">*</span>`)
+}
+function smallasteriskify_string (string) {
+	return string.replace(/\*/g, `<span style="display: inline-block;
+    transform: translateY(33%) scale(1.5);
+    margin-left: 3px;
+    margin-right: 3px">*</span>`)
+}
+
+var seed;
+function play_initialize_grid (seed) {
+	//$("#target_number").innerHTML = seed.target.toString().replace(/\*/g, `<span style="display: inline-block; transform: translateY(15px); padding: 0px 5px">*</span>`)
+	$("#target_number").innerHTML = bigasteriskify_string(seed.target.toString())
+	if (mod_on("Trime Theory")) {
+		$("#target_number").innerHTML = bigasteriskify_string(trime_recolor(seed.target.toString()))
+	}
+
+	if (mod_on("Double Damage")) {
+		$("#target_number2").innerHTML = bigasteriskify_string(seed.target2.toString())
+		if (mod_on("Trime Theory")) {
+			$("#target_number2").innerHTML = bigasteriskify_string(trime_recolor(seed.target2.toString()))
+		}
+
+	} else {
+		$("#target_number2").innerHTML = ""
+	}
+	    
+	factorization_number = numify(seed.target.toString().replace(/\*/g, "0")) // I'm so kind. (Not really, you still get screwed on scrolling 5*05 lol)
+	refresh_slot_positions()
+
+	for (let i = 0; i < seed.board_numbers.length; i++) {
+		let type = seed.board_types[i]
+		new_item(type, seed.board_numbers[i], ...new_slot_position())
+	}
+
+}
+
+play(todays_puzzle_number())
+
+//$("#play").addEventListener("click", play)
+
+function get_steps () {
+	return undo_stack.length
+}
+function undo () {
+	if (undo_stack.length == 0) {return} // how are you here
+	last_chance_off()
+
+	let r;
+	/*
+	r = $$(".win_loader").length
+	for (let i = r-1; i >= 0; i--) {
+		$$(".win_loader")[i].remove()
+	}
+	r = $$(".winning").length
+	for (let i = r-1; i >= 0; i--) {
+		$$(".winning")[i].remove()
+	}
+	r = $$(".lose_loader").length
+	for (let i = r-1; i >= 0; i--) {
+		$$(".lose_loader")[i].remove()
+	}
+	r = $$(".losing").length
+	for (let i = r-1; i >= 0; i--) {
+		$$(".losing")[i].remove()
+	}
+	r = $$(".zeroing").length
+	for (let i = r-1; i >= 0; i--) {
+		$$(".zeroing")[i].remove()
+	}*/
+
+	
+	
+	let part = undo_stack.pop()
+
+
+	for (let i = 0; i < part.length; i++) {
+		let action = part[i]
+		if (action.undo_type == "add") {
+			let item = new_item(action.type, action.from, action.x, action.y) // New item and put the return value in it.
+
+		} else if (action.undo_type == "delete") {
+
+			delete_item(x_and_y_to_element(action.x, action.y))
+		} else if (action.undo_type == "change") {
+
+			let gridspace = x_and_y_to_element(action.x, action.y)
+			change_gridspace_value(gridspace, action.from)
+		}
+		if (action.move_position_back == true) {
+			move_position_back()
+		}
+	}
+
+	unselect()
+	update_visuals()
+
+	if (undo_stack.length == 0 && mod_on("Trime Theory")) {
+		// Don't. Bother. Selecting.
+	} else {
+		do_select(x_and_y_to_element(part[0].sx, part[0].sy))
+	}
+	reset_keypress_logic() // Must come after the selection
+}
+function undoall () {
+	let stacklength = get_steps()
+
+	for (let i = 0; i < stacklength; i++) {
+		undo()
+	}
+	unselect()
+	// lazy but who cares
+}
+$("#undo").addEventListener("click", undo)
+$("#undoall").addEventListener("click", undoall)
+
+/*
+$("#nn").addEventListener("click", function() {
+	new_item()
+})
+$("#clear").addEventListener("click", function() {
+	clear()
+})*/
+
+function clear () {
+	if (selected) {
+		unselect()
+	}
+	remove_popup($("#popup_endgame"))
+	$("#game").classList = ``
+
+	undo_stack = []
+	table = []
+	items = []
+	$("#number_positions").innerHTML = ``
+	create_table(11, 11)
+}
+
+
+function start_timer (number=100) {
+	timer_number = number
+	timer_started_at = number
+	timer_tick()
+	clearInterval(timer)
+	timer = setInterval(timer_tick, 1000)
+}
+function pause_timer () {
+	clearInterval(timer)
+}
+function stop_timer () {
+	clearInterval(timer)
+	timer_number = 0
+	$("#timer_popup").classList.add("hidden")
+	$("#timer_popup").classList.remove("anim")
+	$("#timer_popup").classList.remove("anim2")
+}
+function timer_tick () {
+	timer_number -= 1
+
+	if (timer_number < 0) {
+		stop_timer()
+		if (mod_on("Smart Race") && game.smart_race_puzzles_solved >= settings.smart_race_win_threshold) {
+			win(); return
+		}
+		lose(get_closest_gridspace_to_target())
+		return
+	}
+	let timers = ["🕛", "🕐", "🕑", `🕒`,`🕓`,`🕔`,`🕕`,`🕖`,`🕗`,`🕘`,`🕙`,`🕚`,`🕛`]
+	let timer_to_pick = timers[Math.floor((timer_started_at - timer_number) / timer_started_at * timers.length)]?? `🕛`
+	$("#timer_popup").innerHTML = timer_number + timer_to_pick
+}
+
+document.addEventListener('mousedown', function (event) {
+	game.keyboard_control = false;
+	keyp = [""]
+	update_visuals()
+})
+
+
+var keyp = [""]
+document.addEventListener('keydown', function (event) {
+	if (!playing) {return}
+	let key = event.key
+  if (key == ' ') { // space
+  } else if (key == 'Escape') {
+  	toggle_popup_with_backdrop($("#popup_debug"))
+  } else if (key == 'z' || key == 'u') {
+  	undo()
+	} else if (key == 'Backspace' || key == 'Delete') {
+
+		let thing = keyp[keyp.length-1]
+		keyp[keyp.length-1] = thing.toString().slice(0, thing.length-1) // Remove last character
+		if (keyp[keyp.length-1].length == 0) {keyp.pop()}
+		else if (keyp.length == 1) {
+	  	keyboard_try_selecting_first_number()
+		}
+
+		if (keyp.length == 0) {
+			unselect()
+			keyp = [""]
+		}
+		
+  } else if (key == 'r') {
+  	undoall()
+  } else if (key.match(/^\d/)) { // Digit. Do not allow "F5"
+		game.keyboard_control = true;
+  	if (keyp.length <= 1) {
+	  	keyp[0] = keyp[0].toString() + key
+
+	  	// Before looking at this number, find if the number is a "dead end" (if you have typed "23", it's not a dead end if you can get 234)
+	  	// Then if it is dead, look at the right of the number and see if you can break it apart (if you have typed "23", it can still register as a "3")
+
+	  	keyboard_try_selecting_first_number()
+
+
+  	} else if (keyp.length >= 2) {
+  		if (keyp.length == 2) {
+  			keyp.push("")
+  		}
+	  	keyp[2] = keyp[2].toString() + key
+
+	  	if (find_number(keyp[2]) && !settings.require_confirmation) {
+  			confirm_keyboard_operation()
+	  	}
+  	}
+  } else if (key.match(/[\+\-\*\/\^\&\x]/)) { // Plus, minus, times, divides
+		game.keyboard_control = true;
+		if (keyp.length == 1 && keyp[0] == "") {
+			keyp[0] = selected_number().toString()
+		}
+
+  	if (keyp.length == 1 || keyp.length == 2) {
+	  	let latest_oppress = ``
+		  switch (key) {
+		  	case "+": latest_oppress = "+"; break
+		  	case "-": latest_oppress = "−"; break
+		  	case "*": latest_oppress = "×"; break
+		  	case "x": latest_oppress = "×"; break
+
+		  	case "/": latest_oppress = "÷"; break
+		  	case "&": latest_oppress = "&"; break
+		  	case "%": latest_oppress = "%"; break
+		  	case "^": latest_oppress = "^"; break
+		  }
+		  keyp[1] = latest_oppress
+  	}
+	} else if (key == '=' || key == 'Enter' || key == 'Return') {
+		game.keyboard_control = true;
+		if (keyp.length == 3) {
+  		confirm_keyboard_operation()
+		}
+  } else if (key.match(/Arrow/)) { // Left, Right, Down, Up
+  	if (selected) {
+	  	let kee = key.slice(5) // ignore first 5 characters 'Arrow'
+	  	let index = gridspace_to_itemindex(selected)
+
+	  	if (!mod_on("Countdown")) {
+		  	switch (kee) {
+		  		case "Left": index -= 1; break
+		  		case "Right": index += 1; break
+		  		case "Down": index += 3; break
+		  		case "Up": index -= 3; break
+		  	}
+	  		index = (index + items.length) % items.length // Negative numbers REEEE
+	  		gridspace_click.bind(items[index].gridspace)()
+	  	} else {
+	  		// countdown's grid can vary
+	  		// this becomes hardcore spaghetti if gridsize is ever changed
+	  		function gridspace_to_x (gridspace) {
+	  			return items[gridspace_to_itemindex(gridspace)].x
+	  		}
+	  		function gridspace_to_y (gridspace) {
+	  			return items[gridspace_to_itemindex(gridspace)].y
+	  		}
+	  		let x = gridspace_to_x(selected)
+	  		let y = gridspace_to_y(selected)
+		  		// It cycles between 1-4-7, 2-5-8
+		  		// Fail cases are -2, -1, 10, 11 (but also any missing element)
+		  	switch (kee) {
+		  		case "Left": y -= 3; break
+		  		case "Right": y += 3; break
+		  		case "Down": x += 3; break // what do you mean X is supposed to be horizontal!!!
+		  		case "Up": x -= 3; break
+		  	}
+		  	while (!x_and_y_to_element(x, y)) { // the hell is a do while loop :)
+			  	
+			  	switch (kee) {
+			  		case "Left": y -= 3; break
+			  		case "Right": y += 3; break
+			  		case "Down": x += 3; break // what do you mean X is supposed to be horizontal!!!
+			  		case "Up": x -= 3; break
+			  	}
+		  	}
+		  	gridspace_click.bind(x_and_y_to_element(x, y))()
+	  	}
+
+  	}
+	  reset_keypress_logic()
+  }
+  if (keyp.join("").trim().length > 0) { // must be more than spaces
+  	if (keyp.length == 3) {
+  		let rv = ``
+  		if (!find_number(keyp[2])) {rv = keyp[0] + " " + keyp[1] + ` <span style="opacity: 0.5">` + keyp[2] + `</span>`}
+  			else {rv = keyp.join(" ")}
+  		rv += ` <span style="font-weight: bold; font-size: 80%; opacity: 0.7">(= ${operation_results(keyp[2], keyp[0], convert_symbol_to_name(keyp[1]))})</span>`
+			$("#keyboard_input_display").innerHTML = rv
+  	} else {
+			$("#keyboard_input_display").innerHTML = keyp.join(" ")
+  	}
+  } else {
+  	$("#keyboard_input_display").innerHTML = ("")
+  }
+  //if (!latest_oppress) {operation_text = ''}
+ 
+  update_visuals()
+});
+
+function reset_keypress_logic () {
+	keyp = [selected_number().toString()]
+}
+
+function find_number (number) {
+	let item;
+	if (items.filter(x => selected != x.gridspace).map(x => x.value).includes(numify(number))) {
+		item = items[items.map(x => selected == x.gridspace? -1:x).map(x => x.value).indexOf(numify(number))]
+	} else {
+		return false
+	}
+	return item
+}
+function possible_continuations (number) {
+	let item; let rv = [];
+	let itemsmap = items.map(x => x.value)
+	for (let i = 0; i < itemsmap.length; i++) {
+		if (itemsmap[i].toString().startsWith(number)) {
+			rv.push(items[i])
+		}
+	}
+	return rv
+}
+function chop_start_of_number_finder (number) {
+	for (let i = number.length-1; i >= 0; i--) { // counts the zero case idc
+		//let rv = find_number(number.slice(i))
+		//if (rv) {return rv}
+		let rv = possible_continuations(numify(number.slice(i)))
+		//if (rv.length > 0) {return rv[0]} // Returning the first RV directly would probably be too fast?
+		if (rv.length > 0) {return number.slice(i)}
+	}
+	return false
+
+}
+function keyboard_try_selecting_first_number () {
+	if (possible_continuations(keyp[0]).length == 0) {
+		if (chop_start_of_number_finder(keyp[0])) {
+			keyp[0] = chop_start_of_number_finder(keyp[0]).toString()
+		} else {
+			unselect()
+			keyp = [""]
+		}
+	}
+	let item = find_number(keyp[0])
+	if (item) {
+		gridspace_click.bind(x_and_y_to_element(item.x, item.y))()
+	} else {
+		unselect()
+
+		item = find_number(keyp[0])
+		if (item) { // lol. (if this wasn't here, you could select 4 with mouse, then press 4 and it unselects the 4 you already pressed)
+			gridspace_click.bind(x_and_y_to_element(item.x, item.y))()
+		}
+	}
+}
+
+function confirm_keyboard_operation () {
+	let item = find_number(keyp[2])
+	if (!item) {return false}
+	operation = keyp[1]
+
+	let index = item.adjacency_names.indexOf(convert_symbol_to_name(operation))
+	if (index == -1) {return}
+	operation_click.bind(item.adjacencies_elements[index].element)()
+	reset_keypress_logic()
+}
+
+function check_key_ambiguity () {
+	// Checks if "latest_number_press" has ambiguous results.
+	// The main two cases are like: if you have 2 and 21 on the board, hit 2, it is ambiguous whether you are hitting or 21.
+	// Similarly, if you have 2 and 22 and 222 and a DIFFERENT TYPE 22, it is also ambiguous. The point here is that we should try to cycle between the numbers.
+}
+
+function scroll_factorization (event) {
+  event.preventDefault();
+  // event.deltaY = 100 or -100
+  factorization_number += event.deltaY<0 ? 1 : -1
+  if (factorization_number > 9999) {
+  	factorization_number = 9999
+  } else if (factorization_number == 0) {
+  	factorization_number = 1
+  }
+  update_visuals()
+
+}
+
+const el = document.querySelector('#tips');
+el.onwheel = scroll_factorization;
+
+
+function create_times_table (width, height, place) {
+	if (!place) {
+		place = $("#game")
+	}
+	let _table = document.createElement("table");
+	_table.id = ("times_table")
+	_table.style = `width: 100%; height: 100%; position: absolute`
+
+	for (let i = 0; i < height; i++) {
+		let tr = document.createElement("tr");
+		for (let ii = 0; ii < width; ii++) {
+			let td = document.createElement("td")
+			td.id = `y${i}-${ii}`
+			td.style = `width: ${100/width}%; height: ${100/height}%; position: relative`
+			td.textContent = ((i+1) * (ii+1))
+			tr.appendChild(td)
+
+		}
+		_table.appendChild(tr)
+	}
+	place.appendChild(_table)
+	return _table
+}
+
+let storage_ideal = {
+	first_ever_started: "Date",
+	streak_started: "Date",
+	streak_latest: "Date",
+	highest_streak: "Number",
+	total_played: "Number",
+	normal_played: "Number",
+	hard_played: "Number",
+
+	current_boardstate: "Object",
+	solved: [270, 280, 290],
+	solved_during_archive: [300, 310], // Does it matter to have it solved during the archive?
+
+	puzzle_history: {27: {solved: true, solved_during_archive: false, started: "Date", ended: "Date"}}, // something like that
+	puzzle_history: {27: {solved: true, solved_during_archive: false, target: 235, steps: 5, seconds: 30}}, // something like that
+	puzzle_history: {27: "W/5/30"},
+	puzzle_history: {27: "L/5/30/235"}
+}
+
+
+function date_to_puzzle_number (date) {
+	return days_between(game.start_date, date) * 10 // The ones digit is used for 0 = normal, 1 = hard, for now
+}
+function date_between_x_and_today (date) {
+	return days_between(date, new Date())
+}
+function recalibrate_storage () {
+	if (l.get('first_ever_started') == null || (l.get('puzzle_history')) == null) {
+		l.set('first_ever_started', new Date())
+		game.puzzle_history = {}
+
+		l.init([`current_streak`, `highest_streak`, `total_played`, `total_won`, `normal_played`, `normal_won`, `hard_played`, `hard_won`, `stats_solved_in_1`, `stats_solved_in_2`, `stats_solved_in_3`, `stats_solved_in_4`, `stats_solved_in_5`, `stats_solved_in_6`, `stats_solved_in_7`, `stats_solved_in_8`, `stats_solved_in_9`], 0)
+		update_puzzle_history()
+	} else {
+		game.puzzle_history = get_puzzle_history()
+	}
+}
+
+function initialize_puznum (number) {
+	game.current_puzzle_number = number
+	if (!game.puzzle_history[game.current_puzzle_number]) {
+		game.puzzle_history[game.current_puzzle_number] = ""
+	}
+	game.started = new Date()
+	update_puzzle_history()
+
+	game.replay = is_puzzle_history_entry_completed(game.puzzle_history[game.current_puzzle_number])
+
+}
+
+function is_puzzle_history_entry_completed (entry) {
+	if (entry == null || entry == undefined || entry.length == 0) {return false}
+	return true
+}
+
+function todays_puzzle_number () {
+	return date_to_puzzle_number(new Date())
+}
+function puzzle_number_to_displayed_puzzle_number (puzzle_number) {
+	return Math.floor(puzzle_number / 10)
+}
+function puzzle_number_to_displayed_puzzle_number_with_asterisk (puzzle_number) {
+	return Math.floor(puzzle_number / 10) + (puzzle_number_last_digit(puzzle_number) == 1? "*" : "")
+	// The worst code ever. Please help
+}
+function storage_update_streaks () {
+	// Drop your streak if you have not won the puzzle 2 days ago. Or one day ago. Or now.
+
+	let today = new Date()
+
+	function won_puzzle_number (puzzle_number) {
+		return (game.puzzle_history[puzzle_number] && game.puzzle_history[puzzle_number].startsWith("W"))? 1 : 0
+	}
+	function won_at_all_on_date (date) {
+		let won_normal = won_puzzle_number(date_to_puzzle_number(date))
+		let won_hard = won_puzzle_number(date_to_puzzle_number(date)+1)
+		return won_normal || won_hard
+	}
+	function lost_both_puzzles_on_date (date) {
+		// This is notably different: to not play a puzzle isn't a loss here.
+		let lost_normal = game.puzzle_history[date_to_puzzle_number(date)] && !game.puzzle_history[date_to_puzzle_number(date)].startsWith("W")
+		let lost_hard = game.puzzle_history[date_to_puzzle_number(date)+1] && !game.puzzle_history[date_to_puzzle_number(date)+1].startsWith("W")
+		return (lost_normal && lost_hard) ? true : false
+	}
+
+	// So the day 2 days ago is special because if you didn't win, you lose the streak entirely, but the days 1 and 0 ago can be repaired if you win it.
+	if (!won_at_all_on_date(add_days(new Date(), -2))
+		|| lost_both_puzzles_on_date(add_days(new Date(), -1))
+		|| lost_both_puzzles_on_date(new Date())) {
+		let set_streak_to = 0
+		// Now backlog. Your current streak COULD technically be lost 2 days ago but you won a few of today's puzzles. Then the streak can start at 1, or 2, or 3, or 4, whatever.
+
+		if (!won_at_all_on_date(add_days(new Date(), -2))) {
+			set_streak_to += won_puzzle_number(date_to_puzzle_number(today))
+			set_streak_to += won_puzzle_number(date_to_puzzle_number(today)+1)
+			set_streak_to += won_puzzle_number(date_to_puzzle_number(today)-10)
+			set_streak_to += won_puzzle_number(date_to_puzzle_number(today)-10+1)
+		} else if (lost_both_puzzles_on_date(add_days(new Date(), -1))) {
+			set_streak_to += won_puzzle_number(date_to_puzzle_number(today))
+			set_streak_to += won_puzzle_number(date_to_puzzle_number(today)+1)
+		} else if (lost_both_puzzles_on_date(new Date())) {
+			// who cares lol
+		}
+
+		l.set('current_streak', set_streak_to)
+		if (numify(l.get('highest_streak')) < numify(l.get('current_streak'))) { // Set highest streak if curstreak is higher
+			// Apparently '10' is less than '9'. GRRRRRRRRRRRRRRRRRRRRRR
+			l.set('highest_streak', l.get('current_streak'))
+		}
+	}
+
+}
+
+function puzzle_number_to_date (puzzle_number) {
+	let date = (new Date(game.start_date)).setUTCDate(new Date(game.start_date).getUTCDate() + (Math.floor(puzzle_number / 10))) // Set date sets number of DAYS. Only works because start_date starts in a 1. Have to add 1 because date starts at 1.
+	return new Date (date)
+}
+
+function puzzle_number_last_digit (puzzle_number) {
+	return puzzle_number % 10
+}
+function update_puzzle_history () {
+	if (l.get('first_ever_started') == null) {
+		l.set('first_ever_started', new Date())
+		game.puzzle_history = {}
+	}
+	// localStorage has a cap on storage space, which is uh, a little annoying...
+	l.set('puzzle_history', JSON.stringify(game.puzzle_history))
+}
+function get_puzzle_history () {
+	return JSON.parse(l.get('puzzle_history'))
+}
+
+function storage_win (puzzle_number, result, closest_number, turns, time) {
+
+	// Add to the total amount played, IF this has not yet been solved AND if it's not in the daily set.
+	// Only count if the puzzle number hasn't been completed.
+	if (puzzle_number && (!game.puzzle_history[puzzle_number] || !is_puzzle_history_entry_completed(game.puzzle_history[game.current_puzzle_number]))) {
+		if (!l.exists('total_played')) {
+			l.set('total_played', 0); l.set('normal_played', 0); l.set('hard_played', 0);
+			l.set('total_won', 0); l.set('normal_won', 0); l.set('hard_won', 0);
+			l.set('streak_started', new Date());
+		}
+
+		l.add('total_played', 1)
+		l.add('total_won', result == 'win'? 1:0)
+		if (puzzle_number_last_digit(puzzle_number) == 0) {
+			l.add('normal_played', 1)
+			l.add('normal_won', result == 'win'? 1:0)
+		} else {
+			l.add('hard_played', 1)	
+			l.add('hard_won', result == 'win'? 1:0)
+		}
+		if (todays_puzzle_number() - 10 < puzzle_number) { // Update the streak if it actually fills in the last 1 day
+
+			l.add('current_streak', result == 'win'? 1:0)
+			if (numify(l.get('highest_streak')) < numify(l.get('current_streak'))) { // Set highest streak if curstreak is higher
+				// Apparently '10' is less than '9'. GRRRRRRRRRRRRRRRRRRRRRR
+				l.set('highest_streak', l.get('current_streak'))
+			}
+
+		}
+
+		if (result == 'win') {
+			if (l.get(`stats_solved_in_${undo_stack.length}`)) {
+				l.add(`stats_solved_in_${undo_stack.length}`, 1)
+			}
+		}
+		if (!game.puzzle_history[puzzle_number]) {
+			game.puzzle_history[puzzle_number] = {}
+		}
+
+		// Assemble this string.
+		// W/5/30 = Win, 5 steps, 30 seconds
+		// L/6/40/345 = Lose, 6 steps, 40 seconds, closest number 345
+		// D/5/40 = same thing, but div by 0 result
+		function convert_result (result) {
+			if (result == "win") {return "W"}
+			else if (result == "div0") {return "D"}
+			return "L"
+		}
+		if (mod_on("Smart Race")) {
+			if (game.smart_race_puzzles_solved < settings.smart_race_win_threshold) {
+				game.puzzle_history[puzzle_number] = `L/` + game.smart_race_puzzles_solved
+			} else {
+				game.puzzle_history[puzzle_number] = `W/` + game.smart_race_puzzles_solved
+			}
+
+		} else {
+			game.puzzle_history[puzzle_number] = `${convert_result(result)}/${turns}/${time >= settings.accepted_time? "-" : time}${convert_result(result) == "L"? "/" + closest_number:``}`
+		}
+	}
+	// Um. Maybe switch losings to winnings?
+
+	update_puzzle_history()
+}
+
+function localstorage_size () { // https://stackoverflow.com/questions/4391575/how-to-find-the-size-of-localstorage
+	var _lsTotal=0,_xLen,_x;for(_x in localStorage){ if(!localStorage.hasOwnProperty(_x)){continue;} _xLen= ((localStorage[_x].length + _x.length)* 2);_lsTotal+=_xLen; (_x.substr(0,50)+" = "+ (_xLen/1024).toFixed(2)+" KB")}; return (_lsTotal / 1024).toFixed(2) + " KB"
+
+}
+$("#popup_debug_storage_size").textContent = `Storage used: ${localstorage_size()}`
+
+function update_time_to_next_puzzle () {
+	$("#endgame_time_to_next_puzzle").textContent = time_between_now_and_tomorrow()
+	$("#help_time_to_next_puzzle").textContent = time_between_now_and_tomorrow()
+}
+setInterval(update_time_to_next_puzzle, 1000)
+
+$("#popup_debug_clear_storage").addEventListener("click", function(){window.localStorage.clear(); recalibrate_storage()})
+
+let test = date_to_puzzle_number(new Date())
+if (date_to_puzzle_number(puzzle_number_to_date(test)) != test) {
+	console.error("Error!", test, puzzle_number_to_date(test), date_to_puzzle_number(puzzle_number_to_date(test)))
+}
+
+window.addEventListener("click", smart_race_finish_animating)
+
+/*
+Arrow drawing code taken from my other rpg project 
+      let canvas = document.getElementById("canvas")
+      let context = canvas.getContext('2d')
+      context.clearRect(0, 0, canvas.width, canvas.height); // delete everything
+
+      if (!this.cursor_positioning_starting_reference.x) {
+        requestAnimationFrame(this.animate_game);
+        return
+
+      }
+
+     function drawArrowhead(context, from, to, radius) {
+      var x_center = to.x;  var y_center = to.y;  var angle;  var x;  var y;  context.beginPath();  angle = Math.atan2(to.y - from.y, to.x - from.x);  x = radius * Math.cos(angle) + x_center;  y = radius * Math.sin(angle) + y_center;  context.moveTo(x, y);  angle += (1.0/3.0) * (2 * Math.PI);  x = radius * Math.cos(angle) + x_center;  y = radius * Math.sin(angle) + y_center;  context.lineTo(x, y);  angle += (1.0/3.0) * (2 * Math.PI);  x = radius *Math.cos(angle) + x_center;  y = radius *Math.sin(angle) + y_center;  context.lineTo(x, y);  context.closePath();  context.fill();   }
+      function drawArrow(context, from, to, radius, width=false) {
+        let dif = Math.abs(from.y - to.y)
+        if (dif > (230-20)) {dif = from.y+230} else {dif = from.y+dif+20} // If "dif" is 150 it looks like it hangs down a bit
+        context.beginPath();
+        context.moveTo(from.x, from.y);
+        context.quadraticCurveTo(from.x, dif, to.x, to.y);
+        context.lineTo(to.x, to.y);
+        context.stroke();
+        drawArrowhead(context, {x: from.x, y: dif}, to, radius) // If you just use drawArrowhead(context, from, to, radius), the arrow curve isn't right. This curve isn't completely right if you do it by the dif, because again, it's a curve, but it looks much better.
+      }
+      context.lineWidth = 10;
+      context.fillStyle = 'rgb(0, 255, 255)'; // for the triangle fill
+      context.lineJoin = 'butt'; // is this a joke
+      context.lineCap = 'round';
+
+      let grad = context.createLinearGradient(0, 0, document.getElementById(MECHASURGE).offsetWidth, document.getElementById(MECHASURGE).offsetHeight);
+      grad.addColorStop(0, "rgba(0, 255, 255, 0.1)");
+      grad.addColorStop(1, "rgba(0, 255, 255, 1)");
+      context.strokeStyle = grad;
+      */
+</script>
+
+</html>
