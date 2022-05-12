@@ -298,7 +298,7 @@ tr, td {
 /* https://alligator.io/css/css-selected_loader-animation/ */
 .selected_loader {width: 100%; height: 100%; border-radius: 50%; border: 5px dotted rgba(29, 161, 242, 0.2);  border-left-color: #0aa; border-right-color: #0aa; background: transparent;
 	animation: rotate-s-loader 5s linear infinite, slam-in 0.5s ease-in 1; top: 0%; left: 0%;
-	margin: 0 auto;  position: absolute; opacity: 0.23;
+	margin: 0 auto;  position: absolute; opacity: 0.23; pointer-events: none;
 	z-index: 1;}
 
 
@@ -523,6 +523,10 @@ z-index: 102; pointer-events: none; overflow-y: auto
   }
 }
 
+@media only screen and (min-width: 1060px) { /* desktops */
+
+}
+
 
 }
 @media only screen and (max-height: 700px) {
@@ -562,6 +566,7 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
 }
 #target_number, #target_number2 {
 	text-align: center; font-size: 400%; font-weight: bold; width: 100%; user-select: none; position: absolute;
+	animation: glowing 1s infinite alternate;
 }
 .mod-double-damage #target_number {
   right: 100px;
@@ -578,6 +583,44 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
 }
 #target_number_opacity_fill {
 	text-align: center; font-size: 400%; font-weight: bold; width: 100%; user-select: none; opacity: 0;
+}
+#target_number_arrows_left {
+	text-align: left;
+}
+#target_number_arrows_right {
+	text-align: right;
+}
+.target_number_arrows {
+	font-size: 400%; font-weight: bold; width: 100%; user-select: none; position: absolute; color: #00ffffcc;
+	animation: arrowfade0 1s ease infinite alternate;
+}
+.theme_hard .target_number_arrows {
+	color: #7e1ad9;
+}
+.mod-smart-race .target_number_arrows {
+	animation: arrowfade0 0.5s ease infinite alternate;
+}
+#target_number_arrows_left1 {margin-left: 5%;  animation-delay: 0.1s;}
+#target_number_arrows_left2 {margin-left: 10%; animation-delay: 0.2s;}
+#target_number_arrows_left3 {margin-left: 15%; animation-delay: 0.3s;}
+#target_number_arrows_left4 {margin-left: 20%; animation-delay: 0.4s;}
+#target_number_arrows_left5 {margin-left: 25%; animation-delay: 0.5s;}
+#target_number_arrows_left6 {margin-left: 30%; animation-delay: 0.6s;}
+#target_number_arrows_left7 {margin-left: 35%; animation-delay: 0.7s;}
+#target_number_arrows_right1 {text-align: right; width: calc(100% - 5%);  animation-delay: 0.1s;}
+#target_number_arrows_right2 {text-align: right; width: calc(100% - 10%); animation-delay: 0.2s;}
+#target_number_arrows_right3 {text-align: right; width: calc(100% - 15%); animation-delay: 0.3s;}
+#target_number_arrows_right4 {text-align: right; width: calc(100% - 20%); animation-delay: 0.4s;}
+#target_number_arrows_right5 {text-align: right; width: calc(100% - 25%); animation-delay: 0.5s;}
+#target_number_arrows_right6 {text-align: right; width: calc(100% - 30%); animation-delay: 0.6s;}
+#target_number_arrows_right7 {text-align: right; width: calc(100% - 35%); animation-delay: 0.7s;}
+.modedouble-damage #target_number_arrows_left7,
+.modedouble-damage #target_number_arrows_right7 {display: none;}
+@keyframes arrowfade0 {
+	from {opacity: 1;} to {opacity: 0;}
+}
+@keyframes arrowfade1 {
+	from {opacity: 1;} to {opacity: 0;}
 }
 /*
 .theme_win #target_number {
@@ -599,11 +642,14 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
     color: #217aff;*/
     filter: none; color: #ff0;
     transition: filter 1s ease, color 1s ease;
+
+	animation: winglowing 3s infinite alternate;
 }
 .theme_lose #target_number_bg, .theme_lose #target_number,
 .theme_lose #target_number2 {
     filter: grayscale(1);
     transition: filter 1s ease, color 1s ease;
+	animation: none;
 }
 .theme_hard #target_number_bg, .theme_hard #first_bg {
 	filter: hue-rotate(30deg);
@@ -1051,6 +1097,9 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 				<hr>
 				<div id="popup_debug_storage_size"></div>
 				<button class="dangerous" id="popup_debug_clear_storage">Delete All Data</button>
+				<hr>
+				Creating New Number Unselects<br>
+				Creating New Number Does Nothing<br>
 			</div>
 
 		</div>
@@ -1089,6 +1138,8 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 					<div id="time_resets_at_utc_note" style="width: 100%; float: none; text-align: center; padding-right: 10px;">
 						The time resets at UTC, the same time for everyone. You can play yesterday's puzzle if you missed it (top right, 🗃️ button).
 					</div>
+					<!-- You missed yesterday's puzzle! Win one of yesterday's puzzles to not lose your streak. -->
+					<!-- The streak only counts puzzles you've beaten recently, not any in the archive. -->
 				</div>
 			</div>
 
@@ -1122,6 +1173,20 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 			<div id="target_number_bg"><br></div>
 			<div id="target_number"></div>
 			<div id="target_number2"></div>
+			<div id="target_number_arrows_left1" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_left2" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_left3" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_left4" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_left5" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_left6" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_left7" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_right1" class="target_number_arrows">〈</div>
+			<div id="target_number_arrows_right2" class="target_number_arrows">〈</div>
+			<div id="target_number_arrows_right3" class="target_number_arrows">〈</div>
+			<div id="target_number_arrows_right4" class="target_number_arrows">〈</div>
+			<div id="target_number_arrows_right5" class="target_number_arrows">〈</div>
+			<div id="target_number_arrows_right6" class="target_number_arrows">〈</div>
+			<div id="target_number_arrows_right7" class="target_number_arrows">〈</div>
 			<div id="target_number_opacity_fill">0</div>
 			<div id="tips_container">
 				<div id="tips"></div>
@@ -2257,16 +2322,16 @@ function endgame_popup ({stats_popup}={}) {
 					for (let i = 0; i < undo_stack.length; i++) {
 						rv += (undo_stack[i][0].format_array.join("")) 
 					}
+					rv += `\n`
 				} else if (game.smart_race_undo_stacks.length < 16) {
 					for (let i = 0; i < undo_stack.length; i++) {
 						rv += (emojify(undo_stack[i][0].operation)) // if it's SUPER LONG, only operation colors show
 					}
+					rv += `\n`
 				} else {
 					rv += emojify(undo_stack.length) // ok fine, just each stack length then hahahaha
 				}
 
-
-				rv += `\n`
 			}
 			
 		} else {
@@ -2778,6 +2843,10 @@ function update_visuals () {
 
 	}
 
+	function out_of_tutorial_popup_mode () {
+		return Object.keys(game.puzzle_history).length > 4
+	}
+
 
 	if (items.length > 0) {
 		$("#popup_main").style.opacity = 1
@@ -2789,7 +2858,7 @@ function update_visuals () {
 	if (items.length > 4) {
 		$("#popup_main").style.opacity = 0.4
 	}
-	if (game.hard_mode || items.length > 5 || !playing || Object.keys(game.puzzle_history).length > 4) {
+	if (game.hard_mode || items.length > 5 || !playing || out_of_tutorial_popup_mode()) {
 		$("#popup_main").style.opacity = 0
 		$("#tips").style.opacity = 1
 	}
@@ -2798,47 +2867,13 @@ function update_visuals () {
 	let factors = prime_factors(target)
 	let bontext = `equal to <span style="font-weight: bold">${factors.join(" × ")}</span>`
 	if (factors.length == 1) {bontext = ` <span style="font-weight: bold">prime</span><span id="scroll_notice">. You can scroll up and down on this message to change the tip</span>`}
-	let text = `<b>Tip:</b> The number <span style="font-weight: bold">${target}</span> is ${bontext}.`
+	let text = `<b>Tip:</b> The target <span style="font-weight: bold">${target}</span> is ${bontext}.`
 	//if (factors.length != 1) {text += ` ${randarray(useless_tips)}`}
 
-/*
-	// Try to divide selected number??
-	if (selected) {
-		let selected_number = numify(selected.querySelector(".number").textContent)
-		if (selected_number > 2) {
-			// Get the closest multiplier to the target number
-			// But if the number is halfway to the target already (for example, 600 vs 1000) switch to showing 400, the subtraction to it
-			// Same for the best divisor to the target (if the selection is above)
-
-			if (selected_number < seed.target / 2) {
-				
-				let modulator = ``
-				if (target / selected_number != Math.floor(target / selected_number)) {
-					modulator = ` - <b>${target % selected_number}</b>`
-				}
-
-				text += ` <b>${selected_number} × <b>${Math.floor(target / selected_number)}</b> = <b>${target}${modulator}</b>`
-			} else if (selected_number > seed.target * 2) {
-
-
-//			let modulator = ``
-//			if (selected_number / target != Math.floor(selected_number / target)) {
-//				modulator = selected_number - (selected_number % target)
-//				text += ` <b>(${selected_number} - ${(selected_number % target)})</b> ÷ <b>${Math.floor(selected_number / target)}</b> = <b>${target}${modulator}</b>`
-//			} else {
-//				text += ` <b>${selected_number} ÷ <b>${Math.floor(selected_number / target)}</b> = <b>${target}${modulator}</b>`
-//			}
-
-// Actually this code doesn't work. It's too complicated why even bother showing if 35234 / 541 = 64 or some magic
-			} else if (selected_number < seed.target) {
-				text += ` <b>${selected_number}</b> + <b>${(target - selected_number)}</b> = <b>${target}</b>.`
-			} else {
-				text += ` <b>${selected_number}</b> - <b>${(selected_number - target)}</b> = <b>${target}</b>.`
-			}
-
-		}
+	if (!out_of_tutorial_popup_mode()) {
+		text = `<b>Tip:</b> Create the target number <span style="font-weight: bold">${target}</span>. You can switch to a different number by clicking on it!`
 	}
-	*/
+	// Deleted "distance from target" code, loo kfor old version to find it
 	$("#tips").innerHTML = text
 	
 
@@ -2871,6 +2906,24 @@ function update_visuals () {
 	}
 
 }
+/*
+let offset = 0; let bit = 0;
+function animate_arrows () {
+	if (bit == 0) {bit = 1} else {bit = 0}
+	$("#target_number_arrows_left").style = `margin-left: ${offset}%; animation: arrowfade${bit} 0.2s linear both`
+	$("#target_number_arrows_right").style = `width: ${100-offset}%; animation: arrowfade${bit} 0.2s linear both`
+	offset += 5
+	if (offset > 40) {offset = 0}
+}*//*
+let offset = 0; let bit = 0;
+function animate_arrows () {
+	if (bit == 0) {bit = 1} else {bit = 0}
+	$("#target_number_arrows_left").style = `margin-left: ${offset}%; animation: arrowfade${bit} 0.2s linear both`
+	$("#target_number_arrows_right").style = `width: ${100-offset}%; animation: arrowfade${bit} 0.2s linear both`
+	offset += 5
+	if (offset > 40) {offset = 0}
+}
+setInterval(animate_arrows, 400)*/
 
 function prime_factors(n) { // https://stackoverflow.com/questions/39899072/how-can-i-find-the-prime-factors-of-an-integer-in-javascript
   const factors = [];
@@ -3443,6 +3496,9 @@ function pick_modifiers (seed_string) {
 		rules_pool_2 = remove_element(rules_pool_2, "Small Cap")
 		if (r2 == "Dimensional Merge") {
 			rules_pool_2 = remove_element(rules_pool_2, "Zero Equals One")
+		} else if (r2 == "Wildcard Dimension") {
+			rules_pool_2 = remove_element(rules_pool_2, "Target Finder")
+
 		}
 	} else if (r1 == "Double Damage") {
 		rules_pool_2 = remove_element(rules_pool_2, "Target Finder")
@@ -3470,10 +3526,12 @@ function pick_modifiers (seed_string) {
 			//r1 = pick(rules_pool_2, seed_string+"3")
 		}
 
-		// Pick a random thing from rules3
+	}
+	if (r1 == "Target Finder") {
+		rules_pool_2 = remove_element(rules_pool_2, "Busco Quadnary")
 	}
 
-
+		// Pick a random thing from rules3
 	// The top half of this rand will be dedicated to operation changes, such as adding modulo and stuff. These are custom operations.
 
 	// So uh, not sure the distribution of this. The max we can have is 3 other operations, kinda.
@@ -4057,6 +4115,9 @@ document.addEventListener('keydown', function (event) {
 		  	case "&": latest_oppress = "&"; break
 		  	case "%": latest_oppress = "%"; break
 		  	case "^": latest_oppress = "^"; break
+		  	case "<": latest_oppress = "⇷"; break // really spaghetti. That's what happens when you use poop symbols
+		  	case "]": latest_oppress = "++"; break
+		  	case "[": latest_oppress = "﬩"; break
 		  }
 		  keyp[1] = latest_oppress
   	}
@@ -4190,6 +4251,7 @@ function keyboard_try_selecting_first_number () {
 function confirm_keyboard_operation () {
 	let item = find_number(keyp[2])
 	if (!item) {return false}
+	if (gridspace_no_interact(item.gridspace)) {return false}
 	operation = keyp[1]
 
 	let index = item.adjacency_names.indexOf(convert_symbol_to_name(operation))
@@ -4446,7 +4508,7 @@ function localstorage_size () { // https://stackoverflow.com/questions/4391575/h
 	var _lsTotal=0,_xLen,_x;for(_x in localStorage){ if(!localStorage.hasOwnProperty(_x)){continue;} _xLen= ((localStorage[_x].length + _x.length)* 2);_lsTotal+=_xLen; (_x.substr(0,50)+" = "+ (_xLen/1024).toFixed(2)+" KB")}; return (_lsTotal / 1024).toFixed(2) + " KB"
 
 }
-$("#popup_debug_storage_size").textContent = `Storage used: ${localstorage_size()}`
+$("#popup_debug_storage_size").textContent = `Storage used: ${localstorage_size()} (the size people warn about is 5 MB, aka 5000 KB)`
 
 function update_time_to_next_puzzle () {
 	$("#endgame_time_to_next_puzzle").textContent = time_between_now_and_tomorrow()
