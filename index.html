@@ -3,11 +3,11 @@
 <title>Numberdly - a daily numbers game</title>
 <head>
 <link rel="stylesheet" type="text/css" href="index.css"><link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet"><link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet">
-
 <link href="../fonts/seguiemj.ttf" rel="stylesheet"> <!-- font-family: Segoe UI EMOJI; -->
 
 <link type="text/css" href="../os-theme-thick-light.css" rel="stylesheet"/><link type="image/ico" href="numberdly.ico" rel="shortcut icon" id="icon"/>
 <meta http-equiv="content-type" content="text/html;charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+
 <meta property="og:title" content="Numberdly">
 <meta property="og:image" content="https://i.imgur.com/mSD62sB.png">
 <meta property="og:description" content="Try to get to the target number, using various operations, in the lowest steps possible!">
@@ -912,8 +912,10 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
     color: #9ff;
 }
 .backlogged {
-  /*opacity: 1;*/
-  /*filter: grayscale(1);*/
+	display: none;
+}
+.theme_showbacklog .backlogged {
+	display: flex;
 }
 .popup_archive_row_selected {
 	/*filter: sepia(1) hue-rotate(120deg);*/
@@ -1132,6 +1134,9 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 			</div>
 
 			<div id="popup_archive_list"></div>
+
+			<div id="show_all_section" style="text-align: center; margin-top: 3px; font-weight: bold"><button id="show_all">Show All Older Puzzles</button> (recommended to do recent puzzles first!)</div>
+			
 
 		</div>
 		<div id="popup_debug" class="popup popupbg solid hidden" style="width: 90%; left: 5%">
@@ -2735,7 +2740,7 @@ function repopulate_archive () {
 	//for (let i = 1; i < dpn + 2; i++) {
 	let first_puzzle_encountered = date_to_puzzle_number(localStorage.first_ever_started) / 10
 	for (let i = dpn; i > 0; i--) {
-		rv += `<div class="rowmaker${i%2==0?" even":''} ${i>=dpn? 'newceo':''} ${i<first_puzzle_encountered? 'backlogged':''}">${displayed_puzzle_number_to_archive_row(i)}${displayed_puzzle_number_to_archive_row(i, 1)}</div>`
+		rv += `<div class="rowmaker${i%2==0?" even":''} ${i>=dpn? 'newceo':''} ${i<dpn-7? 'backlogged':''}">${displayed_puzzle_number_to_archive_row(i)}${displayed_puzzle_number_to_archive_row(i, 1)}</div>`
 		if (i == dpn) {
 			rv += `<br>`
 			function completed_no_puzzle_yesterday () {
@@ -2747,7 +2752,7 @@ function repopulate_archive () {
 			if (completed_no_puzzle_yesterday() && l.get("current_streak") > 3) {
 				rv += `<div style="text-align: center">You <b class="flashing_streak">missed yesterday's</b> puzzle <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b>. Win one of yesterday's puzzles (directly below this text) to continue your streak.</div>`
 			} else if (completed_no_puzzle_yesterday()) {
-				rv += `<div style="text-align: center">You missed yesterday's puzzle <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b>. Win one of yesterday's puzzles (directly below this text) to continue your streak.</div>`
+				rv += `<div style="text-align: center">You can extend your streak by playing <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b> (yesterday's puzzle) at any point.</div>`
 			} else {
 				rv += `<div style="text-align: center; margin-bottom: 5px"><b>Previous Puzzles</b></div>`
 			}
@@ -4215,6 +4220,8 @@ function date_to_seed (dt=0, hard=0, ignore_smart_race=0) {
 	return rv
 }
 function puznum_to_seed (puzzle_number, ignore_smart_race=0) {
+	if (!ignore_smart_race) {return date_to_seed(puzzle_number_to_date(puzzle_number), puzzle_number_last_digit(puzzle_number), ignore_smart_race)} // DON'T use the cache
+
 	if (tracked_puzznums[puzzle_number]) {return tracked_puzznums[puzzle_number]} // store the seed so we don't have to recalculate it :)
 
 	let seed_found = date_to_seed(puzzle_number_to_date(puzzle_number), puzzle_number_last_digit(puzzle_number), ignore_smart_race)
@@ -4875,6 +4882,11 @@ setInterval(update_time_to_next_puzzle, 1000)
 
 $("#popup_debug_clear_storage").addEventListener("click", function(){window.localStorage.clear(); recalibrate_storage()})
 $("#play_hard_notification_click").addEventListener("click", play_hard)
+function show_all_archive_puzzles () {
+	$("#game").classList.add("theme_showbacklog")
+	$("#show_all_section").style.display = "none"
+}
+$("#show_all").addEventListener("click", show_all_archive_puzzles)
 
 let test = date_to_puzzle_number(new Date())
 if (date_to_puzzle_number(puzzle_number_to_date(test)) != test) {
