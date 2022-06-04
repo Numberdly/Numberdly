@@ -2346,11 +2346,12 @@ function endgame_popup ({stats_popup}={}) {
 		}
 
 		
-		top_status = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}${modifiers}\n`
-		top_status_minus_modifiers = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}\n`
+		top_status = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}${modifiers}`
+		top_status_minus_modifiers = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}`
 
 		rv += top_status
-		rv += " numberdly.com" // this garbage is annoying and inelegant but EVERYONE does it, lol, also if I don't put it here the seo is trash
+		rv += " - numberdly.com" // this garbage is annoying and inelegant but EVERYONE does it, lol, also if I don't put it here the seo is trash
+		rv += "\n"
 
 		rv += (`🏁${emojify(seed.target, true)}🏁`)
 
@@ -2754,7 +2755,7 @@ function repopulate_archive () {
 			if (completed_no_puzzle_yesterday() && l.get("current_streak") > 3) {
 				rv += `<div style="text-align: center">You <b class="flashing_streak">missed yesterday's</b> puzzle <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b>. Win one of yesterday's puzzles (directly below this text) to continue your streak.</div>`
 			} else if (completed_no_puzzle_yesterday()) {
-				rv += `<div style="text-align: center">You can extend your streak by playing <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b> (yesterday's puzzle) at any point.</div>`
+				rv += `<div style="text-align: center">You can extend your streak by playing yesterday's puzzle <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b>.</div>`
 			} else {
 				rv += `<div style="text-align: center; margin-bottom: 5px"><b>Previous Puzzles</b></div>`
 			}
