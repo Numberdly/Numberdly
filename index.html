@@ -918,6 +918,9 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 .theme_showbacklog .backlogged {
 	display: flex;
 }
+.theme_showbacklog #show_all_section {
+	display: none;
+}
 .popup_archive_row_selected {
 	/*filter: sepia(1) hue-rotate(120deg);*/
 	border: 1px solid cyan;
@@ -1136,7 +1139,8 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 
 			<div id="popup_archive_list"></div>
 
-			<div id="show_all_section" style="text-align: center; margin-top: 3px; font-weight: bold"><button id="show_all">Show All Older Puzzles</button> (recommended to do recent puzzles first!)</div>
+			<div id="show_all_section" style="text-align: center; margin-top: 3px; font-weight: bold; margin-bottom: 5px"><button id="show_all">Show All Older Puzzles</button> (recommended to do recent puzzles first!)</div>
+			
 			
 
 		</div>
@@ -2742,8 +2746,9 @@ function repopulate_archive () {
 
 	//for (let i = 1; i < dpn + 2; i++) {
 	let first_puzzle_encountered = date_to_puzzle_number(localStorage.first_ever_started) / 10
+	let puzzles_first_shown = 9
 	for (let i = dpn; i > 0; i--) {
-		rv += `<div class="rowmaker${i%2==0?" even":''} ${i>=dpn? 'newceo':''} ${i<dpn-7? 'backlogged':''}">${displayed_puzzle_number_to_archive_row(i)}${displayed_puzzle_number_to_archive_row(i, 1)}</div>`
+		rv += `<div class="rowmaker${i%2==0?" even":''} ${i>=dpn? 'newceo':''} ${i<dpn-puzzles_first_shown? 'backlogged':''}">${displayed_puzzle_number_to_archive_row(i)}${displayed_puzzle_number_to_archive_row(i, 1)}</div>`
 		if (i == dpn) {
 			rv += `<br>`
 			function completed_no_puzzle_yesterday () {
@@ -4887,7 +4892,6 @@ $("#popup_debug_clear_storage").addEventListener("click", function(){window.loca
 $("#play_hard_notification_click").addEventListener("click", play_hard)
 function show_all_archive_puzzles () {
 	$("#game").classList.add("theme_showbacklog")
-	$("#show_all_section").style.display = "none"
 }
 $("#show_all").addEventListener("click", show_all_archive_puzzles)
 
