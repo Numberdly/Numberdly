@@ -8,6 +8,9 @@
 
 <link type="text/css" href="../os-theme-thick-light.css" rel="stylesheet"/><link type="image/ico" href="numberdly.ico" rel="shortcut icon" id="icon"/>
 <meta http-equiv="content-type" content="text/html;charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Numberdly">
+<meta property="og:image" content="https://i.imgur.com/mSD62sB.png">
+<meta property="og:description" content="Try to get to the target number, using various operations, in the lowest steps possible!">
 <script>
 
 </script>
@@ -224,6 +227,10 @@ tr, td {
   from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #066, 0 0 30px #066, 0 0 40px #066, 0 0 50px #066, 0 0 60px #066, 0 0 70px #066;}
   to {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #aff, 0 0 50px #aff, 0 0 60px #aff, 0 0 70px #aff, 0 0 80px #aff;}
 }
+@keyframes purpleglowing {
+  from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #306, 0 0 30px #306, 0 0 40px #306, 0 0 50px #306, 0 0 60px #306, 0 0 70px #306;}
+  to {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #a0f, 0 0 50px #a0f, 0 0 60px #a0f, 0 0 70px #a0f, 0 0 80px #a0f;}
+}
 @keyframes winglowing {
   from {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 10px #000, 0 0 20px #660, 0 0 30px #660, 0 0 40px #660, 0 0 50px #660, 0 0 60px #660, 0 0 70px #660;}
   to {text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #ff5, 0 0 50px #ff5, 0 0 60px #ff5, 0 0 70px #ff5, 0 0 80px #ff5, 0 0 90px #ff5, 0 0 100px #ff5, 0 0 110px #ff5;}
@@ -366,8 +373,25 @@ tr, td {
 #game.selected_global .hidden.operation {
 	display: none
 }
-.hidden, #keyboard_input_display.hidden {
+
+#play_hard_notification {
+	opacity: 1; width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+    transition: 7s opacity cubic-bezier(0, 0, 0.94,-0.08);
+    display: block !important;
+    position: absolute;
+    bottom: 0px;
+    padding: 4px;
+    height: 70px;
+    background: radial-gradient(black, transparent);
+}
+.hidden, #keyboard_input_display.hidden, #play_hard_notification.hidden {
 	display: none; opacity: 0;
+}
+#play_hard_notification.hidden {
+	transition: opacity 0.2s ease;
 }
 .grayed {
 	color: #444 !important;
@@ -516,6 +540,12 @@ z-index: 102; pointer-events: none; overflow-y: auto
 	#game.mod-double-damage #target_number2 {
 	  left: 60px;
 	}
+	#target_number_arrows_left7,
+	#target_number_arrows_right7,
+	#target_number_arrows_left8,
+	#target_number_arrows_right8,
+	.mod-double-damage #target_number_arrows_left6,
+	.mod-double-damage #target_number_arrows_right6 {transform: scale(0);} /*scale0 to hide without changing animation*/
 }
 @media only screen and (max-width: 568px) { /* Phones */
   .low_width_mini_go_away {
@@ -568,6 +598,10 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
 	text-align: center; font-size: 400%; font-weight: bold; width: 100%; user-select: none; position: absolute;
 	animation: glowing 1s infinite alternate;
 }
+.theme_hard #target_number, .theme_hard  #target_number2 {
+	animation: purpleglowing 1s infinite alternate;
+}
+
 .mod-double-damage #target_number {
   right: 100px;
 }
@@ -575,7 +609,9 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
   left: 100px;
 }
 .mod-target-finder #target_number, 
-.mod-target-finder #target_number2 {
+.mod-target-finder #target_number2,
+.mod-worlds-collide #target_number, 
+.mod-worlds-collide #target_number2 {
     filter: drop-shadow(2px 4px 6px white) blur(23px);
 }
 .mod-even-number-appreciation  {
@@ -593,9 +629,13 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
 .target_number_arrows {
 	font-size: 400%; font-weight: bold; width: 100%; user-select: none; position: absolute; color: #00ffffcc;
 	animation: arrowfade0 1s ease infinite alternate;
+	display: none;
 }
 .theme_hard .target_number_arrows {
 	color: #7e1ad9;
+}
+.theme_playing .target_number_arrows {
+	display: block;
 }
 .mod-smart-race .target_number_arrows {
 	animation: arrowfade0 0.5s ease infinite alternate;
@@ -607,6 +647,7 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
 #target_number_arrows_left5 {margin-left: 25%; animation-delay: 0.5s;}
 #target_number_arrows_left6 {margin-left: 30%; animation-delay: 0.6s;}
 #target_number_arrows_left7 {margin-left: 35%; animation-delay: 0.7s;}
+#target_number_arrows_left8 {margin-left: 40%; animation-delay: 0.8s;}
 #target_number_arrows_right1 {text-align: right; width: calc(100% - 5%);  animation-delay: 0.1s;}
 #target_number_arrows_right2 {text-align: right; width: calc(100% - 10%); animation-delay: 0.2s;}
 #target_number_arrows_right3 {text-align: right; width: calc(100% - 15%); animation-delay: 0.3s;}
@@ -614,8 +655,11 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
 #target_number_arrows_right5 {text-align: right; width: calc(100% - 25%); animation-delay: 0.5s;}
 #target_number_arrows_right6 {text-align: right; width: calc(100% - 30%); animation-delay: 0.6s;}
 #target_number_arrows_right7 {text-align: right; width: calc(100% - 35%); animation-delay: 0.7s;}
-.modedouble-damage #target_number_arrows_left7,
-.modedouble-damage #target_number_arrows_right7 {display: none;}
+#target_number_arrows_right8 {text-align: right; width: calc(100% - 40%); animation-delay: 0.8s;}
+.mod-double-damage #target_number_arrows_left7,
+.mod-double-damage #target_number_arrows_right7,
+.mod-double-damage #target_number_arrows_left8,
+.mod-double-damage #target_number_arrows_right8 {transform: scale(0);}
 @keyframes arrowfade0 {
 	from {opacity: 1;} to {opacity: 0;}
 }
@@ -660,12 +704,16 @@ background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #090
 .theme_hard #endgame_archive {display: inline-block;}
 
 .theme_hard #endgame_playhard {display: none;}
-#endgame_playhard {display: inline-block;}
+#endgame_playhard {display: inline-block; animation: 1s endgame_playhard ease infinite alternate;}
+@keyframes endgame_playhard {
+	from {box-shadow: rgba(0,0,0,0.5) 0px 0px 0px; outline: 1px solid black; outline-offset: 0px;}
+	to {box-shadow: rgba(255,0,0,1) 0px 0px 7px; outline: 2px ridge red; outline-offset: 7px;}
+}
 
 #tips_container {padding: 5px 10px 5px 10px; background: #222; color: #bbb; text-shadow: 1px 1px black;}
 #tips {transition: opacity 1s}
 
-#game_sidebar {position: absolute; width: 10%; flex-direction: column;    justify-content: center;    display: flex; top: 20%; height: 60%;    z-index: 100; transition: opacity 1s ease-in-out; opacity: 1}
+#game_sidebar {position: absolute; width: 7%; flex-direction: column;    justify-content: center;    display: flex; top: 20%; height: 60%;    z-index: 100; transition: opacity 1s ease-in-out; opacity: 1}
 #game_sidebar.hidden {opacity: 0} /* thanks css */
 
 #game #timer_popup {	position: absolute;  font-size: 600%;  width: 100%;  height: 0%;  z-index: 102;  top: 40%; right: 0;  text-align: right;  font-weight: bold;  color: yellow;  user-select: none;  pointer-events: none;	display: block; text-shadow: 2px 2px 2px black; text-align: center; width: auto}
@@ -792,6 +840,7 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 	opacity: 0; transition: opacity 2s ease;
 }
 
+
 #div0glitchtext {
 	animation: divglitch 0.4s linear infinite alternate, divblackout 20s linear infinite alternate, divrotate 300s linear infinite alternate; display: inline-block;
 }
@@ -810,6 +859,10 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 #popup_endgame {
 	margin: 0 auto; transform: translate(-50%, -50%); position: absolute; top: 53%; left: 50%; max-width: 500px; max-height: 800px; height: auto; padding-bottom: 13px;
 }
+.flashing_streak {
+	animation: flash_streak 1.5s ease infinite alternate;
+}
+@keyframes flash_streak {from {color: #F00;} to {color: #FFF;}}
 #endgame_table {
 	    max-width: 300px;
     margin: 0 auto;
@@ -848,11 +901,26 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 .popup_archive_row:nth-child(2n) {
 	width: 70%;
 }
+.newceo .popup_archive_row {
+    background-image: radial-gradient(#001222, #005555);
+    background-color: #155555;
+    color: #9ff;
+}
+.newceo .popup_archive_row:nth-child(2n) {
+    background-image: radial-gradient(#001222, #007277);
+    background-color: #155555;
+    color: #9ff;
+}
+.backlogged {
+  /*opacity: 1;*/
+  /*filter: grayscale(1);*/
+}
 .popup_archive_row_selected {
 	/*filter: sepia(1) hue-rotate(120deg);*/
 	border: 1px solid cyan;
 	color: cyan;
     box-shadow: cyan -3px 0px 15px inset;
+    pointer-events: none;
 }
 .popup_archive_row:hover {
   background-image: radial-gradient(#888, transparent) !important;
@@ -874,7 +942,8 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 @keyframes newcba {
 	from {outline: 2px solid #099;}
 	20% {outline: 2px solid #099;}
-	to {outline: 2px solid black;}
+	50% {outline: 2px solid black;}
+	to {outline: 2px solid #099;}
 }
 
 
@@ -964,7 +1033,7 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 						<span class="operation_info_text divides"></span>
 					</div>
 				</div>
-				) to use them.
+				) to use them. Reach the target!
 				<br>
 				<div style="font-size: 75%">
 				<span id="keyboard_input">Keyboard input is also supported. Try typing "1 + 2 =" to use <div class="plus" style="display: inline-block; font-size: 100%; ">+</div> on 1 and 2.<br></span>
@@ -1025,7 +1094,8 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 			</div>
 
 			<div style="text-align: center; margin-top: 3px; padding: 5px">
-				Game created by <a href="https://www.youtube.com/channel/UC_xZVsCKBk9xT-fpPs5Q6mQ" target="_blank">icely#3999</a>
+				Game created by <a href="https://www.youtube.com/channel/UC_xZVsCKBk9xT-fpPs5Q6mQ" target="_blank">icely#3999</a><br>
+				<a href="https://www.buymeacoffee.com/numberdly" target="_blank">Support with Donation</a>
 			</div>
 		</div>
 		<div id="popup_helphard" class="popup popupbg solid hidden" style="width: 90%; left: 5%;">
@@ -1044,48 +1114,21 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 				{[CONCAT]}
 				{[MODULO]}
 				{[EXPONENT]}
-
-				<b>Click</b> a number to select it. Then, operations (
-			<div style="line-height: 0.5; user-select: none; font-size: 100%; font-weight: bold; padding-top: 10px; padding-bottom: 10px; display: inline">
-				<div class="operation_info">
-					<div class="plus" style="display: inline-block; font-size: 100%; ">+</div>
-					<span class="operation_info_text plus"></span>
-				</div>
-				<div class="operation_info">
-					<div class="minus" style="display: inline-block; font-size: 100%; ">−</div>
-					<span class="operation_info_text minus"></span>
-				</div>
-				<div class="operation_info">
-					<div class="times" style="display: inline-block; font-size: 100%; ">×</div>
-					<span class="operation_info_text times"></span>
-				</div>
-				<div class="operation_info">
-					<div class="divides" style="display: inline-block; font-size: 100%; ">÷</div>
-					<span class="operation_info_text divides"></span>
-				</div>
-			</div>
-			) will appear all over the <i>other numbers</i>.<br>Click the operation to use it on the two numbers you selected.
-			<br>
-			<img src="numberdly_example.jpg">
-			For example, here, the number <b style="color: #0ff">5</b> is selected,
-			<br>and the player is clicking the <div class="times" style="display: inline-block; font-size: 100%; font-weight: bold">×</div> on <b>4</b>,
-			<br>to make <b>5 <div class="times" style="display: inline-block; font-size: 100%; font-weight: bold">×</div> 4 = 20</b>.
-			<hr>
-			The game ends after you use 7 operations, or hit the target number.
-			<br>
-			<span style="font-size: 75%">Keyboard input is also supported.</span>
-			<hr>
-			There are two new puzzles every day (Normal and Hard). The next puzzle pair arrives in <span id="help_time_to_next_puzzle" ></span>. Hard has more complicated numbers, and up to two modifiers. These modifiers can change the game rules, add and modify operations, and more.
-			</div>
-
-			<div style="text-align: center; margin-top: 3px; padding: 5px">
-				Game created by main_gi
 			</div>
 		</div>
+		<div id="popup_backlognote" class="popup popupbg solid hidden" style="width: 90%; left: 5%; height: 25%; top: 30%">
+			<div style="text-align: center; margin-top: 3px; font-weight: bold; font-size: 150%">Achievement Unlocked!</div>
+			<hr>
+			<div style="text-align: center; margin-top: 3px; font-size: 125%; padding: 5px">
+				ok, putting a donation link here makes no sense. disabling this lmao
+			</div>
+		</div>
+
 		<div id="popup_archive" class="popup popupbg solid hidden" style="width: 90%; left: 5%; height: 70%;">
 			<div style="text-align: center; margin-top: 3px; font-weight: bold; font-size: 125%">Numberdly Puzzle Library</div>
 			<div style="text-align: center; margin-top: 3px;">There are two new puzzles every day (Normal and Hard). Hard has more complicated numbers, and up to two modifiers.
-				<br>
+				<hr>
+				<div style="text-align: center"><b style="color: #9ff">Today's Puzzle Pair</b> (next in <b id="archive_time_to_next_puzzle"></b>)</div>
 			</div>
 
 			<div id="popup_archive_list"></div>
@@ -1133,7 +1176,7 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 				<div>
 					<div style="width: 35%; float: none">
 						<div style="color: #9ff; width: 100%; text-align: center; float: left"><b>Next Puzzle Pair</b></div>
-						<div id="endgame_time_to_next_puzzle" style="width: 100%; text-align: center; float: left; font-weight: bold; font-size: 200%; line-height: 1"></div>
+						<div id="endgame_time_to_next_puzzle" style="width: 100%; text-align: center; float: left; font-weight: bold; font-size: 200%; line-height: 1; margin-bottom: 20px;"></div>
 					</div>
 					<div id="time_resets_at_utc_note" style="width: 100%; float: none; text-align: center; padding-right: 10px;">
 						The time resets at UTC, the same time for everyone. You can play yesterday's puzzle if you missed it (top right, 🗃️ button).
@@ -1157,7 +1200,8 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 		<div id="game_sidebar" class="hidden">
 			<div>
 			<button id="undo"><span style="font-size: 286%; transform: translateY(5px); display: inline-block; pointer-events: none">↩</span><br>Undo</button><br>
-			<button id="undoall"><span style="font-size: 300%; transform: translateY(5px); display: inline-block; pointer-events: none">↺</span><br>Reset</button>
+			<button id="undoall"><span style="font-size: 300%; transform: translateY(5px); display: inline-block; pointer-events: none">↺</span><br>Reset</button><br>
+			<button id="skip"><span style="font-size: 267%; transform: translateY(5px); display: inline-block; pointer-events: none">⯈</span><br>Skip</button>
 			</div>
 		</div>
 		<div id="game_top">
@@ -1180,6 +1224,7 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 			<div id="target_number_arrows_left5" class="target_number_arrows">〉</div>
 			<div id="target_number_arrows_left6" class="target_number_arrows">〉</div>
 			<div id="target_number_arrows_left7" class="target_number_arrows">〉</div>
+			<div id="target_number_arrows_left8" class="target_number_arrows">〉</div>
 			<div id="target_number_arrows_right1" class="target_number_arrows">〈</div>
 			<div id="target_number_arrows_right2" class="target_number_arrows">〈</div>
 			<div id="target_number_arrows_right3" class="target_number_arrows">〈</div>
@@ -1187,6 +1232,8 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 			<div id="target_number_arrows_right5" class="target_number_arrows">〈</div>
 			<div id="target_number_arrows_right6" class="target_number_arrows">〈</div>
 			<div id="target_number_arrows_right7" class="target_number_arrows">〈</div>
+			<div id="target_number_arrows_right8" class="target_number_arrows">〈</div>
+
 			<div id="target_number_opacity_fill">0</div>
 			<div id="tips_container">
 				<div id="tips"></div>
@@ -1230,6 +1277,9 @@ overflow: hidden;display: block;position: relative;padding: 0.2em 0;height: 30%;
 			<div id="last_chance_subtext" style="width: 100%; text-align: center; font-weight: bold; transform: scale(1) translateY(-60px); color: #f77; position: absolute; text-shadow: 1px 1px 1px #800, 2px 2px 2px #500, 3px 3px 3px #400, 4px 4px 20px #300">
 				If you can't hit the target, try to get as close as possible!
 			</div>
+		</div>
+		<div id="play_hard_notification" class="hidden" style="">
+			Play <a id="play_hard_notification_click">Hard Mode</a> for more!
 		</div>
 
 	</div>
@@ -1784,7 +1834,7 @@ function match_target_actual (number, target) {
 }
 
 function mod_on (x) {
-	return seed.modifiers.includes(x)
+	return seed.modifiers && seed.modifiers.includes(x)
 }
 
 function operation_results (firstnum, secondnum, operation, misc={}) {
@@ -2081,6 +2131,7 @@ function operation_click () {
 			game.smart_race_anim_timeout = setTimeout(smart_race_finish_animating, 2500)
 			game.smart_race_anim_click_cooldown_yet = false
 			game.smart_race_anim_click_cooldown_update = setTimeout(smart_race_anim_click_cooldown, 500)
+			game.smart_race_last_win_time = new Date()
 			//initialize_new_smart_race_puzzle()
 		}
 
@@ -2141,9 +2192,11 @@ function last_chance_off () {
 }
 
 function win (gridspace) {
+	// yes this code is duped, annoyingly
 	unselect()
 	playing = false
 	game.endstate = 'win'
+	game.finished = true
 	pause_timer()
 	game.end_time = seconds_between(game.started, new Date()) // Don't wait for the timeout to do this
 	update_visuals()
@@ -2180,6 +2233,7 @@ function lose (gridspace) {
 	unselect()
 	playing = false
 	game.endstate = 'lose'
+	game.finished = true
 	pause_timer()
 	game.end_time = seconds_between(game.started, new Date()) // Don't wait for the timeout to do this
 	update_visuals()
@@ -2204,6 +2258,7 @@ function lose (gridspace) {
 
 function divide_by_zero () {
 	game.endstate = 'div0'
+	game.finished = true
 	selected.classList.add("zeroing")
 	unselect()
 	playing = false
@@ -2268,7 +2323,7 @@ function endgame_popup ({stats_popup}={}) {
 		}
 		timex = time < settings.accepted_time?` (${time}s)`:`` // Don't show the time if it's too high.
 
-		let steps_recorded = get_steps() + (mod_on("Trime Theory")?1:0)
+		let steps_recorded = get_steps() + (mod_on("Trime Theory")?-1:0)
 		if (!playing) {
 			storage_win(game.current_puzzle_number, game.endstate, get_closest_number(), steps_recorded, time)
 		}
@@ -2286,6 +2341,7 @@ function endgame_popup ({stats_popup}={}) {
 
 		
 		top_status = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}${modifiers}\n`
+		top_status_minus_modifiers = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}\n`
 
 		rv += top_status
 
@@ -2299,7 +2355,8 @@ function endgame_popup ({stats_popup}={}) {
 		if (!countdown) {
 			rv += (seed.board_numbers).map(x => emojify(x)).join(black_square)
 		} else {
-			rv += (seed.board_numbers).slice(0).join("/") // slice has no meaning here, i just used to split this in 2 and now I don't
+			//rv += (seed.board_numbers).slice(0).join("/") // slice has no meaning here, i just used to split this in 2 and now I don't
+			// 5-19-2022 screw this, the / look ugly
 		}
 		// 🏁315🏁⬛4⬛5⬛6
 		// 🏁3159🏁4⬛5⬛6 // Black square only if 3 length
@@ -2372,7 +2429,7 @@ function endgame_popup ({stats_popup}={}) {
 
 		// Add saved final move if possible
 		if (postfixed_final_move.length != 0) {
-			if (get_closest_number().toString().length <= 3) {
+			if (get_closest_number().toString().length <= 3 && !mod_on("Double Damage")) {
 				for (let i = 0; i <= 3 - (get_closest_number().toString().length); i++) {
 					rv += black_square // Fill with black squares at the end (we want it to line up with the other blueish squares)
 				}
@@ -2457,15 +2514,35 @@ function endgame_popup ({stats_popup}={}) {
 
 	}
 	storage_update_streaks()
+
+	// Update Streak to warn about losing it
+	function completed_no_puzzle_yesterday () {
+		if (numify(l.get("current_streak")) == 0) {
+			return false
+		}
+		return !won_at_all_on_date(add_days(new Date(), -1))
+	}
+
 	$("#endgame_statistics").innerHTML = `
 	<div style="font-weight: bold">
 		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">${l.get("total_played")}</span><br>Played</div>
 		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">
 		${l.get("total_played") > 0? Math.ceil(l.get("total_won") / l.get("total_played") * 100) : 0}%</span><br>Winrate</div>
-		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">${l.get("current_streak")}</span><br>Streak</div>
+		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">${l.get("current_streak")}</span><br><span class="${completed_no_puzzle_yesterday()  && l.get("current_streak") > 3? "flashing_streak":""}">Streak</span></div>
 		<div style="display: inline-block; line-height: 1; padding: 0 5px"> <span style="font-size: 200%">${l.get("highest_streak")}</span><br>Longest Streak</div>
 	</div>
 	`
+
+	if (completed_no_puzzle_yesterday() && l.get("current_streak") > 3) {
+		$("#time_resets_at_utc_note").innerHTML = `The time resets at UTC, the same time for everyone. You <b class="flashing_streak">missed yesterday's</b> puzzle and must win it to keep your streak.<br><a id="click_to_visit_archive">Click here</a> to visit the library and play it.`
+		$("#click_to_visit_archive").addEventListener("click", archive_popup)
+	} else {
+		if (l.get("current_streak") > 3) {
+			$("#time_resets_at_utc_note").innerHTML = `The time resets at UTC, the same time for everyone. Streaks only count if you're playing today's or yesterday's puzzles.`
+		} else {
+			$("#time_resets_at_utc_note").innerHTML = `The time resets at UTC, the same time for everyone. Each day has a normal puzzle and a hard puzzle.`
+		}
+	}
 
 	// ALL THIS STUFF IS FOR THE STAT DISTRIBUTION GRAPHICS
 	function gwidth (n) {
@@ -2539,6 +2616,7 @@ function click_off_backdrop () {
 	remove_popup($("#popup_archive"))
 	remove_popup($("#popup_endgame"))
 	remove_popup($("#popup_debug"))
+	remove_popup($("#popup_backlognote"))
 	$("#popup_backdrop").classList.add("hidden")
 	if (playing) {
 		$("#number_positions").classList.remove("notouch")
@@ -2574,6 +2652,12 @@ function tpn_to_object (tpn) {
 
 function unfancy (string) {
 	return `<span style="filter: grayscale(1);">${string}</span>` // This removes the coloration. To use on emoji.
+}
+function backlognote_popup () {
+	click_off_backdrop()
+	add_popup($("#popup_backlognote"))
+	temporary_notouch()
+	$("#popup_backdrop").classList.remove("hidden")
 }
 
 function archive_popup () {
@@ -2632,7 +2716,7 @@ function repopulate_archive () {
 			func1 = trime_recolor
 		}
 		let blur = function (x) {return `<span style="filter: blur(5px)">${x}</span>`}
-		if (sd.modifiers.includes("Target Finder")) {
+		if (sd.modifiers.includes("Target Finder") || sd.modifiers.includes("Worlds Collide")) {
 			func2 = blur
 		}
 		let second_target_show = sd.target2 > 0? ` <span class="popup_archive_text_target">` + smallasteriskify_string(func2(func1(sd.target2.toString()))) + "</span>":""
@@ -2645,12 +2729,28 @@ function repopulate_archive () {
 
 		${solved_graphic}${hardmods}</div>`
 	}
+
+	storage_update_streaks() // otherwise Yesterday stuff might be annoying
+
 	//for (let i = 1; i < dpn + 2; i++) {
-	rv += `<b style="text-align: center">Today's Puzzle Pair:</b>`
+	let first_puzzle_encountered = date_to_puzzle_number(localStorage.first_ever_started) / 10
 	for (let i = dpn; i > 0; i--) {
-		rv += `<div class="rowmaker${i%2==0?" even":''} ${i>=dpn? 'newceo':''}">${displayed_puzzle_number_to_archive_row(i)}${displayed_puzzle_number_to_archive_row(i, 1)}</div>`
+		rv += `<div class="rowmaker${i%2==0?" even":''} ${i>=dpn? 'newceo':''} ${i<first_puzzle_encountered? 'backlogged':''}">${displayed_puzzle_number_to_archive_row(i)}${displayed_puzzle_number_to_archive_row(i, 1)}</div>`
 		if (i == dpn) {
 			rv += `<br>`
+			function completed_no_puzzle_yesterday () {
+				if (numify(l.get("current_streak")) == 0) {
+					return false
+				}
+				return !won_at_all_on_date(add_days(new Date(), -1))
+			}
+			if (completed_no_puzzle_yesterday() && l.get("current_streak") > 3) {
+				rv += `<div style="text-align: center">You <b class="flashing_streak">missed yesterday's</b> puzzle <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b>. Win one of yesterday's puzzles (directly below this text) to continue your streak.</div>`
+			} else if (completed_no_puzzle_yesterday()) {
+				rv += `<div style="text-align: center">You missed yesterday's puzzle <b>(Puzzle #${date_to_puzzle_number(add_days(new Date(), -1))/10})</b>. Win one of yesterday's puzzles (directly below this text) to continue your streak.</div>`
+			} else {
+				rv += `<div style="text-align: center; margin-bottom: 5px"><b>Previous Puzzles</b></div>`
+			}
 		}
 	}
 	$("#popup_archive_list").innerHTML = rv
@@ -2680,8 +2780,19 @@ function archive_help () {
 }
 
 function click_archive_row (puzzle_number, event) {
+	let first_puzzle_encountered = date_to_puzzle_number(localStorage.first_ever_started)
+	/*
+	if (puzzle_number < first_puzzle_encountered) {
+		click_off_backdrop()
+		backlognote_popup()
+		return
+	}*/
 	play(puzzle_number)
-	repopulate_archive() // eww repopulating archive just to change the selected, exdee
+	if (l.get("s_dont_close_archive")) {
+		repopulate_archive() // eww repopulating archive just to change the selected, exdee
+	} else {
+		click_off_backdrop()
+	}
 }
 
 function change_gridspace_value (gridspace, value) {
@@ -2762,18 +2873,29 @@ function trime_recolor (x) {
 	return x.split('').map(x => trime_recolor_individual(x)).join("")
 }
 
+function get_time_between_last_smart_race_puzzle () {
+	return new Date() - game.smart_race_last_win_time
+}
 function update_visuals () {
 	$("#undo").className = get_steps() != 0? "" : "disabled"
 	$("#undoall").className = get_steps() != 0 ? "" : "disabled"
+	$("#skip").className = "hidden"//mod_on("Smart Race")? (get_time_between_last_smart_race_puzzle() > 5000 ? "":"disabled") : "hidden"
 
 	$("#endgame_top").style.display = playing? "none":"initial"
-	$("#game_top_puzzle_number").textContent = `Puzzle #` + puzzle_number_to_displayed_puzzle_number_with_asterisk(game.current_puzzle_number)
+	$("#game_top_puzzle_number").innerHTML = `Puzzle #` + puzzle_number_to_displayed_puzzle_number_with_asterisk(game.current_puzzle_number) + (game.replay? ` <span style="font-size: 80%">(Replay)</span>` : "")
 	if (playing) {
 		$("#game_sidebar").classList.remove("hidden")
 		$("#game").classList.add("theme_playing")
+
 	} else {
 		$("#game_sidebar").classList.add("hidden")
 		$("#game").classList.remove("theme_playing")
+	}
+
+	if (game.finished && !playing && !game.hard_mode && !game.puzzle_history[game.current_puzzle_number+1] /*&& $("#popup_endgame").className.includes("hidden")*/) {
+		$("#play_hard_notification").classList.remove("hidden")
+	} else {
+		$("#play_hard_notification").classList.add("hidden")
 	}
 
 	if (game.replay) {
@@ -2798,11 +2920,73 @@ function update_visuals () {
 			let number = ($$(".number")[i])
 			if (number.textContent < seed.target) {
 				number.innerHTML = `<span style="color: #99f">` + number.textContent + `</span>`
+				if (Math.abs(number.textContent - seed.target) <= 99) {
+					// Reduce the color if it's closer...
+					// what do you mean this is staggered because base 10 is used in a base 16 context lmao
+					let dist = Math.abs(number.textContent - seed.target)
+					let green_value = 50 + Math.floor(dist / 2)
+					dist = dist.toString().padStart(2, '0')
+					number.innerHTML = `<span style="color: #${dist}${green_value}ff">` + number.textContent + `</span>`
+				}
 			} else if (number.textContent > seed.target) {
 				number.innerHTML = `<span style="color: #f99">` + number.textContent + `</span>`
+				if (Math.abs(number.textContent - seed.target) <= 99) {
+					// Reduce the color if it's closer...
+					let dist = Math.abs(number.textContent - seed.target)
+					dist = dist.toString().padStart(2, '0')
+					number.innerHTML = `<span style="color: #ff${dist}${dist}">` + number.textContent + `</span>`
+				}
 			}
 		}
 	}
+	if (mod_on("Worlds Collide")) {
+		for (let i = 0; i < $$(".number").length; i++) {
+			let number = ($$(".number")[i])
+			if (number.textContent.length == seed.target.toString().length) {
+				// in it = yellow
+				// in it (right place) = green
+				let s = ""
+				let a = []
+				let a2 = []
+				let n = number.textContent
+				let t = seed.target.toString()
+				for (let i = 0; i < n.length; i++) { // Check greens first
+					if (n[i] == t[i]) {
+						a.push("G")
+					} else {
+						a.push("")
+					}
+					a2.push("")
+				}
+				for (let i = 0; i < n.length; i++) { // Now check yellows. Yellows have found a non-green number later in the line that matches.
+					if (a[i] != "G") {
+						// Find all other numbers
+						for (let j = 0; j < n.length; j++) {
+							if (a[j] == "G" || a2[j] == "-") {continue} // If it wasn't marked before
+							if (t[j] == n[i]) { // If the forward number equals the target
+								a[i] = "Y" // mark yellow
+								a2[j] = "-" // number source is not allowed to be used again for another yellow. This must be a different array, or else we could overwrite a previous "Y"
+							}
+						}
+					}
+				}
+				for (let i = 0; i < n.length; i++) { // wOw a ThiRd lOop
+					if (a[i] == "Y") {
+						s = s + `<span style="color: #ff0">${n[i]}</span>`
+					} else if (a[i] == "G") {
+						s = s + `<span style="color: #0f0">${n[i]}</span>`
+					} else {
+						s = s + n[i]
+					}
+				}
+
+				number.innerHTML = s
+
+			}
+		}
+	}
+
+
 
 	if (game.keyboard_control && $("#keyboard_input_display").textContent.length != 0) {
 		$("#keyboard_input_display").classList.remove("hidden")
@@ -2872,8 +3056,16 @@ function update_visuals () {
 
 	if (!out_of_tutorial_popup_mode()) {
 		text = `<b>Tip:</b> Create the target number <span style="font-weight: bold">${target}</span>. You can switch to a different number by clicking on it!`
+
+		$("#endgame_playhard").style.display = 'none' // Don't show "play hard" the first time. This might sound odd, but it's because I want people to click Play Hard when the popup is GONE.
+	} else {
+		$("#endgame_playhard").style.display = ''
 	}
-	// Deleted "distance from target" code, loo kfor old version to find it
+	if (mod_on("Target Finder") || mod_on("Worlds Collide")) {
+		text = `<b>Tip:</b> The target is hidden due to a Hard Mode modifier. Try to figure out the target!`
+		factorization_number = 0
+	}
+	// Deleted "distance from target" code, look for old version to find it
 	$("#tips").innerHTML = text
 	
 
@@ -3024,6 +3216,125 @@ function s (target, numbers, length_cap=9, cycle_cap, steps=[]) {
 		}
 	}
 	return false
+}
+
+function enumerate_possibilities (board_numbers, seed_string, default_type) {
+	// would be great to do for hard mode, but I want to be done with this project, so
+	// We want to have the target be makeable always in 4 steps, sometimes 3 idk.
+
+	let current_numbers = board_numbers.slice(0) // slice 0, js you pile of trash
+	let ap = 0 // appendage, goes up by 1 every time it's called
+	function newrand () {
+		ap += 1
+		return seed_string + "99" + ap
+	}
+	function megadupe (number) {
+		return current_numbers.includes(number) 
+		/*
+		if (current_numbers.length >= 5 && current_numbers.includes(number)) { // don't even make a dupe on the 3rd+ try
+			//l("x", current_numbers, number)
+			return true
+		}
+		// if the number appears TWO TIMES in current_numbers, stop making it again
+		// ok honestly, this stuff isn't worth it. It's honestly cooler if novel solutions involving making 2 of a number are rare, and not doing this involves predictable situations where it tries to make the same number twice but then not do anything with it. makes chain logic harder too
+		//return current_numbers.includes(number) && current_numbers.slice(current_numbers.indexOf(number)+1).includes(number)
+		*/
+	}
+
+	// select a random first number, then a random different 2nd number, then a random operation
+
+	let operations = default_type.split("-") // meh
+	let global_results = []
+
+
+	// CHAIN DISTRIBUTION
+	/* The concept of a chain is basically: if you took 4 moves to get to X, that's made of a number of chains where the end of each chain must be a unique number, and must be used.
+	A chain ends once you don't continue the end of the chain until later.
+	Example: if you did 2 * 5 + 7 (17) but did NOT use 17 immediately, you just broke that chain to start a new one, and now you must consolidate the chain eventually.
+	Luckily we're using an easy number like 4, and there are so few choices - basically a chain of 3, or a chain of 2+1. And all that means is:
+
+	- (in 2+1) at your final move you must interact with the unused element of the chain.
+	- (in 1+1) in your 3rd move you must interact with one of the two ends of the chains.
+
+	Anything left in chain_endings (if I didn't wrangle it to force it being used by the end) represents an unused number in the solution path, which also implies other unused numbers if the chain is longer than 1.
+	*/
+	let chain_continued = false
+	let chain_endings = []
+	let intermediary_numbers = []
+
+	let cartesian_product = [] // all combinations of +-*/ of all initial numbers
+	for (let i = 0; i < 2; i++) {
+		for (let j = i; j < 3; j++) {
+			cartesian_product.push(operation_results(board_numbers[i], board_numbers[j], "plus"))
+			cartesian_product.push(operation_results(board_numbers[i], board_numbers[j], "minus"))
+			cartesian_product.push(operation_results(board_numbers[i], board_numbers[j], "times"))
+			cartesian_product.push(operation_results(board_numbers[i], board_numbers[j], "divides"))
+		}
+	}
+
+	let target_steps = mulberryrand(newrand(), 4, 5) // half the time it's an intended 4 step, half the time it's an intended 5 step. I am intentionally leaving the door open to even lower steps not caught by this method.
+
+	while (global_results.length < 20) {
+		chain_endings = []
+		while (current_numbers.length != target_steps + 3) {
+			let first_ind =	mulberryrand(newrand(), 0, current_numbers.length-2)
+			if (current_numbers.length >= 6 && chain_endings.length == 1) {
+				first_ind = chain_endings[0] // We must continue the old chain
+				chain_endings = remove_element(chain_endings, first_ind)
+			}
+			let first_num = current_numbers[first_ind]
+			let second_ind = mulberryrand(newrand(), first_ind+1, current_numbers.length-1)
+			if (current_numbers.length == 5) {
+				second_ind = current_numbers.length-1 // We want to continue this last chain
+			}
+			if (current_numbers.length >= 6) {
+				second_ind = current_numbers.length-1 // We must continue this last chain
+			}
+			let second_num = current_numbers[second_ind]
+
+			chain_continued = second_ind == current_numbers.length-1
+			if (chain_continued == false) {
+				if (chain_endings.includes(first_ind)) {
+					chain_endings = remove_element(chain_endings, first_ind)
+				}
+				chain_endings.push(current_numbers.length-1)
+			}
+
+			// look at all the ops, but delete some bad results
+			let possible_results = []
+			let p1 = operation_results(first_num, second_num, "plus") // sick of copypasting
+			let p2 = operation_results(first_num, second_num, "minus")
+			let p3 = operation_results(first_num, second_num, "times")
+			let p4 = operation_results(first_num, second_num, "divides")
+			if (!megadupe(p1)) {
+				possible_results.push(p1)
+			}
+			if (!megadupe(p2) && p2 != 0) {
+				possible_results.push(p2)
+			}
+			if (!megadupe(p3)) {
+				possible_results.push(p3)
+			}
+			if (p4 != "DIV0" && p4 != "DECIMAL" && !megadupe(p4)) { // DIV0 shouldn't be possible anyway but
+				possible_results.push(p4)
+			}
+			if (current_numbers.length >= 5) {
+				possible_results = possible_results.filter(x => x >= 100 && x < 1000 && !cartesian_product.includes(x))
+			}
+			if (possible_results.length == 0) { //... uh ok. shouldn't happen, but can happen if you're unlucky and it picks 2 and 1 as the numbers or something
+				possible_results.push(p3)
+			}
+			//l(possible_results[mulberryrand(newrand(), 0, possible_results.length-1)])
+			current_numbers.push(possible_results[mulberryrand(newrand(), 0, possible_results.length-1)]) // nice part of the usecase: not caring about which operation it actually was
+		}
+		global_results.push(current_numbers[current_numbers.length-1])
+		current_numbers = board_numbers.slice(0)
+		//l(board_numbers)
+	}
+	//l(intermediary_numbers)
+	//intermediary_numbers = intermediary_numbers.filter(x => x > 100)
+	let rez = (global_results.filter(x => x > 100 && x < 1000 && !global_results.slice(global_results.indexOf(x)+1).includes(x)/* && !intermediary_numbers.includes(x)*/))
+	return rez[mulberryrand(newrand(), 0, rez.length-1)]
 }
 
 function occupied_table_slots () {
@@ -3190,13 +3501,18 @@ function play_date (date) {
 
 let timer = null; let timer_number = 100; let timer_started_at = 100;
 // is it just me, or if timer is set to NOTHING instead of null, "clearInterval" will fail to work
+let tracked_puzznums = {}
 
 function play (puzzle_number) {
 	clear()
 	playing = true
+	game.finished = false
+
+	seed = {} // precaution against unnecessary mod_ons in the normie solver
 
 	game.smart_race_puzzles_solved = 0
 	game.smart_race_undo_stacks = []
+	game.smart_race_last_win_time = new Date()
 	$("#game").classList.remove("notouch")
 	$("#number_positions").classList.remove("notouch")
 	recalibrate_storage()
@@ -3281,14 +3597,16 @@ var rules = [
 {name: "Wildcard Dimension", desc: "The * digit can be any number.", icon: "#️⃣"},
 {name: "Dimensional Merge", desc: "After any operation with a 4-digit result, correct any digits that are 1 off.", icon: "🚮"},
 
-{name: "Zero Equals One", desc: "After any operation, any 0's in the result change to 1's.", icon: "👌", extra_info: "If 0's are in the target number, you are still able to win as normal (it only changes if you don't hit the target)."},
+{name: "Zero Equals One", desc: "After any operation, any 0's in the result change to 1's.", icon: "☯️", extra_info: "If 0's are in the target number, you are still able to win as normal (it only changes if you don't hit the target)."},
 
 {name: "Shape Rotator Bait", desc: "hahahahaha number go spinnnnn", icon: "🔄"},
 {name: "Upside Clown", desc: `<span style="transform: rotate(180deg); display: inline-block">I don't understand, everything looks fine to me.</span>`, icon: "↪️"},
 {name: "Sideways", desc: "The board numbers are sideways."},
 {name: "Where Did My Number Go?", desc: "Numbers fade in and out.", icon: "⚫"},
 {name: "Inappropriate Zoom", desc: "'inappropriate' is a word used when people are looking for a societally accepted excuse to claim moral superiority. This is why the zoom is actually perfectly acceptable.", icon: "🤳"},
-{name: "Target Finder", desc: "The target number isn't visible. Numbers above the target are marked red, and numbers below the target are marked blue.", icon: "🔦"},
+{name: "Target Finder", desc: "The target number is hidden. Red numbers mean it's above the target, blue numbers mean below. The colors get more intense as you get closer.", icon: "🔦"},
+{name: "Worlds Collide", desc: "The target number is hidden. If a board number has the same number of digits as the target, the digits are marked yellow (wrong place) or green (correct place).", icon: "🔰"},
+
 
 {name: "Double Damage", desc: "There are two target numbers that are two digits each. Get both!", icon: "🥈"},
 {name: "Double Wilds", desc: "There are two target numbers with a wild digit * in each. Get both!", icon: "💫"},
@@ -3430,7 +3748,9 @@ function get_modifier_format (seed, one, two) {
 	if (one == "Smart Race" && game.smart_race_puzzles_solved != 0) {
 		rv += ` <br><b>You've solved <span style="color: cyan">${game.smart_race_puzzles_solved}</span> puzzle${game.smart_race_puzzles_solved > 1? "s":""}.`
 		if (two == "Bump" && playing) {
-			rv += ` Next bump: <span style="color: cyan">+${game.smart_race_puzzles_solved+1}</span> (${seed.target+game.smart_race_puzzles_solved+1}).`
+			let reveal = ` (${seed.target+game.smart_race_puzzles_solved+1})`
+			if (mod_on("Worlds Collide") || mod_on("Target Finder")) {reveal = ""}
+			rv += ` Next bump: <span style="color: cyan">+${game.smart_race_puzzles_solved+1}</span>${reveal}.`
 		}
 		rv += `</b>`
 	}
@@ -3464,8 +3784,8 @@ function pick_modifiers (seed_string) {
 	var rules_pool_countdown = ["Tens", "Elevens", "Dozens", "Thirteens", "Quarters", "Primes", "Gods Unlocked", "Odds", "Evens", "Threevens"]
 	var rules_pool_smart_race = ["Target Practice", "Board Wipe", "Bump", "Bump X", "Rocket Race"]
 	var rules_pool_busco_quadnary = ["Wildcard Dimension", "Dimensional Merge", ""]
-	var rules_pool_misc = ["Zero Equals One", "Superior High Composite", "Shape Rotator Bait", "Upside Clown", "Trime Theory", "Small Cap", "Target Finder", "Inappropriate Zoom", "Where Did My Number Go?"]
-	var rules_pool_2 = ["Zero Equals One", "Superior High Composite", "Even Number Appreciation", "Heavensdoor", "Gigabyte", "Gibibyte", "Trime Theory", "Small Cap", "Shape Rotator Bait", "Target Finder", ""]
+	var rules_pool_misc = ["Zero Equals One", "Superior High Composite", "Shape Rotator Bait", "Upside Clown", "Trime Theory", "Small Cap", "Target Finder", "Worlds Collide", "Inappropriate Zoom", "Where Did My Number Go?"]
+	var rules_pool_2 = ["Zero Equals One", "Superior High Composite", "Even Number Appreciation", "Heavensdoor", "Gigabyte", "Gibibyte", "Trime Theory", "Small Cap", "Shape Rotator Bait", "Target Finder", "Worlds Collide", ""]
 
 	let rv = ["", "", "", "", "", "", "", "", "", ""]
 	let r1 = rules_pool_1[day % 5]//rules_pool_1[mulberryrand(seed_string + "2", 0, rules_pool_1.length-1)]
@@ -3490,6 +3810,7 @@ function pick_modifiers (seed_string) {
 		r2 = pick(rules_pool_smart_race, seed_string+"3")
 		rv[1] = r2
 		rules_pool_2.push("Busco Quadnary")
+		rules_pool_2 = remove_elements(rules_pool_2, ["Heavensdoor", "Gigabyte", "Gibibyte"])
 	} else if (r1 == "Busco Quadnary") {
 		r2 = pick(rules_pool_busco_quadnary, seed_string+"3")
 		rv[1] = r2
@@ -3497,11 +3818,11 @@ function pick_modifiers (seed_string) {
 		if (r2 == "Dimensional Merge") {
 			rules_pool_2 = remove_element(rules_pool_2, "Zero Equals One")
 		} else if (r2 == "Wildcard Dimension") {
-			rules_pool_2 = remove_element(rules_pool_2, "Target Finder")
+			rules_pool_2 = remove_elements(rules_pool_2, ["Target Finder", "Worlds Collide"])
 
 		}
 	} else if (r1 == "Double Damage") {
-		rules_pool_2 = remove_element(rules_pool_2, "Target Finder")
+		rules_pool_2 = remove_elements(rules_pool_2, ["Target Finder", "Worlds Collide", "Heavensdoor", "Gigabyte", "Gibibyte", "Even Number Appreciation"])
 	}
 
 	if (r1 == "") {
@@ -3527,8 +3848,14 @@ function pick_modifiers (seed_string) {
 		}
 
 	}
-	if (r1 == "Target Finder") {
+	if (r1 == "Target Finder" || r1 == "Worlds Collide") {
 		rules_pool_2 = remove_element(rules_pool_2, "Busco Quadnary")
+		rules_pool_2 = remove_elements(rules_pool_2, ["Target Finder", "Worlds Collide"])
+		rules_pool_2 = remove_element(rules_pool_2, "Trime Theory")
+
+	}
+	if (r1 == "Trime Theory") {
+		rules_pool_2 = remove_elements(rules_pool_2, ["Target Finder", "Worlds Collide"])
 	}
 
 		// Pick a random thing from rules3
@@ -3555,11 +3882,19 @@ function pick_modifiers (seed_string) {
 	% ^ = Modulo Exponent
 	*/
 
+	function busco_without_any () {
+		return r1 == "Busco Quadnary" && r2 == ""
+	}
+
 	let r3_num = Mulberry32(seed_string + "4"); let r3 = ""
-	if (r3_num > 0.5) {
+	if (r3_num > 0.5 || busco_without_any()) {
 		r3_num = (r3_num - 0.5) * 2 // Normalize 0-1 again
 
-		if (r1 == "Busco Quadnary" || r3_num < 0.5) { // New modifier
+		if (busco_without_any()) {
+			r3_num = 0.75 // idk, something generic. Not sure why Busco Quadnary is not properly forcing a modifier
+		}
+
+		if (busco_without_any() || r3_num < 0.5) { // New modifier
 			r3_num = ((r3_num * 2) % 1)                         // Normalize
 			// Between ++, --, **, //, %, &, ^, LCM, GCD
 			// %, &, ^^ have a 60/40 split
@@ -3645,15 +3980,23 @@ function date_to_seed (dt=0, hard=0, ignore_smart_race=0) {
 
 	let appendage_first = (mod_on("Target Practice")?game.smart_race_puzzles_solved.toString():"")
 	if (ignore_smart_race) {appendage_first = ""}
-	rv.target = mulberryrand(seed_string + "0" + appendage_first, 101, 999)
 	if (mod_on("Busco Quadnary")) {
-		rv.target = mulberryrand(seed_string + "0" + appendage_first, 1001, 9999)
+		if (mod_on("Wildcard Dimension") || mod_on("Dimensional Merge")) {
+			rv.target = mulberryrand(seed_string + "0" + appendage_first, 1001, 9999)
+		} else {
+			rv.target = mulberryrand(seed_string + "0" + appendage_first, 1001, 2000)
+
+		}
 	} else if (hard) {
 		rv.target = mulberryrand(seed_string + "0" + appendage_first, 301, 999)
+	} else { // standard case
+		//rv.target = mulberryrand(seed_string + "0" + appendage_first, 101, 999)
+
+		// due to a recent change I am doing this last, for the standard case
 	}
 	if (mod_on("Wildcard Dimension")) {
 		// Randomly select a target to mess up
-		let rand = mulberryrand(seed_string + "X", 1, 3)
+		let rand = mulberryrand(seed_string + "88", 1, 3)
 		let array = rv.target.toString().split("")
 		array[rand] = "*"
 		rv.target = array.join("")
@@ -3864,10 +4207,20 @@ function date_to_seed (dt=0, hard=0, ignore_smart_race=0) {
 	}
 	rv.board_numbers = array
 	rv.board_types = board_types
+	if (!hard) {
+		//rv.target = mulberryrand(seed_string + "0" + appendage_first, 101, 999)
+		rv.target = enumerate_possibilities(rv.board_numbers, seed_string, rv.default_type)
+	}
+
 	return rv
 }
 function puznum_to_seed (puzzle_number, ignore_smart_race=0) {
-	return date_to_seed(puzzle_number_to_date(puzzle_number), puzzle_number_last_digit(puzzle_number), ignore_smart_race)
+	if (tracked_puzznums[puzzle_number]) {return tracked_puzznums[puzzle_number]} // store the seed so we don't have to recalculate it :)
+
+	let seed_found = date_to_seed(puzzle_number_to_date(puzzle_number), puzzle_number_last_digit(puzzle_number), ignore_smart_race)
+
+	tracked_puzznums[puzzle_number] = seed_found
+	return seed_found
 }
 
 
@@ -4372,25 +4725,26 @@ function puzzle_number_to_displayed_puzzle_number_with_asterisk (puzzle_number) 
 	return Math.floor(puzzle_number / 10) + (puzzle_number_last_digit(puzzle_number) == 1? "*" : "")
 	// The worst code ever. Please help
 }
+
+function won_puzzle_number (puzzle_number) {
+	return (game.puzzle_history[puzzle_number] && game.puzzle_history[puzzle_number].startsWith("W"))? 1 : 0
+}
+function won_at_all_on_date (date) {
+	let won_normal = won_puzzle_number(date_to_puzzle_number(date))
+	let won_hard = won_puzzle_number(date_to_puzzle_number(date)+1)
+	return won_normal || won_hard
+}
+function lost_both_puzzles_on_date (date) {
+	// This is notably different: to not play a puzzle isn't a loss here.
+	let lost_normal = game.puzzle_history[date_to_puzzle_number(date)] && !game.puzzle_history[date_to_puzzle_number(date)].startsWith("W")
+	let lost_hard = game.puzzle_history[date_to_puzzle_number(date)+1] && !game.puzzle_history[date_to_puzzle_number(date)+1].startsWith("W")
+	return (lost_normal && lost_hard) ? true : false
+}
 function storage_update_streaks () {
 	// Drop your streak if you have not won the puzzle 2 days ago. Or one day ago. Or now.
 
 	let today = new Date()
 
-	function won_puzzle_number (puzzle_number) {
-		return (game.puzzle_history[puzzle_number] && game.puzzle_history[puzzle_number].startsWith("W"))? 1 : 0
-	}
-	function won_at_all_on_date (date) {
-		let won_normal = won_puzzle_number(date_to_puzzle_number(date))
-		let won_hard = won_puzzle_number(date_to_puzzle_number(date)+1)
-		return won_normal || won_hard
-	}
-	function lost_both_puzzles_on_date (date) {
-		// This is notably different: to not play a puzzle isn't a loss here.
-		let lost_normal = game.puzzle_history[date_to_puzzle_number(date)] && !game.puzzle_history[date_to_puzzle_number(date)].startsWith("W")
-		let lost_hard = game.puzzle_history[date_to_puzzle_number(date)+1] && !game.puzzle_history[date_to_puzzle_number(date)+1].startsWith("W")
-		return (lost_normal && lost_hard) ? true : false
-	}
 
 	// So the day 2 days ago is special because if you didn't win, you lose the streak entirely, but the days 1 and 0 ago can be repaired if you win it.
 	if (!won_at_all_on_date(add_days(new Date(), -2))
@@ -4513,10 +4867,14 @@ $("#popup_debug_storage_size").textContent = `Storage used: ${localstorage_size(
 function update_time_to_next_puzzle () {
 	$("#endgame_time_to_next_puzzle").textContent = time_between_now_and_tomorrow()
 	$("#help_time_to_next_puzzle").textContent = time_between_now_and_tomorrow()
+	$("#archive_time_to_next_puzzle").textContent = time_between_now_and_tomorrow()
+
 }
+update_time_to_next_puzzle()
 setInterval(update_time_to_next_puzzle, 1000)
 
 $("#popup_debug_clear_storage").addEventListener("click", function(){window.localStorage.clear(); recalibrate_storage()})
+$("#play_hard_notification_click").addEventListener("click", play_hard)
 
 let test = date_to_puzzle_number(new Date())
 if (date_to_puzzle_number(puzzle_number_to_date(test)) != test) {
