@@ -2437,7 +2437,7 @@ function endgame_popup ({stats_popup}={}) {
 
 		// Add saved final move if possible
 		if (postfixed_final_move.length != 0) {
-			if (get_closest_number().toString().length <= 3 && !mod_on("Double Damage")) {
+			if (get_closest_number().toString().length <= 3 && !mod_on("Double Damage") && !mod_on("Busco Quadnary")) {
 				for (let i = 0; i <= 3 - (get_closest_number().toString().length); i++) {
 					rv += black_square // Fill with black squares at the end (we want it to line up with the other blueish squares)
 				}
