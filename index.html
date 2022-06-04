@@ -3,6 +3,7 @@
 <title>Numberdly - a daily numbers game</title>
 <head>
 <link rel="stylesheet" type="text/css" href="index.css"><link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet"><link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet">
+
 <link href="../fonts/seguiemj.ttf" rel="stylesheet"> <!-- font-family: Segoe UI EMOJI; -->
 
 <link type="text/css" href="../os-theme-thick-light.css" rel="stylesheet"/><link type="image/ico" href="numberdly.ico" rel="shortcut icon" id="icon"/>
@@ -2349,6 +2350,7 @@ function endgame_popup ({stats_popup}={}) {
 		top_status_minus_modifiers = `Numberdly ${seed.date? `#${days_between(game.start_date, seed.date)}${seed.hard? "*":""}`:""} ${partial}\n`
 
 		rv += top_status
+		rv += " numberdly.com" // this garbage is annoying and inelegant but EVERYONE does it, lol, also if I don't put it here the seo is trash
 
 		rv += (`🏁${emojify(seed.target, true)}🏁`)
 
@@ -2515,7 +2517,7 @@ function endgame_popup ({stats_popup}={}) {
 			$$("#endgame_table tr")[$$("#endgame_table tr").length-1].prepend(td) // empty
 		}
 
-		$("#endgame_summary").innerHTML = top_status// + undo_stack.map(x => x[0].format).join("<br>")
+		$("#endgame_summary").innerHTML = top_status_minus_modifiers// + undo_stack.map(x => x[0].format).join("<br>")
 
 	}
 	storage_update_streaks()
